@@ -1,0 +1,1951 @@
+#!/bin/bash
+
+CONFIG_DIR="/$HOME/.shortcuts/,/Mobox box86"
+BASE_DIR=$(<"$PREFIX/bin/widget/directory")
+DIRSAVE="/$PREFIX/bin/widget/dir_save"
+    if [ ! -f "$DIRSAVE" ]; then
+        DIRESTORI_SAVE="$BASE_DIR/WEG Game settings/"
+    else
+        DIRESTORI_SAVE=$(<"$DIRSAVE")
+    fi
+settings_game() {
+    local CONFIG_GAME="$1"
+    export settings=install
+    return_menu="$2"
+clear
+    file_path="$PREFIX/glibc/opt/scripts/mobox_menu"
+    value=$(grep 'Mobox' "$file_path" | sed -E 's/.*Mobox([^"]*).*/\1/')
+    path="$PREFIX/glibc/opt/conf/wine_path.conf"
+    driver_86="$BASE_DIR/drivers/driver_x86"
+    driver_wow="$BASE_DIR/drivers/driver_x64"
+    render="$BASE_DIR/drivers/render"
+    box="$BASE_DIR/box"
+    
+    function load_conf {
+       CONFIG="$CONFIG_GAME"
+        source "$CONFIG"
+       def_set="$PREFIX/mobox/source-code"
+       def_box="$PREFIX/mobox/source-box"
+    }
+    load_conf
+        result="${GAME%.lnk}"
+    function show_dialog {
+        local title="$1"
+        local text="$2"
+        shift 2
+if [ "$DESK" == "OFF" ]; then
+        dialog --title "$title" --menu "$text" 24 44 "$@" 2>&1 >/dev/tty
+else
+        dialog --title "$title" --menu "$text" 23 44 "$@" 2>&1 >/dev/tty
+fi
+    }
+show_progress() {
+     title="$1"
+     message="$2"
+     duration="$3"
+    ( 
+        for ((i=0; i<=100; i+=7)); do
+            sleep $((duration / 200)) 
+            echo $i 
+        done
+    ) | dialog --title "$title" --gauge "$message" 6 40 0
+}
+select_box_86_file() {
+    local count=1
+    menu_items=()
+
+    for file in "$box"/box*.WEG; do
+    	if [ -f "$file" ]; then
+        	file_name=$(echo "$(basename "$file")" | sed 's/\.WEG$//')
+        if [ $file_name == "${BOX_86%.WEG}" ]; then
+                menu_items+=("$count" "✅ $file_name")
+        else
+                menu_items+=("$count" "🔲 $file_name") 
+        fi
+        ((count++))
+    	fi
+	done
+menu_height_box=$((count + 6))
+[ $menu_height_box -lt 4 ] && menu_height_box=10
+    if [ ${#menu_items[@]} -eq 0 ]; then
+        dialog --title "Ошибка" --msgbox "Файлы 'box' отсутствуют в папке box." 6 30
+        return
+    fi
+    file_number=$(dialog --title "Выберите box" --menu "Выберите сборку:" $menu_height_box 32 10 "${menu_items[@]}" 3>&1 1>&2 2>&3)
+    case $? in
+        1) return ;;
+        255) return ;;
+    esac
+    selected_file=$(ls "$box"/box* | sed -n "${file_number}p")
+    sed -i "118s/.*/BOX_86=\"$(basename "$selected_file")\"/" "$CONFIG"
+   BOX_86=$(basename "$selected_file")
+}
+select_box_wow_file() {
+    local count=1
+    menu_items=()
+    for file in "$box"/box*.WEG; do
+    	if [ -f "$file" ]; then
+        	file_name=$(echo "$(basename "$file")" | sed 's/\.WEG$//')
+        	if [ $file_name == "${BOX_WOW%.WEG}" ]; then
+                menu_items+=("$count" "✅ $file_name")
+            else
+                menu_items+=("$count" "🔲 $file_name") 
+            fi
+        	((count++))
+    	fi
+	done
+menu_height_boxW=$((count + 6))
+[ $menu_height_boxW -lt 4 ] && menu_height_boxW=10
+    if [ ${#menu_items[@]} -eq 0 ]; then
+        dialog --title "Ошибка" --msgbox "Файлы 'box' отсутствуют в папке box." 6 30
+        return
+    fi
+    file_number=$(dialog --title "Выберите box" --menu "Выберите сборку:" $menu_height_boxW 32 10 "${menu_items[@]}" 3>&1 1>&2 2>&3)
+    case $? in
+        1) return ;; 
+        255) return ;;
+    esac
+    selected_file=$(ls "$box"/box* | sed -n "${file_number}p")
+    sed -i "38s/.*/BOX_WOW=\"$(basename "$selected_file")\"/" "$CONFIG"
+   BOX_WOW=$(basename "$selected_file")
+}
+select_dxvk_wow_file() {
+    local count=1
+    menu_items=()
+    for file in "$render"/*; do
+    if [ -f "$file" ] && ([[ "$(basename "$file")" == *dxvk* ]] || [[ "$(basename "$file")" == *wined* ]]); then
+        file_name=$(basename "$file" .WEG)
+        if [ $file_name == "${DXVK_WOW%.WEG}" ]; then
+            menu_items+=("$count" "✅ $file_name")
+        else
+            menu_items+=("$count" "🔲 $file_name") 
+        fi
+        ((count++))
+    fi
+	done
+menu_height_dxvkW=$((count + 6))
+[ $menu_height_dxvkW -lt 4 ] && menu_height_dxvkW=10
+    if [ ${#menu_items[@]} -eq 0 ]; then
+        dialog --title "Ошибка" --msgbox "Файлы dxvk или wined3d отсутствуют в папке render." 6 30
+        return
+    fi
+    file_number=$(dialog --title "Выберите файл" --menu "Выберите файл:" $menu_height_dxvkW 35 10 "${menu_items[@]}" 3>&1 1>&2 2>&3)
+    case $? in
+        1) return ;;
+        255) return ;;
+    esac
+    selected_file=$(ls "$render"/{dxvk*,wined*} 2>/dev/null | sed -n "${file_number}p")
+    sed -i "29s/.*/DXVK_WOW=\"$(basename "$selected_file")\"/" "$CONFIG"
+    sed -i "45s/.*/DXVK_x64=$DXVK_WOW/" "$CONFIG"
+   DXVK_WOW=$(basename "$selected_file")
+}
+select_turnip_wow_file() {
+    local count=1
+    menu_items=() 
+	for file in "$driver_wow"/*; do
+    if [ -f "$file" ] && ([[ "$(basename "$file")" == *turnip* ]] || [[ "$(basename "$file")" == *virgl* ]]); then
+        file_name=$(basename "$file" .WEG) 
+        if [ $file_name == "${TURNIP_WOW%.WEG}" ]; then
+            menu_items+=("$count" "✅ $file_name")
+        else
+            menu_items+=("$count" "🔲 $file_name") 
+        fi
+        ((count++))
+    fi
+	done
+menu_height_turnW=$((count + 6))
+[ $menu_height_turnW -lt 4 ] && menu_height_turnW=10
+    if [ ${#menu_items[@]} -eq 0 ]; then
+        dialog --title "Ошибка" --msgbox "Файлы turnip или virgl отсутствуют в папке driver_x64." 7 30
+        return
+    fi
+    file_number=$(dialog --title "Выберите файл" --menu "Выберите файл:" $menu_height_turnW 30 10 "${menu_items[@]}" 3>&1 1>&2 2>&3)
+    case $? in
+        1) return ;;
+        255) return ;;
+    esac
+    selected_file=$(ls "$driver_wow"/{turnip*,virgl*} 2>/dev/null | sed -n "${file_number}p")
+    sed -i "28s/.*/TURNIP_WOW=\"$(basename "$selected_file")\"/" "$CONFIG"
+    sed -i "46s/.*/TURNIP_x64=$TURNIP_WOW/" "$CONFIG"
+   TURNIP_WOW=$(basename "$selected_file")
+}
+select_turnip86_file() {
+    local count=1
+    menu_items=() 
+	for file in "$driver_86"/*; do
+    if [ -f "$file" ] && ([[ "$(basename "$file")" == *turnip* ]] || [[ "$(basename "$file")" == *virgl* ]]); then
+        file_name=$(basename "$file" .WEG)
+        if [ $file_name == "${TURNIP_86%.WEG}" ]; then
+            menu_items+=("$count" "✅ $file_name")
+        else
+            menu_items+=("$count" "🔲 $file_name") 
+        fi
+        ((count++))
+    fi
+	done
+menu_height_turn=$((count + 6))
+[ $menu_height_turn -lt 4 ] && menu_height_turn=10
+    if [ ${#menu_items[@]} -eq 0 ]; then
+        dialog --title "Ошибка" --msgbox "Файлы turnip или virgl отсутствуют в папке driver_86." 6 30
+        return
+    fi
+    file_number=$(dialog --title "Выберите файл" --menu "Выберите файл:" $menu_height_turn 30 10 "${menu_items[@]}" 3>&1 1>&2 2>&3)
+    case $? in
+        1) return ;;
+        255) return ;;
+    esac
+    selected_file=$(ls "$driver_86"/{turnip*,virgl*} 2>/dev/null | sed -n "${file_number}p")
+    
+    sed -i "108s/.*/TURNIP_86=\"$(basename "$selected_file")\"/" "$CONFIG"
+    sed -i "126s/.*/TURNIP_x86=$TURNIP_86/" "$CONFIG"
+   TURNIP_86=$(basename "$selected_file")
+}
+select_dxvk86_file() {
+    local count=1
+    menu_items=()
+    for file in "$render"/*; do
+    if [ -f "$file" ] && ([[ "$(basename "$file")" == *dxvk* ]] || [[ "$(basename "$file")" == *wined* ]]); then
+        file_name=$(basename "$file" .WEG)
+        if [ $file_name == "${DXVK_86%.WEG}" ]; then
+            menu_items+=("$count" "✅ $file_name")
+        else
+            menu_items+=("$count" "🔲 $file_name") 
+        fi
+        ((count++))
+    fi
+	done
+menu_height_dxvk=$((count + 6))
+[ $menu_height_dxvk -lt 4 ] && menu_height_dxvk=10
+    if [ ${#menu_items[@]} -eq 0 ]; then
+        dialog --title "Ошибка" --msgbox "Файлы dxvk или wined3d отсутствуют в папке render." 7 30
+        return
+    fi
+    file_number=$(dialog --title "Выберите файл" --menu "Выберите файл:" $menu_height_dxvk 35 10 "${menu_items[@]}" 3>&1 1>&2 2>&3)
+    case $? in
+        1) return ;;
+        255) return ;;
+    esac
+    selected_file=$(ls "$render"/{dxvk*,wined*} 2>/dev/null | sed -n "${file_number}p")
+    sed -i "109s/.*/DXVK_86=\"$(basename "$selected_file")\"/" "$CONFIG"
+    sed -i "125s/.*/DXVK_x86=$DXVK_86/" "$CONFIG"
+   DXVK_86=$(basename "$selected_file")
+}
+save_settings() {
+        local settings=(
+        "ALIGNED_ATOMICS_0=$ALIGNED_ATOMICS_0"
+        "ALIGNED_ATOMICS_86=$ALIGNED_ATOMICS_86"
+        "ALIGNED_ATOMICS_64=$ALIGNED_ATOMICS_64"
+"HD_86=$HD_86"
+"sd_86=$sd_86"
+"X_86=$X_86"
+"SCALE_86=$SCALE_86"
+"SC_86=$SC_86"
+"InDr_86=$InDr_86"
+        "BIGBLOCK_86_0=$BIGBLOCK_86_0"
+        "BIGBLOCK_64_0=$BIGBLOCK_64_0"
+        "BIGBLOCK_86_86=$BIGBLOCK_86_86"
+        "BIGBLOCK_64_64=$BIGBLOCK_64_64"
+        "FASTNAN_0=$FASTNAN_0"
+        "FASTNAN_86=$FASTNAN_86"
+        "FASTNAN_64=$FASTNAN_64"
+        "SAFEFLAGS_0=$SAFEFLAGS_0"
+        "SAFEFLAGS_86=$SAFEFLAGS_86"
+        "SAFEFLAGS_64=$SAFEFLAGS_64"
+        "STRONGMEM_0=$STRONGMEM_0"
+        "STRONGMEM_86=$STRONGMEM_86"
+        "STRONGMEM_64=$STRONGMEM_64"
+        "WAIT_0=$WAIT_0"
+        "WAIT_86=$WAIT_86"
+        "WAIT_64=$WAIT_64"
+        "X87DOUBLE_0=$X87DOUBLE_0"
+        "X87DOUBLE_86=$X87DOUBLE_86"
+        "X87DOUBLE_64=$X87DOUBLE_64"
+        "CALLRET_0=$CALLRET_0"
+        "CALLRET_86=$CALLRET_86"
+        "CALLRET_64=$CALLRET_64"
+        "DXVK_86=$DXVK_86"
+        "TURNIP_86=$TURNIP_86"
+        "BOX_86=$BOX_86"
+        "MOBOX_86=$MOBOX_86"
+        "BOX_LNG=$BOX_LNG"
+        "DRI3_86=$DRI3_86"
+        "STARTUP_86=$STARTUP_86"
+        "SERVICES_86=$SERVICES_86"
+        "DRI_86=$DRI_86"
+        "START_86=$START_86"
+        "SERV_86=$SERV_86"
+        "SCRENSVR_86=$SCRENSVR_86"
+#----------------
+"HD_WOW=$HD_WOW"
+"sd_WOW=$sd_WOW"
+"X_WOW=$X_WOW"
+"SCALE_WOW=$SCALE_WOW"
+"SC_WOW=$SC_WOW"
+"InDr_WOW=$InDr_WOW"
+        "ATOMICS_WOW_0=$ATOMICS_WOW_0"
+        "ATOMICS_WOW_64=$ATOMICS_WOW_64"
+        "BIGBLOCK_WOW_64_0=$BIGBLOCK_WOW_64_0"
+        "BIGBLOCK_WOW_64_64=$BIGBLOCK_WOW_64_64"
+        "FASTNAN_WOW_0=$FASTNAN_WOW_0"
+        "FASTNAN_WOW_64=$FASTNAN_WOW_64"
+        "SAFEFLAGS_WOW_0=$SAFEFLAGS_WOW_0"
+        "SAFEFLAGS_WOW_64=$SAFEFLAGS_64"
+        "STRONGMEM_WOW_0=$STRONGMEM_WOW_0"
+        "STRONGMEM_WOW_64=$STRONGMEM_WOW_64"
+        "WAIT_WOW_0=$WAIT_WOW_0"
+        "WAIT_WOW_64=$WAIT_WOW_64"
+        "X87DOUBLE_WOW_0=$X87DOUBLE_0"
+        "X87DOUBLE_WOW_64=$X87DOUBLE_64"
+        "CALLRET_WOW_0=$CALLRET_WOW_0"
+        "CALLRET_WOW_64=$CALLRET_WOW_64"
+        "FASTROUND_WOW_0=$FASTROUND_WOW_0"
+        "FASTROUND_WOW_64=$FASTROUND_WOW_64"
+        "IGNOREINT3_WOW_0=$IGNOREINT3_WOW_0"
+        "IGNOREINT3_WOW_64=$IGNOREINT3_WOW_64"
+        "BOX_WOW=$BOX_WOW"
+        "DXVK_WOW=$DXVK_WOW"
+        "TURNIP_WOW=$TURNIP_WOW"
+        "MOBOX_WOW=$MOBOX_WOW"
+        "DRI3_WOW=$DRI3_WOW"
+        "STARTUP_WOW=$STARTUP_WOW"
+        "SERVICES_WOW=$SERVICES_WOW"
+        "DRI_WOW=$DRI_WOW"
+        "START_WOW=$START_WOW"
+        "SERV_WOW=$SERV_WOW"
+        "BOX_LNG=$BOX_LNG"
+        "LANG=$LANG"
+        "SCRENSVR_WOW=$SCRENSVR_WOW"
+    )
+}
+display_menu() {
+    local title="$1"
+    local text="$2"
+    shift 2
+    dialog --title "$title" --menu "$text" 27 41 "$@" 2>&1 >/dev/tty
+}
+set_resolution_86() {
+    while true; do
+        RESOLUTION_86=$(dialog --inputbox "Введите разрешение экрана (например, 960x540):" 8 35 2>&1 >/dev/tty)
+        if [ $? -ne 0 ]; then
+            return 1
+        fi
+        if [[ "$RESOLUTION_86" =~ ^[0-9]+x[0-9]+$ ]]; then
+            break
+        else
+            dialog --msgbox "Неверный формат разрешения экрана. Пожалуйста, введите в формате WihtxHeight (например, 960x540).\n\n
+Wight - Ширина экрана\n
+х - Маленький икс\n
+Height - Высота экрана" 12 35
+        fi
+    done
+    if [ -z "$CONFIG" ] || [ ! -f "$CONFIG" ]; then
+        dialog --msgbox "Ошибка: файл конфигурации не найден." 6 33
+    fi
+    sed -i "31s/.*/RESOLUTION_86=${RESOLUTION_86}/" "$CONFIG"
+}
+Dir_select() {
+BASE_DIR="/storage/emulated/0"
+    while true; do
+        items_list=()
+        items_list+=(".." "...")
+        if [ "$BASE_DIR" = "/storage/emulated/0" ]; then
+            items_list=()
+        fi
+        for item in "$BASE_DIR"/*; do
+            if [ -d "$item" ]; then
+                item_name=$(basename "$item")
+                dir_date=$(stat --format='%y' "$item")
+                dir_date=$(echo "$dir_date" | cut -d' ' -f1)
+                items_list+=("$item_name" 📂"|  DIR  | $dir_date")
+            fi
+        done
+        folder=$(basename "$BASE_DIR")
+        if [ "$folder" = "0" ]; then
+            item="Выбрана Корневая "
+            name="Корневая папка/.."
+        else
+            item="Выбрана 📂 $folder"
+            name="../$folder/.."
+        fi
+    selected_item=$(dialog --stdout --menu "Изменить папку по умолчанию.\n
+Нажмите < Ok >\n
+─────────────────────────────────────\n
+$name\n
+─────────────────────────────────────\n
+" 25 41 20 "${items_list[@]}")
+    if [ $? -ne 1 ]; then
+        if [ "$folder" == "WEG Game settings" ]; then
+            DIRESTORI_SAVE="$BASE_DIR"
+            echo "$DIRESTORI_SAVE" > "$DIRSAVE"
+            break
+        fi
+    else
+        break
+    fi
+    if [ "$selected_item" == ".." ]; then
+        BASE_DIR=$(dirname "$BASE_DIR")
+    else
+        BASE_DIR="$BASE_DIR/$selected_item" 
+    fi
+done
+clear
+}
+add_mobox_option() {
+    local version_dir="$1"
+    if [ -d "$version_dir" ] && [ "$DESK" != "ON" ]; then
+        options+=("1." "Mobox:      $BOX_LNG")
+    else
+        options+=("1" "Local:      $BOX_LNG")
+    fi
+}
+set_resolution_WOW() {
+    while true; do
+        RESOLUTION_WOW=$(dialog --inputbox "Введите разрешение экрана (например, 960x540):" 8 35 2>&1 >/dev/tty)
+        if [ $? -ne 0 ]; then
+            return 1
+        fi
+        if [[ "$RESOLUTION_WOW" =~ ^[0-9]+x[0-9]+$ ]]; then
+            break
+        else
+            dialog --msgbox "Неверный формат разрешения экрана. Пожалуйста, введите в формате WihtxHeight (например, 960x540).\n\n
+Wight - Ширина экрана\n
+х - Маленький икс\n
+Height - Высота экрана" 12 35
+        fi
+    done
+    if [ -z "$CONFIG" ] || [ ! -f "$CONFIG" ]; then
+        dialog --msgbox "Ошибка: файл конфигурации не найден." 6 33
+    fi
+    sed -i "31s/.*/RESOLUTION_WOW=${RESOLUTION_WOW}/" "$CONFIG"
+}
+screen_86(){
+if [ ! "$dark_reg" ]; then
+    dark_reg="$HOME/.shortcuts/themes/dark/.wine/dark.reg"
+fi
+if [ ${#SCREEN_DESC_86} -gt 23 ]; then
+    EXT="${SCREEN_DESC_86##*.}"
+    SHORT_NAME_86="$(echo "$SCREEN_DESC_86" | cut -c1-16)...$EXT"
+else
+    SHORT_NAME_86="$SCREEN_DESC_86"
+fi
+    RES_GAME_CHOICE_86=$(dialog --title "Настройка фона рабочего стола" --menu "Разрешение экрана:   $RESOLUTION_86 \n
+Текущее изображение: $SHORT_NAME_86\n" 12 48 2 \
+"Выбрать изображение" "" \
+"Установить сохраняя пропорции изображения" "" \
+"Установить и растянуть по размеру экрана" "" \
+"Удалить фон рабочего стола" "" 2>&1 >/dev/tty)
+            case $? in
+                1) resolution_fc_86
+                ;;
+            esac
+            case $RES_GAME_CHOICE_86 in
+"Выбрать изображение")
+. /$PREFIX/mobox/resorution
+screen_back_86
+    if [ "$SCREEN_DESC_86" != "Не выбрано" ]; then
+        if [ "$STR_PAPER_86" = "1" ] && [ "$DEL_PAPER_86" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_86" -resize "${RESOLUTION_86}\!" "$PREFIX/glibc/screen.bmp"
+        elif [ "$STR_PAPER_86" = "0" ] && [ "$DEL_PAPER_86" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_86" -resize "$RESOLUTION_86" "$PREFIX/glibc/screen.bmp"
+        fi
+   fi
+;;
+"Установить сохраняя пропорции изображения")
+    if [ "$SCREEN_DESC_86" != "Не выбрано" ]; then
+    magick "$PREFIX/$first_line/$SCREEN_DESC_86" -resize $RESOLUTION_86 "$PREFIX/glibc/screen.bmp"
+    STR_PAPER_86=0
+    DEL_PAPER_86=1
+    else
+dialog --msgbox "💡 Информация\n
+Изображение отсутствует. Выберите\n
+изображение для фона рабочего стола\n" 7 39
+    fi
+screen_86
+;;
+"Установить и растянуть по размеру экрана")
+    if [ "$SCREEN_DESC_86" != "Не выбрано" ]; then
+    magick "$PREFIX/$first_line/$SCREEN_DESC_86" -resize "$RESOLUTION_86!" "$PREFIX/glibc/screen.bmp"
+    STR_PAPER_86=1
+    DEL_PAPER_86=1
+    else
+dialog --msgbox "💡 Информация\n
+Изображение отсутствует. Выберите\n
+изображение для фона рабочего стола\n" 7 39
+    fi
+screen_86
+;;
+"Удалить фон рабочего стола")
+    rm -f "$PREFIX/glibc/screen.bmp"
+    rm -f "$PREFIX/$first_line/$SCREEN_DESC_86"
+    STR_PAPER_86=1
+    DEL_PAPER_86=1
+if [ -n "$SCREEN_DESC_86" ]; then
+    SCREEN_DESC_86="Не выбрано"
+sed -i "203s/.*/SCREEN_DESC_86=\"${SCREEN_DESC_86}\"/" "$CONFIG"
+fi
+screen_86
+;;
+esac
+lines_added=$(wc -l < "$dark_reg")
+total_lines=$(wc -l < "$user_reg")
+start_line=$((total_lines - lines_added_86 + 1))
+sed -i "${start_line},\$d" "$user_reg"
+cat "$dark_reg" >> "$user_reg"
+lines_added_86=$lines_added
+sed -i "141s/.*/STR_PAPER_86=$STR_PAPER_86/" "$CONFIG"
+sed -i "129s/.*/DEL_PAPER_86=$DEL_PAPER_86/" "$CONFIG"
+}
+screen_WOW(){
+if [ ! "$dark_reg" ]; then
+    dark_reg="$HOME/.shortcuts/themes/dark/.wine/dark.reg"
+fi
+if [ ${#SCREEN_DESC_WOW} -gt 23 ]; then
+    EXT="${SCREEN_DESC_WOW##*.}"
+    SHORT_NAME_WOW="$(echo "$SCREEN_DESC_WOW" | cut -c1-16)...$EXT"
+else
+    SHORT_NAME_WOW="$SCREEN_DESC_WOW"
+fi
+    RES_GAME_CHOICE_WOW=$(dialog --title "Настройка фона рабочего стола" --menu "Разрешение экрана:   $RESOLUTION_WOW \n
+Текущее изображение: $SHORT_NAME_WOW\n" 12 48 2 \
+"Выбрать изображение" "" \
+"Установить сохраняя пропорции изображения" "" \
+"Установить и растянуть по размеру экрана" "" \
+"Удалить фон рабочего стола" "" 2>&1 >/dev/tty)
+            case $? in
+                1) resolution_fc_WOW
+                ;;
+            esac
+            case $RES_GAME_CHOICE_WOW in
+"Выбрать изображение")
+. /$PREFIX/mobox/resorution
+screen_back_WOW
+    if [ "$SCREEN_DESC_WOW" != "Не выбрано" ]; then
+        if [ "$STR_PAPER_WOW" = "1" ] && [ "$DEL_PAPER_WOW" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_WOW" -resize "${RESOLUTION_WOW}\!" "$PREFIX/glibc/screen.bmp"
+        elif [ "$STR_PAPER_WOW" = "0" ] && [ "$DEL_PAPER_WOW" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_WOW" -resize "$RESOLUTION_WOW" "$PREFIX/glibc/screen.bmp"
+        fi
+   fi
+;;
+"Установить сохраняя пропорции изображения")
+    if [ "$SCREEN_DESC_WOW" != "Не выбрано" ]; then
+    magick "$PREFIX/$first_line/$SCREEN_DESC_WOW" -resize $RESOLUTION_WOW "$PREFIX/glibc/screen.bmp"
+    STR_PAPER_WOW=0
+    DEL_PAPER_WOW=1
+    else
+dialog --msgbox "💡 Информация\n
+Изображение отсутствует. Выберите\n
+изображение для фона рабочего стола\n" 7 39
+    fi
+screen_WOW
+;;
+"Установить и растянуть по размеру экрана")
+    if [ "$SCREEN_DESC_WOW" != "Не выбрано" ]; then
+    magick "$PREFIX/$first_line/$SCREEN_DESC_WOW" -resize "$RESOLUTION_WOW!" "$PREFIX/glibc/screen.bmp"
+    STR_PAPER_WOW=1
+    DEL_PAPER_WOW=1
+    else
+dialog --msgbox "💡 Информация\n
+Изображение отсутствует. Выберите\n
+изображение для фона рабочего стола\n" 7 39
+    fi
+screen_WOW
+;;
+"Удалить фон рабочего стола")
+    rm -f "$PREFIX/glibc/screen.bmp"
+    rm -f "$PREFIX/$first_line/$SCREEN_DESC_WOW"
+    STR_PAPER_WOW=1
+    DEL_PAPER_WOW=1
+if [ -n "$SCREEN_DESC_WOW" ]; then
+    SCREEN_DESC_WOW="Не выбрано"
+sed -i "187s/.*/SCREEN_DESC_WOW=\"${SCREEN_DESC_WOW}\"/" "$CONFIG"
+screen_WOW
+fi
+;;
+esac
+lines_added=$(wc -l < "$dark_reg")
+total_lines=$(wc -l < "$user_reg")
+start_line=$((total_lines - lines_added_WOW + 1))
+sed -i "${start_line},\$d" "$user_reg"
+cat "$dark_reg" >> "$user_reg"
+lines_added_WOW=$lines_added
+sed -i "60s/.*/STR_PAPER_WOW=$STR_PAPER_WOW/" "$CONFIG"
+sed -i "61s/.*/DEL_PAPER_WOW=$DEL_PAPER_WOW/" "$CONFIG"
+}
+resolution_fc_86() {
+    if [ ! "$dark_reg" ]; then
+        dark_reg="$HOME/.shortcuts/themes/dark/.wine/dark.reg"
+    fi
+file_path="$PREFIX/glibc/opt/conf/wine_path.conf"
+first_line=$(head -n 1 "$file_path" | cut -c 25-)
+user_reg="$PREFIX/$first_line/.wine/user.reg"
+    RES_GAME_CHOICE_86=$(dialog --title "Параметры экрана" --menu "" 12 40 5 \
+"Разрешение экрана" "" \
+"Растянуть по размеру дисплея" "" \
+"Настройка HUD-счетчика" "" \
+"Тема оформления контейнера" "" \
+"Настройка фона рабочего стола" "" \
+"Информация" "" 2>&1 >/dev/tty)
+            case $? in
+            1) return ;; 
+            esac
+            case $RES_GAME_CHOICE_86 in
+"Разрешение экрана")
+. /$PREFIX/mobox/resorution
+resorution_86
+resolution_fc_86
+            ;;
+"Растянуть по размеру дисплея") 
+if [ "$STRETCH_86" == "Растянуто" ]; then
+str_on="✅"
+str_off="🔲"
+else
+str_on="🔲"
+str_off="✅"
+fi
+            RES_GAME_CHOICE_86=$(dialog --title "Растянуть по размеру экрана" --menu "" 8 35 2 \
+" $str_on Включить" "" \
+" $str_off Выключить" "" 2>&1 >/dev/tty)
+            case $? in
+                1) resolution_fc_86
+                return ;;
+            esac
+            case $RES_GAME_CHOICE_86 in
+" $str_on Включить") 
+            	STRETCH_86_en="Stretched"
+            	STRETCH_86="Растянуто"
+                sed -i '116s/.*/displayStretch=true/' "$CONFIG"
+                ;;
+" $str_off Выключить") 
+            	STRETCH_86_en="Not stretched"
+            	STRETCH_86="Не растянуто"
+                sed -i '116s/.*/displayStretch=false/' "$CONFIG"
+            esac
+            sed -i "173s/.*/STRETCH_86_eng=\"${STRETCH_86_en}\"/" "$CONFIG"
+            sed -i "117s/.*/STRETCH_86=\"${STRETCH_86}\"/" "$CONFIG"
+            resolution_fc_86
+            ;;
+"Настройка HUD-счетчика")
+            . /$PREFIX/mobox/hud_conf86
+            resolution_fc_86
+            ;;
+"Тема оформления контейнера")
+if [ -f "$user_reg" ]; then
+dark_reg_fold="$HOME/.shortcuts/themes/drive_c/"
+user_reg_fold="$PREFIX/$first_line/.wine/drive_c/"
+if [[ -d "$dark_reg_fold" && -d "$user_reg_fold" ]]; then
+  cp -r "$dark_reg_fold"/* "$user_reg_fold"
+fi
+
+if [ "$theme_86" == "dark" ]; then
+    dark_86="✅"
+    light_86="🔲"
+    classic_86="🔲"
+    silver_86="🔲"
+    olive_86="🔲"
+elif [ "$theme_86" == "light" ]; then
+    dark_86="🔲"
+    light_86="✅"
+    classic_86="🔲"
+    silver_86="🔲"
+    olive_86="🔲"
+elif [ "$theme_86" == "silver" ]; then
+    dark_86="🔲"
+    light_86="🔲"
+    silver_86="✅"
+    classic_86="🔲"
+    olive_86="🔲"
+elif [ "$theme_86" == "classic" ]; then
+    dark_86="🔲"
+    light_86="🔲"
+    silver_86="🔲"
+    classic_86="✅"
+    olive_86="🔲"
+elif [ "$theme_86" == "olive" ]; then
+    dark_86="🔲"
+    light_86="🔲"
+    silver_86="🔲"
+    classic_86="🔲"
+    olive_86="✅"
+fi
+        RES_GAME_CHOICE_86=$(dialog --title "Выберите тему оформления" --menu " \n" 12 35 2 \
+" $dark_86 Темная тема" "" \
+" $light_86 Светлая тема" "" \
+" $classic_86 Win XP Classic" "" \
+" $silver_86 Win XP Silver" "" \
+" $olive_86 Win XP Olive" "" 2>&1 >/dev/tty)
+            case $? in
+                1) resolution_fc_86
+                return ;;
+            esac
+            case $RES_GAME_CHOICE_86 in
+" $dark_86 Темная тема") 
+dark_reg="$HOME/.shortcuts/themes/dark/.wine/dark.reg"
+theme_86="dark"
+dark_86="✅"; eval "$(printf '%s="🔲" ' light_86 classic_86 silver_86 olive_86)"
+                ;;
+" $light_86 Светлая тема") 
+dark_reg="$HOME/.shortcuts/themes/light/.wine/light.reg"
+theme_86="light"
+light_86="✅"; eval "$(printf '%s="🔲" ' dark_86 classic_86 silver_86 olive_86)"
+                ;;
+" $silver_86 Win XP Silver")
+dark_reg="$HOME/.shortcuts/themes/win_xp_silver/.wine/silver.reg"
+theme_86="silver"
+silver_86="✅"; eval "$(printf '%s="🔲" ' dark_86 classic_86 light_86 olive_86)"
+                ;;
+" $classic_86 Win XP Classic")
+dark_reg="$HOME/.shortcuts/themes/win_xp_classic/.wine/classic.reg"
+theme_86="classic"
+classic_86="✅"; eval "$(printf '%s="🔲" ' dark_86 silver_86 light_86 olive_86)"
+                ;;
+" $olive_86 Win XP Olive")
+dark_reg="$HOME/.shortcuts/themes/win_xp_olive/.wine/olive.reg"
+theme_86="olive"
+olive_86="✅"; eval "$(printf '%s="🔲" ' dark_86 silver_86 light_86 classic_86)"
+                ;;
+            esac
+lines_added=$(wc -l < "$dark_reg")
+total_lines=$(wc -l < "$user_reg")
+start_line=$((total_lines - lines_added_86 + 1))
+sed -i "${start_line},\$d" "$user_reg"
+cat "$dark_reg" >> "$user_reg"
+lines_added_86=$lines_added
+sed -i "204s/.*/lines_added_86=\"${lines_added_86}\"/" "$CONFIG"
+sed -i '205s|.*|dark_reg="'"$dark_reg"'"|' "$CONFIG"
+sed -i "140s/.*/theme_86=\"${theme_86}\"/" "$CONFIG"
+sed -i "100s/.*/dark_86=$dark_86 light_86=$light_86 silver_86=$silver_86 classic_86=$classic_86 olive_86=$olive_86 /" "$CONFIG"
+else
+dialog --msgbox "💡 Информация\n
+Контейнер box86 не создан. Пожалуйста, создайте контейнер и повторите попытку снова.\n" 8 36
+fi
+resolution_fc_86
+            ;;
+"Настройка фона рабочего стола")
+if [ -f "$user_reg" ]; then
+screen_86
+else
+dialog --msgbox "💡 Информация\n
+Контейнер box86 не создан. Пожалуйста, создайте контейнер и повторите попытку снова.\n" 8 36
+resolution_fc_86
+fi
+;;
+"Информация")
+            dialog --msgbox "💡 Информация\n
+──────────────────────────────────────────── \n
+1. Выбрав здесь разрешение экрана, теперь\n
+   не нужно выбирать такое же в WEG™:X11\n
+   или где то ещё. Выбранное разрешение\n
+   автоматически выставляется везде.\n
+──────────────────────────────────────────── \n
+2. \"Растянуть по размеру экрана\" заменяет\n
+   ту же функцию, что и в WEG™:X11\n
+──────────────────────────────────────────── \n
+3. Элементы HUD вы можете выбрать из\n
+   представленных или использовать свою,\n
+   кастомную комбинацию.\n
+   Если необходимости в HUD нет, необходимо\n
+   его отключить, а не убирать компоненты в\n
+   кастомномных настройках.\n
+──────────────────────────────────────────── 
+" 21 48
+resolution_fc_86
+            ;;
+        esac
+}
+resolution_fc_WOW() {
+if [ ! "$dark_reg" ]; then
+    dark_reg="$HOME/.shortcuts/themes/dark/.wine/dark.reg"
+fi
+file_path="$PREFIX/glibc/opt/conf/wine_path.conf"
+first_line=$(head -n 1 "$file_path" | cut -c 25-)
+user_reg="$PREFIX/$first_line/.wine/user.reg"
+    RES_GAME_CHOICE_64=$(dialog --title "Параметры экрана" --menu "" 12 40 5 \
+"Разрешение экрана" "" \
+"Растянуть по размеру дисплея" "" \
+"Настройка HUD-счетчика" "" \
+"Тема оформления контейнера" "" \
+"Настройка фона рабочего стола" "" \
+"Информация" "" 2>&1 >/dev/tty)
+            case $? in
+            1) return ;; 
+            esac
+            case $RES_GAME_CHOICE_64 in
+"Разрешение экрана")
+. /$PREFIX/mobox/resorution
+resorution_WOW
+resolution_fc_WOW
+            ;;
+"Растянуть по размеру дисплея") 
+if [ "$STRETCH_WOW" == "Растянуто" ]; then
+str_on="✅"
+str_off="🔲"
+else
+str_on="🔲"
+str_off="✅"
+fi
+            RES_GAME_CHOICE_64=$(dialog --title "Растянуть по размеру экрана" --menu "" 8 35 2 \
+" $str_on Включить" "" \
+" $str_off Выключить" "" 2>&1 >/dev/tty)
+            case $? in
+                1) resolution_fc_WOW
+                return ;;
+            esac
+            case $RES_GAME_CHOICE_64 in
+" $str_on Включить") 
+            	STRETCH_WOW_en="Stretched"
+            	STRETCH_WOW="Растянуто"
+                sed -i '116s/.*/displayStretch=true/' "$CONFIG"
+                ;;
+" $str_off Выключить") 
+            	STRETCH_WOW_en="Not stretched"
+            	STRETCH_WOW="Не растянуто"
+                sed -i '116s/.*/displayStretch=false/' "$CONFIG"
+            esac
+            sed -i "37s/.*/STRETCH_WOW_eng=\"${STRETCH_WOW_en}\"/" "$CONFIG"
+            sed -i "87s/.*/STRETCH_WOW=\"${STRETCH_WOW}\"/" "$CONFIG"
+            resolution_fc_WOW
+            ;;
+"Настройка HUD-счетчика")
+            . /$PREFIX/mobox/hud_conf64
+            resolution_fc_WOW
+            ;;
+"Тема оформления контейнера")
+if [ -f "$user_reg" ]; then
+dark_reg_fold="$HOME/.shortcuts/themes/drive_c/"
+user_reg_fold="$PREFIX/$first_line/.wine/drive_c/"
+if [[ -d "$dark_reg_fold" && -d "$user_reg_fold" ]]; then
+  cp -r "$dark_reg_fold"/* "$user_reg_fold"
+fi
+if [ "$theme_wow" == "dark" ]; then
+    dark_wow="✅"
+    light_wow="🔲"
+    classic_wow="🔲"
+    silver_wow="🔲"
+    olive_wow="🔲"
+elif [ "$theme_wow" == "light" ]; then
+    dark_wow="🔲"
+    light_wow="✅"
+    classic_wow="🔲"
+    silver_wow="🔲"
+    olive_wow="🔲"
+elif [ "$theme_wow" == "silver" ]; then
+    dark_wow="🔲"
+    light_wow="🔲"
+    silver_wow="✅"
+    classic_wow="🔲"
+    olive_wow="🔲"
+elif [ "$theme_wow" == "classic" ]; then
+    dark_wow="🔲"
+    light_wow="🔲"
+    silver_wow="🔲"
+    classic_wow="✅"
+    olive_wow="🔲"
+elif [ "$theme_wow" == "olive" ]; then
+    dark_wow="🔲"
+    light_wow="🔲"
+    silver_wow="🔲"
+    classic_wow="🔲"
+    olive_wow="✅"
+fi
+        RES_GAME_CHOICE_64=$(dialog --title "Выберите тему оформления" --menu " \n" 12 35 2 \
+" $dark_wow Темная тема" "" \
+" $light_wow Светлая тема" "" \
+" $classic_wow Win XP Classic" "" \
+" $silver_wow Win XP Silver" "" \
+" $olive_wow Win XP Olive" "" 2>&1 >/dev/tty)
+            case $? in
+                1) resolution_fc_WOW
+                return ;;
+            esac
+            case $RES_GAME_CHOICE_64 in
+" $dark_wow Темная тема") 
+dark_reg="$HOME/.shortcuts/themes/dark/.wine/dark.reg"
+theme_wow="dark"
+dark_wow="✅"; eval "$(printf '%s="🔲" ' light_wow classic_wow silver_wow olive_wow)"
+                ;;
+" $light_wow Светлая тема") 
+dark_reg="$HOME/.shortcuts/themes/light/.wine/light.reg"
+theme_wow="light"
+light_wow="✅"; eval "$(printf '%s="🔲" ' dark_wow classic_wow silver_wow olive_wow)"
+                ;;
+" $silver_wow Win XP Silver")
+dark_reg="$HOME/.shortcuts/themes/win_xp_silver/.wine/silver.reg"
+theme_wow="silver"
+silver_wow="✅"; eval "$(printf '%s="🔲" ' dark_wow classic_wow light_wow olive_wow)"
+                ;;
+" $classic_wow Win XP Classic")
+dark_reg="$HOME/.shortcuts/themes/win_xp_classic/.wine/classic.reg"
+theme_wow="classic"
+classic_wow="✅"; eval "$(printf '%s="🔲" ' dark_wow silver_wow light_wow olive_wow)"
+                ;;
+" $olive_wow Win XP Olive")
+dark_reg="$HOME/.shortcuts/themes/win_xp_olive/.wine/olive.reg"
+theme_wow="olive"
+olive_wow="✅"; eval "$(printf '%s="🔲" ' dark_wow silver_wow light_wow classic_wow)"
+                ;;
+            esac
+lines_added=$(wc -l < "$dark_reg")
+total_lines=$(wc -l < "$user_reg")
+start_line=$((total_lines - lines_added_WOW + 1))
+sed -i "${start_line},\$d" "$user_reg"
+cat "$dark_reg" >> "$user_reg"
+lines_added_WOW=$lines_added
+sed -i "20s/.*/dark_wow=$dark_wow light_wow=$light_wow silver_wow=$silver_wow classic_wow=$classic_wow olive_wow=$olive_wow /" "$CONFIG"
+sed -i "41s/.*/theme_wow=\"${theme_wow}\"/" "$CONFIG"
+sed -i '189s|.*|dark_reg="'"$dark_reg"'"|' "$CONFIG"
+sed -i "188s/.*/lines_added_WOW=\"${lines_added_WOW}\"/" "$CONFIG"
+else
+dialog --msgbox "💡 Информация\n
+Контейнер WoW64 не создан. Пожалуйста, создайте контейнер и повторите попытку снова.\n" 8 36
+fi
+resolution_fc_WOW
+            ;;
+"Настройка фона рабочего стола")
+if [ -f "$user_reg" ]; then
+screen_WOW
+else
+dialog --msgbox "💡 Информация\n
+Контейнер WoW64 не создан. Пожалуйста, создайте контейнер и повторите попытку снова.\n" 8 36
+resolution_fc_WOW
+fi
+;;
+"Информация")
+            dialog --msgbox "💡 Информация\n
+──────────────────────────────────────────── \n
+1. Выбрав здесь разрешение экрана, теперь\n
+   не нужно выбирать такое же в WEG™:X11\n
+   или где то ещё. Выбранное разрешение\n
+   автоматически выставляется везде.\n
+──────────────────────────────────────────── \n
+2. \"Растянуть по размеру экрана\" заменяет\n
+   ту же функцию, что и в WEG™:X11\n
+──────────────────────────────────────────── \n
+3. Элементы HUD вы можете выбрать из\n
+   представленных или использовать свою,\n
+   кастомную комбинацию.\n
+   Если необходимости в HUD нет, необходимо\n
+   его отключить, а не убирать компоненты в\n
+   кастомномных настройках.\n
+──────────────────────────────────────────── 
+" 21 48
+resolution_fc_WOW
+            ;;
+        esac
+}
+export_fc() {
+    CORES_CHOICE=$(dialog --title "Экспорт / Импорт настроек" --menu "\n
+1. Поделиться с другими\n
+   пользователями настройками этого\n
+   приложения или сделять резервную\n
+   копию своих настроек.\n
+2. Добавить резерную копию своих\n
+   настроек или настройки других\n
+   пользователей в Widget\n
+3. Выбрать место куда настройки\n
+   будут сохраняться" 20 40 3 \
+            "1" "Экспорт настроек в папку" \
+            "2" "Импорт настроек из папки" \
+            "3" "Изменить директорию" \
+            "4" "Информация ❗❗️❗️️" 2>&1 >/dev/tty)
+            case $? in
+                1) return ;;
+            esac
+            case $CORES_CHOICE in
+                1) 
+if [ ! -d "$DIRESTORI_SAVE" ]; then
+    mkdir -p "$DIRESTORI_SAVE"
+fi
+if [ "$DESK" != "OFF" ]; then
+cp "/data/data/com.termux/files/home/.shortcuts/,/$result" "/$DIRESTORI_SAVE"
+else
+cp "/data/data/com.termux/files/home/.shortcuts/$result" "/$DIRESTORI_SAVE"
+fi
+dir=${DIRESTORI_SAVE#*/Download}
+dir="Download${dir}"
+dialog --title "📂 Информация" --msgbox "$result\n
+Настройки успешно сохранены по пути в папку:\n
+$dir" 7 48
+export_fc
+                ;;
+                2) 
+if [ -f "$DIRESTORI_SAVE/$result" ]; then
+if [ "$DESK" != "OFF" ]; then
+cp "/data/data/com.termux/files/home/.shortcuts/,/$result" "/$DIRESTORI_SAVE"
+else
+cp "/data/data/com.termux/files/home/.shortcuts/$result" "/$DIRESTORI_SAVE"
+fi
+dialog --title "📂 Информация" --msgbox "$result\n
+Настройки успешно перенесены в WEG™⚡️Mobox Menu" 6 51
+else
+dialog --title "🚫 Ошибка" --msgbox "$result\n
+Файл с таким именем отсутствует в папке\n
+          \"WEG Game settings\"" 7 43
+fi
+export_fc
+                ;;
+                3) 
+Dir_select
+export_fc
+                ;;
+                4)
+dialog --title "❗️ Информация ❗️" --msgbox "$result\n
+При каждом экспорте настроек, сохраняется\n
+файл по умолчанию в директории\n
+Виджета, в папке \"WEG Game settings\".\n
+Или если вы хотите сохранить по другому\n
+адресу выбрав другую директорию, но имя\n
+папки должно быть все равно\n
+\"WEG Game settings\" \n\n
+Все файлы настроек приложений будут\n
+сохраняться в эту папку до тех пор, пока\n
+вы не измените место сохранения.\n
+Импорт проводится автоматически, меняя\n
+имеющийся файл на новый с таким же именем.\n\n
+ВНИМАНИЕ❗️❗️❗️\n
+Имя нового файла должно быть таким же как\n
+и Имя в настроках WEG™⚡️Mobox Menu" 22 46
+export_fc
+                ;;
+            esac
+}
+GAME_SHORT="${result:0:17}"
+while true; do
+    if [ "$BOX_VERS" = "X86" ]; then
+        dialog_text="Настройки $result: $CONFIG_SETTINGS_GAME\n\
+────────────────────────────────────────\n
+  Настройте параметры, подходящие для\n
+  запуска и работы данного приложения."
+    elif [ "$BOX_VERS" = "WOW64" ]; then
+        dialog_text="Настройки $result: $CONFIG_SETTINGS_GAME\n\
+────────────────────────────────────────\n
+  Настройте параметры, подходящие для\n
+  запуска и работы данного приложения."
+fi
+if [ "$DESK" == "OFF" ]; then
+    options=("🎮" "Запустить $result")
+else
+    options=()
+fi
+if [ "$BOX_VERS" = "X86" ]; then
+    if [ -n "$value" ]; then
+        add_mobox_option "$PREFIX/glibc"
+    else
+        add_mobox_option "$PREFIX/glibc-wow64"
+    fi
+elif [ "$BOX_VERS" = "WOW64" ]; then
+    if [ -n "$value" ]; then
+        add_mobox_option "$PREFIX/glibc-x86"
+    else
+        add_mobox_option "$PREFIX/glibc"
+    fi
+fi
+if [ "$BOX_VERS" = "X86" ]; then
+    options+=(
+       "2." "DYNAREC:    $DYNAREC_86" 
+       "3." "Driver:     $(echo "${TURNIP_86#D-}" | sed 's/\.WEG$//')" 
+       "4." "Render:     $(echo "${DXVK_86#R-}" | sed 's/\.WEG$//')" 
+       "5." "BOX86:      ${BOX_86%.WEG}"
+       "6." "DirectX:    $DX_VER_86" 
+       "7." "Экран:      $RESOLUTION_86 $STRETCH_86" 
+       "8." "Ядра:       $CORES_86"
+       "9." "Лимит FPS:  $FPS_LIM_86"
+      "10." "Автозапуск: Input Bridge $InBr"
+      "11." "Настройки совместимости"
+      "12." "Сброс настроек $GAME_SHORT"
+      "13." "Экспорт / Импорт настроек"
+    )
+elif [ "$BOX_VERS" = "WOW64" ]; then
+    options+=(
+        "2" "DYNAREC:    $DYNAREC_64" 
+        "3" "Driver:     $(echo "${TURNIP_WOW#D-}" | sed 's/\.WEG$//')" 
+        "4" "Render:     $(echo "${DXVK_WOW#R-}" | sed 's/\.WEG$//')" 
+        "5" "WoW64:      ${BOX_WOW%.WEG}"
+        "6" "DirectX:    $DX_VER_WOW" 
+        "7" "Экран:      $RESOLUTION_WOW $STRETCH_WOW" 
+        "8" "Ядра:       $CORES_WOW"
+        "9" "Лимит FPS:  $FPS_LIM_WOW"
+       "10" "Автозапуск: Input Bridge $InBr"
+       "11" "Настройки совместимости"
+       "12" "Сброс настроек $GAME_SHORT"
+       "13." "Экспорт / Импорт настроек"
+    )
+fi
+    choice=$(show_dialog "$CONFIG_SETTINGS_GAME" "$dialog_text" "${#options[@]}" "${options[@]}")
+    case $? in
+        1)
+    if [ "$DESK" == "OFF" ]; then
+show_progress "Список игр" "⏳ Загрузка списка" 2
+bash -c "source \"$HOME/Settings\""
+    fi
+        break
+        ;;
+        255) continue ;;
+    esac
+    case $choice in
+        "🎮")
+        clear
+        unset settings
+            shortcut_path="$CONFIG_GAME"
+            if [ -f "$shortcut_path" ]; then
+                . "$shortcut_path"
+            else
+                echo "$GAME"
+                exit 1
+            fi
+            exit
+            ;;
+        1.)
+
+    	  LAST_BOX=${LAST_BOX:-1}
+if [ "$BOX_VERS" == "X86" ]; then
+box86="✅"
+box64="🔲"
+else
+box86="🔲"
+box64="✅"
+fi
+        while true; do
+        BOX_VERS_CHOICE=$(dialog --title "Mobox" --default-item " " --menu "Выберите версию:" 9 31 3 \
+" $box86 Mobox box86" "" \
+" $box64 Mobox WoW64" "" 2>&1 >/dev/tty)
+            case $? in
+1) break ;;
+            esac
+			LAST_BOX=$BOX_VERS_CHOICE
+            case $BOX_VERS_CHOICE in
+" $box86 Mobox box86") 
+                    sed -i '3s/.*/BOX_VERS=X86/' "$CONFIG"
+                    BOX_VERS="X86"
+                    BOX_LNG="box86"
+                    load_conf
+                    break
+                    ;;
+" $box64 Mobox WoW64") 
+                    sed -i '3s/.*/BOX_VERS=WOW64/' "$CONFIG"
+                    BOX_VERS="WOW64"
+                    BOX_LNG="WoW64"
+                    load_conf
+                    break
+                    ;;
+            esac
+        done
+        ;;
+        1)
+if [ "$BOX_LNG" == "ru_RU" ]; then
+chek_lng_r="✅"
+chek_lng_u="🔲"
+chek_lng_a="🔲"
+elif [ "$BOX_LNG" == "uk_UA" ]; then
+chek_lng_r="🔲"
+chek_lng_u="✅"
+chek_lng_a="🔲"
+elif [ "$BOX_LNG" == "en_UA" ]; then
+chek_lng_r="🔲"
+chek_lng_u="🔲"
+chek_lng_a="✅"
+fi
+        BOX_LNG_CHOICE=$(dialog --title "Язык системы" --menu " " 10 33 3 \
+" $chek_lng_r Русский Язык" "" \
+" $chek_lng_u Українська Мова" "" \
+" $chek_lng_a English language" ""  2>&1 >/dev/tty)
+            case $? in
+                1) continue
+            esac
+            case $BOX_LNG_CHOICE in
+" $chek_lng_r Русский Язык")
+            LANG_BOX="ru_RU.utf8"
+            BOX_LNG="ru_RU"
+            TERM_LNG="ru_RU"
+            ;;
+" $chek_lng_u Українська Мова") 
+            LANG_BOX="uk_UA.utf8"
+            BOX_LNG="uk_UA"
+            TERM_LNG="uk_UA"
+            ;;
+" $chek_lng_a English language") 
+            LANG_BOX="en_US.utf8"
+            BOX_LNG="en_UA"
+            TERM_LNG="en_UA"
+            ;;
+            esac
+echo "$LANG_BOX">$PREFIX/glibc/opt/locale.conf
+            sed -i "39s/.*/LANG_BOX=$LANG_BOX/" "$CONFIG"
+            sed -i "40s/.*/BOX_LNG=\"${BOX_LNG}\"/" "$CONFIG"
+            sed -i "119s/.*/LANG_BOX=$LANG_BOX/" "$CONFIG"
+            sed -i "120s/.*/BOX_LNG=\"${BOX_LNG}\"/" "$CONFIG"
+            sed -i "44s/.*/TERM_LNG=\"${TERM_LNG}\"/" "$CONFIG"
+            sed -i "124s/.*/TERM_LNG=\"${TERM_LNG}\"/" "$CONFIG"
+            if [ "$BOX_VERS" = "WOW64" ]; then
+                sed -i "39s/.*/LANG_BOX=$LANG_BOX/" "$def_set"
+            elif [ "$BOX_VERS" = "X86" ]; then
+                sed -i "119s/.*/LANG_BOX=$LANG_BOX/" "$def_set"
+            fi
+        ;;
+        2.)
+        if [ "$result" = "Mobox box86" ]; then
+        . /$PREFIX/mobox/dynarec_conf_box86
+        else 
+        . /$PREFIX/mobox/dynarec_conf86
+        fi
+            ;;
+        3.)
+            select_turnip86_file ;;
+        4.)
+            select_dxvk86_file ;;
+        5.)
+            select_box_86_file ;;
+        6.) 
+case "$DX_VER_86" in
+  "9_1")
+    dir_91="✅"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "9_2")
+    dir_91="🔲"
+    dir_92="✅"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "9_3")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="✅"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "10_0")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="✅"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "10_1")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="✅"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "11_0")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="✅"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "11_1")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="✅"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "12_0")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="✅"
+    dir_121="🔲"
+    ;;
+  "12_1")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="✅"
+    ;;
+esac
+            DX_VER_CHOICE=$(dialog --title "Выберите максимальный DirectX" --menu " " 16 40 5 \
+            "1" "$dir_91 DirectX 9.1" \
+            "2" "$dir_92 DirectX 9.2" \
+            "3" "$dir_93 DirectX 9.3" \
+            "4" "$dir_100 DirectX 10.0" \
+            "5" "$dir_101 DirectX 10.1" \
+            "6" "$dir_110 DirectX 11.0" \
+            "7" "$dir_111 DirectX 11.1" \
+            "8" "$dir_120 DirectX 12.0" \
+            "9" "$dir_121 DirectX 12.1" 2>&1 >/dev/tty)
+            case $? in
+                1) continue ;;
+            esac
+            case $DX_VER_CHOICE in
+                1) 
+                DX_VER_86="9_1";;
+                2) 
+                DX_VER_86="9_2";;
+                3) 
+                DX_VER_86="9_3";;
+                4) 
+                DX_VER_86="10_0";;
+                5) 
+                DX_VER_86="10_1";;
+                6) 
+                DX_VER_86="11_0";;
+                7) 
+                DX_VER_86="11_1";;
+                8) 
+                DX_VER_86="12_0";;
+                9) 
+                DX_VER_86="12_1";;
+            esac
+            sed -i "110s/.*/DX_VER_86=${DX_VER_86}/" "$CONFIG"
+            sed -i "3s/.*/d3d11.maxFeatureLevel = $DX_VER_86/" $PREFIX/glibc/opt/dxvk.conf
+            ;;
+        7.)
+			resolution_fc_86
+        ;;
+        8.) 
+case "$CORES_86" in
+"1-7")
+cor_1="✅"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"2-7")
+cor_1="🔲"
+cor_2="✅"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"3-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="✅"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"4-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="✅"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"5-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="✅"
+cor_6="🔲"
+;;
+"6-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="✅"
+;;
+esac
+            CORES_CHOICE=$(dialog --title "Выберите количество ядер" --menu " " 13 40 3 \
+            "1" "$cor_1 с 1 по 7" \
+            "2" "$cor_2 с 2 по 7" \
+            "3" "$cor_3 с 3 по 7" \
+            "4" "$cor_4 с 4 по 7" \
+            "5" "$cor_5 с 5 по 7" \
+            "6" "$cor_6 6 и 7" 2>&1 >/dev/tty)
+            case $? in
+                1) continue ;;
+            esac
+            case $CORES_CHOICE in
+                1) 
+                PRIMARY_86=1-7
+                SECONDARY_86=0-1
+                CORES_86="1-7";;
+                2) 
+                PRIMARY_86=2-7
+                SECONDARY_86=0-1
+                CORES_86="2-7";;
+                3) 
+                PRIMARY_86=3-7
+                SECONDARY_86=0-2
+                CORES_86="3-7";;
+                4) 
+                PRIMARY_86=4-7
+                SECONDARY_86=0-3
+                CORES_86="4-7";;
+                5) 
+                PRIMARY_86=5-7
+                SECONDARY_86=0-4
+                CORES_86="5-7";;
+                6) 
+                PRIMARY_86=6-7
+                SECONDARY_86=0-5
+                CORES_86="6-7";;
+            esac
+echo "export PRIMARY_CORES=$PRIMARY_86
+export SECONDARY_CORES=$SECONDARY_86">$PREFIX/glibc/opt/conf/cores.conf
+            sed -i "112s/.*/PRIMARY_86=${PRIMARY_86}/" "$CONFIG"
+            sed -i "113s/.*/SECONDARY_86=${SECONDARY_86}/" "$CONFIG"
+            sed -i "114s/.*/CORES_86=${CORES_86}/" "$CONFIG";;
+        9.)
+            while true; do
+            FPS_LIM_CHOICE=$(dialog --title "Выберите лимит FPS" --inputbox "Введите максимальное значение FPS (от 15 до 240 или 0):\n\n0 - без ограничения" 12 40 $FPS_LIM_86 2>&1 >/dev/tty)
+            case $? in
+            1) break ;;
+            255) continue ;;
+            esac
+            if [[ "$FPS_LIM_CHOICE" =~ ^[0-9]+$ ]] && [ "$FPS_LIM_CHOICE" -eq 0 ] || [ "$FPS_LIM_CHOICE" -ge 15 ] && [ "$FPS_LIM_CHOICE" -le 240 ]; then
+            FPS_LIM_86="$FPS_LIM_CHOICE"
+            sed -i "115s/.*/FPS_LIM_86=${FPS_LIM_86}/" "$CONFIG"
+sed -i "4s/.*/dxgi.maxFrameRate = $FPS_LIM_86/" $PREFIX/glibc/opt/dxvk.conf
+sed -i "5s/.*/d3d9.maxFrameRate = $FPS_LIM_86/" $PREFIX/glibc/opt/dxvk.conf
+       break
+            else
+            dialog --msgbox "Ошибка: Пожалуйста, введите число от 15 до 240 или 0." 6 37
+            fi
+        done
+    ;;
+        10.)
+if [ "$InBr" == "включен" ]; then
+inBr_on="✅"
+inBr_off="🔲"
+else
+inBr_on="🔲"
+inBr_off="✅"
+fi
+        INPUT_CHOICE_86=$(dialog --title "Input Bridge" --menu "Автозапуск при старте" 9 30 5 \
+" $inBr_on Включить" "" \
+" $inBr_off Выключить" "" 2>&1 >/dev/tty)
+            case $? in
+                1) continue ;;
+            esac
+            case $INPUT_CHOICE_86 in
+" $inBr_on Включить") 
+                    sed -i '184s/.*/InBr_eng="Enable"/' "$CONFIG"
+                    InBr_eng="Enable"
+                    sed -i '182s/.*/InBr="включен"/' "$CONFIG"
+                    InBr="включен"
+                    ;;
+" $inBr_off Выключить") 
+                    sed -i '184s/.*/InBr_eng="Disable"/' "$CONFIG"
+                    InBr_eng="Disable"
+                    sed -i '182s/.*/InBr="выключен"/' "$CONFIG"
+                    InBr="выключен"
+                    ;;
+            esac
+        ;;
+        11.) 
+        LAST_SERVICES_86=${LAST_SERVICES_86:-1}
+        while true; do
+            SERVICES_CHOICE=$(dialog --title "Совместимость при запуске" --default-item "$LAST_SERVICES_86" --menu "──────────────────────────────────────\n\
+Режим совместимости при запуске -
+принудительно использовать резервное
+разрешение, выбранное в системных настройках
+и отключить установку PhysX при создании
+контейнера \n\
+──────────────────────────────────────\n\
+DRI3                $DRI3_86 \n\
+Режим совместимости $STARTUP_86 \n\
+Рендеринг OpenGL    $OpenGL_86 \n\
+Services.exe        $SERVICES_86" 21 42 3 \
+" DRI3 (отключить, если SD845)" "" \
+" Режим совместимости при запуске" "" \
+" Запуск системого рендеринга OpenGL" "" \
+" Запуск services.exe" "" 2>&1 >/dev/tty)
+            case $? in
+                1) break ;;
+                255) continue ;;
+            esac
+        	LAST_SERVICES_86=$SERVICES_CHOICE
+            case $SERVICES_CHOICE in
+" DRI3 (отключить, если SD845)") 
+                if [ "$DRI3_86_eng" = "Enable" ]; then
+                DRI3_86_eng="Disable"
+                DRI3_86="Выключен"
+                DRI_86="export MESA_VK_WSI_DEBUG=sw"
+                else 
+                DRI3_86_eng="Enable"
+                DRI3_86="Включен"
+                DRI_86="unset MESA_VK_WSI_DEBUG"
+                fi
+                sed -i "102s/.*/DRI3_86_eng=${DRI3_86_eng}/" "$CONFIG"
+                sed -i "105s/.*/DRI_86=\"$DRI_86\"/" "$CONFIG"
+                sed -i "170s/.*/DRI3_86=${DRI3_86}/" "$CONFIG"
+                ;;
+" Режим совместимости при запуске") 
+                if [ "$STARTUP_86_eng" = "Enable" ]; then
+                STARTUP_86_eng="Disable"
+                STARTUP_86="Выключен"
+                START_86="export STARTUP_COMPATIBILITY_MODE=0"
+                else
+                STARTUP_86_eng="Enable"
+                STARTUP_86="Включен"
+                START_86="export STARTUP_COMPATIBILITY_MODE=1"
+                fi
+                sed -i "103s/.*/STARTUP_86_eng=${STARTUP_86_eng}/" "$CONFIG"
+                sed -i "106s/.*/START_86=\"$START_86\"/" "$CONFIG"
+                sed -i "171s/.*/STARTUP_86=${STARTUP_86}/" "$CONFIG"
+                ;;
+" Запуск services.exe") 
+                if [ "$SERVICES_86_eng" = "Enable" ]; then
+                SERVICES_86_eng="Disable"
+                SERVICES_86="Выключен"
+                SERV_86="export STARTUP_WINEDEVICE_MODE=0"
+                else
+                SERVICES_86_eng="Enable"
+                SERVICES_86="Включен"
+                SERV_86="export STARTUP_WINEDEVICE_MODE=1"
+                fi
+                sed -i "172s/.*/SERVICES_86_eng=${SERVICES_86_eng}/" "$CONFIG"
+                sed -i "107s/.*/SERV_86=\"$SERV_86\"/" "$CONFIG"
+                sed -i "104s/.*/SERVICES_86=${SERVICES_86}/" "$CONFIG"
+                ;;
+            esac
+        done
+        echo "$DRI_86">$PREFIX/glibc/opt/conf/wsi_debug.conf
+        echo "$START_86">$PREFIX/glibc/opt/conf/force_compatibility.conf
+        echo "$SERV_86">$PREFIX/glibc/opt/conf/winedevice_startup.conf
+        ;;
+        12.)
+        if [ "$DESK" = "OFF" ]; then
+            content=$(sed -n '5,$p' "$def_set")
+        sed -i "6,\$d" "$CONFIG"  
+        echo "$content" | sed '1d' >> "$CONFIG"  
+        elif [ "$DESK" = "ON" ]; then
+            content=$(sed -n '5,$p' "$def_box")
+        sed -i "6,\$d" "$CONFIG"
+        echo "$content" | sed '1d' >> "$CONFIG"  
+        fi
+         . $return_menu
+        exit
+        ;;
+        13.)
+        export_fc
+        ;;
+###########################
+########   WOW64  #########
+###########################
+        2)
+        if [ "$result" = "Mobox WoW64" ]; then
+        . /$PREFIX/mobox/dynarec_conf_WOW64
+        else
+        . /$PREFIX/mobox/dynarec_conf64
+        fi
+        ;;
+        3)
+        select_turnip_wow_file ;;
+        4)
+        select_dxvk_wow_file ;;
+        5)
+        select_box_wow_file ;;
+        6) 
+case "$DX_VER_WOW" in
+  "9_1")
+    dir_91="✅"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "9_2")
+    dir_91="🔲"
+    dir_92="✅"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "9_3")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="✅"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "10_0")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="✅"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "10_1")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="✅"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "11_0")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="✅"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "11_1")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="✅"
+    dir_120="🔲"
+    dir_121="🔲"
+    ;;
+  "12_0")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="✅"
+    dir_121="🔲"
+    ;;
+  "12_1")
+    dir_91="🔲"
+    dir_92="🔲"
+    dir_93="🔲"
+    dir_100="🔲"
+    dir_101="🔲"
+    dir_110="🔲"
+    dir_111="🔲"
+    dir_120="🔲"
+    dir_121="✅"
+    ;;
+esac
+            DX_VER_CHOICE_64=$(dialog --title "Выберите максимальный DirectX" --menu " " 16 40 5 \
+            "1" "$dir_91 DirectX 9.1" \
+            "2" "$dir_92 DirectX 9.2" \
+            "3" "$dir_93 DirectX 9.3" \
+            "4" "$dir_100 DirectX 10.0" \
+            "5" "$dir_101 DirectX 10.1" \
+            "6" "$dir_110 DirectX 11.0" \
+            "7" "$dir_111 DirectX 11.1" \
+            "8" "$dir_120 DirectX 12.0" \
+            "9" "$dir_121 DirectX 12.1" 2>&1 >/dev/tty)
+            case $? in
+                1) continue ;;
+            esac
+            case $DX_VER_CHOICE_64 in
+                1) 
+                DX_VER_WOW="9_1";;
+                2) 
+                DX_VER_WOW="9_2";;
+                3) 
+                DX_VER_WOW="9_3";;
+                4) 
+                DX_VER_WOW="10_0";;
+                5) 
+                DX_VER_WOW="10_1";;
+                6) 
+                DX_VER_WOW="11_0";;
+                7) 
+                DX_VER_WOW="11_1";;
+                8) 
+                DX_VER_WOW="12_0";;
+                9) 
+                DX_VER_WOW="12_1";;
+            esac
+            sed -i "30s/.*/DX_VER_WOW=${DX_VER_WOW}/" "$CONFIG"
+            sed -i "3s/.*/d3d11.maxFeatureLevel = $DX_VER_WOW/" $PREFIX/glibc/opt/dxvk.conf
+            ;;
+        7) 
+        resolution_fc_WOW
+        ;;
+        8) 
+case "$CORES_WOW" in
+"1-7")
+cor_1="✅"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"2-7")
+cor_1="🔲"
+cor_2="✅"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"3-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="✅"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"4-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="✅"
+cor_5="🔲"
+cor_6="🔲"
+;;
+"5-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="✅"
+cor_6="🔲"
+;;
+"6-7")
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="✅"
+;;
+esac
+            CORES_CHOICE_64=$(dialog --title "Выберите количество ядер" --menu " " 13 40 3 \
+            "1" "$cor_1 с 1 по 7" \
+            "2" "$cor_2 с 2 по 7" \
+            "3" "$cor_3 с 3 по 7" \
+            "4" "$cor_4 с 4 по 7" \
+            "5" "$cor_5 с 5 по 7" \
+            "6" "$cor_6 6 и 7" 2>&1 >/dev/tty)
+            case $? in
+                1) continue ;;
+            esac
+            case $CORES_CHOICE_64 in
+                1) 
+                PRIMARY_WOW=1-7
+                SECONDARY_WOW=0-1
+                CORES_WOW="1-7";;
+                2) 
+                PRIMARY_WOW=2-7
+                SECONDARY_WOW=0-1
+                CORES_WOW="2-7";;
+                3) 
+                PRIMARY_WOW=3-7
+                SECONDARY_WOW=0-2
+                CORES_WOW="3-7";;
+                4) 
+                PRIMARY_WOW=4-7
+                SECONDARY_WOW=0-3
+                CORES_WOW="4-7";;
+                5) 
+                PRIMARY_WOW=5-7
+                SECONDARY_WOW=0-4
+                CORES_WOW="5-7";;
+                6) 
+                PRIMARY_WOW=6-7
+                SECONDARY_WOW=0-5
+                CORES_WOW="6-7";;
+            esac
+echo "export PRIMARY_CORES=$PRIMARY_WOW
+export SECONDARY_CORES=$SECONDARY_WOW">$PREFIX/glibc/opt/conf/cores.conf
+            sed -i "32s/.*/PRIMARY_WOW=${PRIMARY_WOW}/" "$CONFIG"
+            sed -i "33s/.*/SECONDARY_WOW=${SECONDARY_WOW}/" "$CONFIG"
+            sed -i "34s/.*/CORES_WOW=${CORES_WOW}/" "$CONFIG";;
+         9)
+            while true; do
+            FPS_LIM_CHOICE_64=$(dialog --title "Выберите лимит FPS" --inputbox "Введите максимальное значение FPS кратное 5 (от 15 до 240 или 0):\n\n0 - без ограничения" 12 40 $FPS_LIM_WOW 2>&1 >/dev/tty)
+            case $? in
+            1) continue ;;
+            255) continue ;;
+            esac
+            if [[ "$FPS_LIM_CHOICE_64" =~ ^[0-9]+$ ]] && [ "$FPS_LIM_CHOICE_64" -eq 0 ] || [ "$FPS_LIM_CHOICE_64" -ge 15 ] && [ "$FPS_LIM_CHOICE_64" -le 240 ]; then
+            FPS_LIM_WOW="$FPS_LIM_CHOICE_64"
+            sed -i "35s/.*/FPS_LIM_WOW=${FPS_LIM_WOW}/" "$CONFIG"
+sed -i "4s/.*/dxgi.maxFrameRate = $FPS_LIM_86/" $PREFIX/glibc/opt/dxvk.conf
+sed -i "5s/.*/d3d9.maxFrameRate = $FPS_LIM_WOW/" $PREFIX/glibc/opt/dxvk.conf
+       break
+            else
+            dialog --msgbox "Ошибка: Пожалуйста, введите число от 15 до 240 или 0." 10 30
+            fi
+        done
+        ;;
+        10)
+if [ "$InBr" == "включен" ]; then
+inBr_on="✅"
+inBr_off="🔲"
+else
+inBr_on="🔲"
+inBr_off="✅"
+fi
+        INPUT_CHOICE_WOW=$(dialog --title "Input Bridge" --menu "Автозапуск при старте" 9 30 5 \
+" $inBr_on Включить" "" \
+" $inBr_off Выключить" "" 2>&1 >/dev/tty)
+            case $? in
+                1) continue ;;
+            esac
+            case $INPUT_CHOICE_WOW in
+" $inBr_on Включить") 
+                    sed -i '184s/.*/InBr_eng="Enable"/' "$CONFIG"
+                    InBr_eng="Enable"
+                    sed -i '182s/.*/InBr="включен"/' "$CONFIG"
+                    InBr="включен"
+                    ;;
+" $inBr_off Выключить") 
+                    sed -i '184s/.*/InBr_eng="Disable"/' "$CONFIG"
+                    InBr_eng="Disable"
+                    sed -i '182s/.*/InBr="выключен"/' "$CONFIG"
+                    InBr="выключен"
+                    ;;
+            esac
+        ;;
+        11)
+        LAST_SERVICES_WOW=${LAST_SERVICES_WOW:-1}
+        while true; do
+            SERVICES_CHOICE=$(dialog --title "Совместимость при запуске" --default-item "$LAST_SERVICES_WOW" --menu "──────────────────────────────────────\n\
+Режим совместимости при запуске -
+принудительно использовать резервное
+разрешение, выбранное в системных настройках
+и отключить установку PhysX при создании
+контейнера \n\
+──────────────────────────────────────\n\
+DRI3                $DRI3_WOW \n\
+Режим совместимости $STARTUP_WOW \n\
+Рендеринг OpenGL    $OpenGL_WOW \n\
+Services.exe        $SERVICES_WOW" 21 42 3 \
+" DRI3 (отключить, если SD845)" "" \
+" Режим совместимости при запуске" "" \
+" Запуск системого рендеринга OpenGL" "" \
+" Запуск services.exe" "" 2>&1 >/dev/tty)
+            case $? in
+                1) break ;;
+                255) continue ;;
+            esac
+        	LAST_SERVICES_WOW=$SERVICES_CHOICE
+            case $SERVICES_CHOICE in
+" DRI3 (отключить, если SD845)") 
+                if [ "$DRI3_WOW_eng" = "Enable" ]; then
+                DRI3_WOW_eng="Disable"
+                DRI3_WOW="Выключен"
+                DRI_WOW="export MESA_VK_WSI_DEBUG=sw"
+                else
+                DRI3_WOW_eng="Enable"
+                DRI3_WOW="Включен"
+                DRI_WOW="unset MESA_VK_WSI_DEBUG"
+                fi
+                sed -i "22s/.*/DRI3_WOW_eng=${DRI3_WOW_eng}/" "$CONFIG"
+                sed -i "105s/.*/DRI_86=\"$DRI_WOW\"/" "$CONFIG"
+                ;;
+" Режим совместимости при запуске") 
+                if [ "$STARTUP_WOW_eng" = "Enable" ]; then
+            STARTUP_WOW_eng="Disable"
+            STARTUP_WOW="Выключен"
+            START_WOW="export STARTUP_COMPATIBILITY_MODE=0"
+                else
+            STARTUP_WOW_eng="Enable"
+            STARTUP_WOW="Включен"
+            START_WOW="export STARTUP_COMPATIBILITY_MODE=1"
+                fi
+                sed -i "23s/.*/STARTUP_WOW_eng=${STARTUP_WOW_eng}/" "$CONFIG"
+                sed -i "106s/.*/START_86=\"$START_WOW\"/" "$CONFIG"
+                ;;
+" Запуск services.exe") 
+                if [ "$SERVICES_WOW_eng" = "Enable" ]; then
+                SERVICES_WOW_eng="Disable"
+                SERVICES_WOW="Выключен"
+                SERV_WOW="export STARTUP_WINEDEVICE_MODE=0"
+                else
+                SERVICES_WOW_eng="Enable"
+                SERVICES_WOW="Включен"
+                SERV_WOW="export STARTUP_WINEDEVICE_MODE=1"
+                fi
+                sed -i "86s/.*/SERVICES_WOW_eng=${SERVICES_WOW_eng}/" "$CONFIG"
+                sed -i "27s/.*/SERV_WOW=\"$SERV_WOW\"/" "$CONFIG"
+                sed -i "24s/.*/SERVICES_WOW=${SERVICES_WOW}/" "$CONFIG"
+                ;;
+            esac
+        done
+        echo "$DRI_WOW">$PREFIX/glibc/opt/conf/wsi_debug.conf
+        echo "$START_WOW">$PREFIX/glibc/opt/conf/force_compatibility.conf
+        echo "$SERV_WOW">$PREFIX/glibc/opt/conf/winedevice_startup.conf
+        ;;
+        12)
+        if [ "$DESK" = "OFF" ]; then
+            content=$(sed -n '5,$p' "$def_set")
+        sed -i "6,\$d" "$CONFIG"  
+        echo "$content" | sed '1d' >> "$CONFIG"  
+        elif [ "$DESK" = "ON" ]; then
+            content=$(sed -n '5,$p' "$def_box")
+        sed -i "6,\$d" "$CONFIG"
+        echo "$content" | sed '1d' >> "$CONFIG"  
+        fi
+        . $return_menu
+        exit
+        ;;
+        13)
+        export_fc
+        ;;
+    esac
+done
+. $return_menu
+}
