@@ -27,7 +27,7 @@
 3. Код для установки 👇
 4. 
    ```
-   curl -Lf https://raw.githubusercontent.com//main/setup.sh -o setup.sh ; bash setup.sh
+   curl -Lf https://raw.githubusercontent.com/Snap888/W-Box/refs/heads/WEG-MOD-fork-from-Mobox/setup.sh -o setup.sh ; bash setup.sh
     ```
 
 
