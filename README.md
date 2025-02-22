@@ -1,8 +1,8 @@
-# W-Box
+# WEG Mobox Menu
 
 
 <center><img src="images/demo-gnome.png"></center>
-<p align="center"><b>W-Box для Termux</b></p>
+<p align="center"><b>WEG Mobox Menu </b></p>
 
 <div align="center">
 
