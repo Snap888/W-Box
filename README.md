@@ -2,9 +2,9 @@
 
 
 <center><img src="images/demo-gnome.png"></center>
-<p align="center"><b>Mobox-Menu для Termux</b></p>
+<p align="left"><b>Mobox-Menu для Termux</b></p>
 
-<div align="center">
+<div align="left">
 
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox)
 
@@ -29,7 +29,7 @@
 - Код для установки 👇
 ```
    curl -Lf https://raw.githubusercontent.com//main/setup.sh -o setup.sh ; bash setup.sh
-    ```
+
 ### КРАТКАЯ ИНФОРМАЦИЯ:
 - :computer:Предназначен для запуска и установки Mobox box86 и Mobox WoW64 без наличия интернета.
 - 🧿 Установка двух версий Mobox тремя способами:
