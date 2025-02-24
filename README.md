@@ -19,7 +19,6 @@
 
 > ***ТЕСТОВЫЙ ВЫПУСК***
 
-
 ### Установка:
 1. Подробная инструкция [Tutorial](https://t.me/weg_mod_mobox)
 2. Установка [Mobox Menu](https://t.me/weg_mod_mobox/11)
