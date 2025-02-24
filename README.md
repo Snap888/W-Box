@@ -1,4 +1,4 @@
-# Mobox-Menu
+# Mobox Menu
 
 
 <center><img src="images/demo-gnome.png"></center>
