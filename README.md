@@ -9,7 +9,6 @@
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox)
 
 ### ОСОБЕННОСТИ:
-
 - :computer: Наличие виджета.
 - :computer: Запуск игр из виджета или с иконки в Android.
 - :computer: Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.
@@ -28,7 +27,6 @@
 2. [Архив интерфейса](https://t.me/weg_mod_mobox/12/1227)
 
 - Код для установки 👇
-   ```
    curl -Lf https://raw.githubusercontent.com/Sanders-WEG/Mobox-Menu/refs/heads/WEG-MOD-fork-from-Mobox/setup.sh -o setup.sh ; bash setup.sh
 
 ### КРАТКАЯ ИНФОРМАЦИЯ:
