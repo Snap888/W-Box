@@ -2,7 +2,7 @@
 
 
 <center><img src="images/demo-gnome.png"></center>
-<p align="center"><b>W-Box для Termux</b></p>
+<p align="center"><b>Mobox-Menu для Termux</b></p>
 
 <div align="center">
 
