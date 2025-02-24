@@ -24,9 +24,9 @@
 1. Подробная инструкция [Tutorial](https://t.me/weg_mod_mobox)
 2. Установка [Mobox Menu](https://t.me/weg_mod_mobox/11)
 3. Необходимый софт:
-4. Termux 0.118 [Termux] (https://t.me/weg_mod_mobox/12/136)
-5. Termux x11 [Termux_x11] (https://t.me/weg_mod_mobox/12/137)
-6. Widget 12 [Widget] (https://t.me/weg_mod_mobox/12/138)
+4. Termux 0.118 [Termux](https://t.me/weg_mod_mobox/12/136)
+5. Termux x11 [Termux_x11](https://t.me/weg_mod_mobox/12/137)
+6. Widget 12 [Widget](https://t.me/weg_mod_mobox/12/138)
 7. Код для установки 👇
    ```
    curl -Lf https://raw.githubusercontent.com//main/setup.sh -o setup.sh ; bash setup.sh
