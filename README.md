@@ -27,7 +27,7 @@
 1. [Termux 0.118](https://t.me/weg_mod_mobox/12/136)
 2. [Termux_x11](https://t.me/weg_mod_mobox/12/137)
 3. [Widget 12](https://t.me/weg_mod_mobox/12/138)
--Необходимые архивы
+- Необходимые архивы
 1. [Основной архив](https://t.me/weg_mod_mobox/12/1191)
 2. [Архив интерфейса](https://t.me/weg_mod_mobox/12/1227)
 
