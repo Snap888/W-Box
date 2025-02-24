@@ -1,4 +1,4 @@
-# W-Box
+# Mobox-Menu
 
 
 <center><img src="images/demo-gnome.png"></center>
