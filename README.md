@@ -27,9 +27,9 @@
 2. [Архив интерфейса](https://t.me/weg_mod_mobox/12/1227)
 
 - Код для установки 👇
-  ...
-   curl -Lf https://raw.githubusercontent.com/Sanders-WEG/Mobox-Menu/refs/heads/WEG-MOD-fork-from-Mobox/setup.sh -o setup.sh ; bash setup.sh
-
+```
+   curl -Lf https://raw.githubusercontent.com//main/setup.sh -o setup.sh ; bash setup.sh
+    ```
 ### КРАТКАЯ ИНФОРМАЦИЯ:
 - :computer:Предназначен для запуска и установки Mobox box86 и Mobox WoW64 без наличия интернета.
 - 🧿 Установка двух версий Mobox тремя способами:
