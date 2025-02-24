@@ -15,7 +15,6 @@
 
 - :computer: Наличие виджета.
 - :computer: Запуск игр из виджета или с иконки в Android.
-- :computer: [Termux:x11](https://github.com/termux/termux-x11) For Display Server.
 - :computer: Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.
 
 > ***ТЕСТОВЫЙ ВЫПУСК***
@@ -23,9 +22,12 @@
 
 ### Установка:
 1. Подробная инструкция [Tutorial](https://t.me/weg_mod_mobox)
-2. Install [Termux](https://) 
-3. Код для установки 👇
-4. 
+2. Установка [Mobox Menu](https://t.me/weg_mod_mobox/11)
+3. Необходимый софт:
+4. Termux 0.118 [Termux] (https://t.me/weg_mod_mobox/12/136)
+5. Termux x11 [Termux_x11] (https://t.me/weg_mod_mobox/12/137)
+6. Widget 12 [Widget] (https://t.me/weg_mod_mobox/12/138)
+7. Код для установки 👇
    ```
    curl -Lf https://raw.githubusercontent.com//main/setup.sh -o setup.sh ; bash setup.sh
    
