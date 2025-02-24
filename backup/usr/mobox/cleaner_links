@@ -1,0 +1,48 @@
+#!/bin/bash
+clear
+
+delete_link() {
+    shortcuts_dir="$HOME/.shortcuts"
+    shortcuts_back="$HOME/.shortcuts/backup"
+    icons_dir="$HOME/.shortcuts/icons"
+    desktop_dir="$HOME/Desktop"
+    mapfile -t desktop_files < <(find "$desktop_dir" -maxdepth 1 -type f -name "*.lnk" -exec basename {} .lnk \;)
+    forbidden_shortcuts=("Mobox WoW64" "Mobox box86" "Settings" "Exit Termux")
+    for shortcut in "$shortcuts_dir"/*; do
+        if [[ ! -e "$shortcut" ]]; then
+            break
+        fi
+        shortcut_name=$(basename "$shortcut" .lnk)
+        if [[ ! " ${desktop_files[*]} " =~ " $shortcut_name " ]]; then
+            if [[ " ${forbidden_shortcuts[*]} " =~ " $shortcut_name " ]]; then
+                continue
+            fi
+            rm "$shortcut"
+        fi
+    done
+    for shortcut in "$shortcuts_back"/*; do
+        if [[ ! -e "$shortcut" ]]; then
+            break
+        fi
+        shortcut_name=$(basename "$shortcut" .lnk)
+        if [[ ! " ${desktop_files[*]} " =~ " $shortcut_name " ]]; then
+            if [[ " ${forbidden_shortcuts[*]} " =~ " $shortcut_name " ]]; then
+                continue
+            fi
+            rm "$shortcut"
+        fi
+    done
+    for icon in "$icons_dir"/*.png; do
+        if [[ ! -e "$icon" ]]; then
+            break
+        fi
+        icon_name=$(basename "$icon" .png)
+        if [[ ! -f "$shortcuts_dir/$icon_name" ]]; then
+            if [[ " ${forbidden_shortcuts[@]} " =~ " $icon_name " ]]; then
+                continue
+            fi
+            rm "$icon"
+        fi
+    done
+}
+delete_link

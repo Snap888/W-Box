@@ -1,0 +1,459 @@
+#!/bin/bash
+
+castom_hud() {
+LAST_SERVICES_WOW=${LAST_SERVICES_WOW:-1}
+while true; do
+    SCALE_OPACITY_WOW=$(dialog --no-shadow \
+    --title "Кастомная комбинация HUD" \
+    --default-item "$LAST_SERVICES_WOW" \
+    --menu "\n
+  Выберите комбинацию параметров, которые\n
+будут отображаться на экране, для получения\n
+        необходимой вам информации" \
+    16 47 6 \
+    "DXVK v1.10.03-async" "$chek_ver_WOW   VERSION" \
+    "D3D11 FL11_0" "$chek_api_WOW   API" \
+    "FPS: 999.9" "$chek_fps_WOW   FPS" \
+    "Driver: 24.0.99" "$chek_info_WOW   DEVINFO" \
+    "|||||||||||||||||||" "$chek_fram_WOW   FRAMETIMES" \
+    "GPU: 50%" "$chek_gpu_WOW   GPULOAD" 2>&1 >/dev/tty)
+    case $? in
+        1) 
+        if [[ $chek_ver_WOW == "🔲" ]]; then
+                vers_WOW=""
+                vers_hos=""
+        else
+                vers_WOW="version"
+                vers_hos="DXVK v1.10.03-async"
+        fi
+            if [[ $chek_fps_WOW == "🔲" ]]; then
+                fps_WOW=""
+                fps_hos=""
+        else
+                fps_WOW="fps"
+                fps_hos="FPS: 999.9"
+            fi
+            if [[ $chek_api_WOW == "🔲" ]]; then
+                api_WOW=""
+                api_hos=""
+        else
+                api_WOW="api"
+                api_hos="D3D11 FL11_0"
+            fi
+            if [[ $chek_info_WOW == "🔲" ]]; then
+                info_WOW=""
+                info_hos=""
+        else
+                info_WOW="devinfo"
+                info_hos="Turnip Adreno (TM) 640\nDriver: 24.0.99\nVulcan: 1.3.278"
+            fi
+            if [[ $chek_fram_WOW == "🔲" ]]; then
+                fram_WOW=""
+                fram_hos=""
+        else
+                fram_WOW="frametimes"
+                fram_hos="|||||||||||||||||||"
+            fi
+            if [[ $chek_gpu_WOW == "🔲" ]]; then
+                gpu_WOW=""
+                gpu_hos=""
+        else
+                gpu_WOW="gpuload"
+                gpu_hos="GPU: 50%"
+            fi
+            HUD_WOW=""
+[[ -n "$vers_hos" ]] && HUD_WOW+="$vers_hos\n"
+[[ -n "$api_hos" ]] && HUD_WOW+="$api_hos\n"
+[[ -n "$fps_hos" ]] && HUD_WOW+="$fps_hos\n"
+[[ -n "$info_hos" ]] && HUD_WOW+="$info_hos\n"
+[[ -n "$fram_hos" ]] && HUD_WOW+="$fram_hos\n"
+[[ -n "$gpu_hos" ]] && HUD_WOW+="$gpu_hos"
+HUD_WOW=${HUD_WOW%"\n"} 
+HUD="$vers_WOW,$fps_WOW,$api_WOW,$info_WOW,$fram_WOW,$gpu_WOW,"
+HUD=$(echo "$HUD" | sed 's/,\+/,/g')
+HUD=$(echo "$HUD" | sed 's/^,//')
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+h_hud=$(echo -e "$HUD_WOW" | grep -c '^')
+X_WOW=$((22 + h_hud))
+sed -i '17s|.*|vers_WOW="'"$vers_WOW"'" api_WOW="'"$api_WOW"'" fps_WOW="'"$fps_WOW"'" info_WOW="'"$info_WOW"'" fram_WOW="'"$fram_WOW"'" gpu_WOW="'"$gpu_WOW"'" SCALE_WOW="'"$SCALE_WOW"'" full_WOW="'"$full_WOW"'"|' "$CONFIG"
+GALLIUM_CLASS="simple,fps"
+if [[ $HUD_WOW == "" ]]; then
+HUD_WOW="
+          HUD не отображается"
+          GALLIUM_CLASS="NO HUD"
+    sd_WOW=0
+    X_WOW=21
+fi
+        break ;;
+    esac
+    LAST_SERVICES_WOW=$SCALE_OPACITY_WOW
+    case $SCALE_OPACITY_WOW in
+        "DXVK v1.10.03-async")
+            if [[ $chek_ver_WOW == "✅" ]]; then
+                chek_ver_WOW="🔲"
+            else
+                chek_ver_WOW="✅"
+            fi
+            ;;
+        "D3D11 FL11_0")
+            if [[ $chek_api_WOW == "✅" ]]; then
+                chek_api_WOW="🔲"
+            else
+                chek_api_WOW="✅"
+            fi
+            ;;
+        "FPS: 999.9")
+            if [[ $chek_fps_WOW == "✅" ]]; then
+                chek_fps_WOW="🔲"
+            else
+                chek_fps_WOW="✅"
+            fi
+            ;;
+        "Driver: 24.0.99")
+            if [[ $chek_info_WOW == "✅" ]]; then
+                chek_info_WOW="🔲"
+            else
+                chek_info_WOW="✅"
+            fi
+            ;;
+        "|||||||||||||||||||")
+            if [[ $chek_fram_WOW == "✅" ]]; then
+                chek_fram_WOW="🔲"
+            else
+                chek_fram_WOW="✅"
+            fi
+            ;;
+        "GPU: 50%")
+            if [[ $chek_gpu_WOW == "✅" ]]; then
+                chek_gpu_WOW="🔲"
+            else
+                chek_gpu_WOW="✅"
+            fi
+            ;;
+        esac
+
+done
+}
+LAST_HUD_WOW=${LAST_HUD_WOW:-1}
+while true; do
+            if [ "$HD_WOW" == 0 ]; then
+            HUD_WOW="
+          HUD не отображается"
+            elif [ "$HD_WOW" == 1 ]; then
+            HUD_WOW="DXVK v1.10.03-async \n
+FPS: 999.9"
+			elif [ "$HD_WOW" == 2 ]; then
+            HUD_WOW="FPS: 999.9 \n
+GPU: 50%"
+			elif [ "$HD_WOW" == 3 ]; then
+            HUD_WOW="FPS: 999.9 \n
+||||||||||||||||||| \n
+GPU: 50%"
+            elif [ "$HD_WOW" == 4 ]; then
+            HUD_WOW="DXVK v1.10.03-async \n
+D3D11 FL11_0 \n
+FPS: 999.9 \n
+GPU: 50%"
+			elif [ "$HD_WOW" == 5 ]; then
+            HUD_WOW="DXVK v1.10.03-async \n
+FPS: 999.9 \n
+||||||||||||||||||| \n
+GPU: 50%"
+            elif [ "$HD_WOW" == 6 ]; then
+            HUD_WOW="DXVK v1.10.03-async \n
+D3D11 FL11_0 \n
+FPS: 999.9 \n
+Turnip Adreno (TM) 640 \n
+Driver: 24.0.99 \n
+Vulcan: 1.3.278 \n
+||||||||||||||||||| \n
+GPU: 50%"
+            elif [ "$HD_WOW" == 7 ]; then
+HUD_WOW=$HUD_WOW
+            elif [ "$HD_WOW" == 8 ]; then
+            HUD_WOW="
+Выбрана комбинация, состоящая из полного\n 
+   списка параметров HUD (для тестов)"
+            fi
+			if [ "$sd_WOW" == 0 ]; then
+GAME_CHOICE_WOW=$(dialog --no-shadow \
+--title "Настройки HUD" --default-item "$LAST_HUD_WOW" --menu "
+   Выберите необходимые параметры для\n
+ отображения их на экране (не работает с\n
+           драйверами wined3d) \n
+────────────────────────────────────────── \n
+$HUD_WOW \n
+────────────────────────────────────────── \n
+" "$X_WOW" 46 9 \
+                "1" "$HUD_CHEK_1_WOW Отключить HUD" \
+                "2" "$HUD_CHEK_2_WOW DXVK и FPS" \
+                "3" "$HUD_CHEK_3_WOW FPS и GPU" \
+                "4" "$HUD_CHEK_4_WOW FPS,FrameTimes,GPU" \
+                "5" "$HUD_CHEK_5_WOW DXVK,d3d,FPS,GPU" \
+                "6" "$HUD_CHEK_6_WOW DXVK,FPS,FrameTimes,GPU" \
+                "7" "$HUD_CHEK_7_WOW DXVK,d3d,FPS,DevInfo,Frame,GPU" \
+                "8" "$HUD_CHEK_8_WOW Своя комбинация параметров" \
+                "9" "$HUD_CHEK_9_WOW Весь список переменных" 2>&1 >/dev/tty)
+			elif [ "$sd_WOW" == 1 ]; then
+GAME_CHOICE_WOW=$(dialog --no-shadow \
+--title "Настройки HUD" --default-item "$LAST_HUD_WOW" --menu "
+Необходимые параметры для отображения их\n
+   на экране (не работает с драйверами\n
+                 wined3d) \n
+────────────────────────────────────────── \n
+$HUD_WOW \n
+────────────────────────────────────────── \n
+Масштаб:      $SC_WOW%" "$X_WOW" 46 10 \
+                "1" "$HUD_CHEK_1_WOW Отключить HUD" \
+                "2" "$HUD_CHEK_2_WOW DXVK и FPS" \
+                "3" "$HUD_CHEK_3_WOW FPS и GPU" \
+                "4" "$HUD_CHEK_4_WOW FPS,FrameTimes,GPU" \
+                "5" "$HUD_CHEK_5_WOW DXVK,d3d,FPS,GPU" \
+                "6" "$HUD_CHEK_6_WOW DXVK,FPS,FrameTimes,GPU" \
+                "7" "$HUD_CHEK_7_WOW DXVK,d3d,FPS,DevInfo,Frame,GPU" \
+                "8" "$HUD_CHEK_8_WOW Своя комбинация параметров" \
+                "9" "$HUD_CHEK_9_WOW Весь список переменных" \
+                "10" "   Масштаб HUD-счетчика" 2>&1 >/dev/tty)
+			fi
+            case $? in
+                1) break ;;
+                255) continue ;;
+            esac
+			LAST_HUD_WOW=$GAME_CHOICE_WOW
+            case $GAME_CHOICE_WOW in
+            1) 
+HUD_CHEK_1_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_3_WOW HUD_CHEK_4_WOW HUD_CHEK_5_WOW HUD_CHEK_6_WOW HUD_CHEK_7_WOW HUD_CHEK_8_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=0
+                X_WOW=21
+            sd_WOW=0
+GALLIUM_HUD_WOW="unset GALLIUM_HUD"
+DXVK_HUD_WOW="unset DXVK_HUD"
+HUD="NO HUD"
+GALLIUM_CLASS="NO HUD"
+vers_WOW=""
+api_WOW=""
+fps_WOW=""
+info_WOW=""
+fram_WOW=""
+gpu_WOW=""
+full_WOW=""
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            2)
+HUD_CHEK_2_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_1_WOW HUD_CHEK_3_WOW HUD_CHEK_4_WOW HUD_CHEK_5_WOW HUD_CHEK_6_WOW HUD_CHEK_7_WOW HUD_CHEK_8_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=1
+            X_WOW=24
+            sd_WOW=1
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+vers_WOW="version"
+api_WOW=""
+fps_WOW="fps"
+info_WOW=""
+fram_WOW=""
+gpu_WOW=""
+HUD="version,fps,"
+GALLIUM_CLASS="simple,fps"
+full_WOW=""
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            3)
+HUD_CHEK_3_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_1_WOW HUD_CHEK_4_WOW HUD_CHEK_5_WOW HUD_CHEK_6_WOW HUD_CHEK_7_WOW HUD_CHEK_8_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=2
+            X_WOW=24
+            sd_WOW=1
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+vers_WOW=""
+api_WOW=""
+fps_WOW="fps"
+info_WOW=""
+fram_WOW=""
+gpu_WOW="gpuload"
+HUD="fps,gpuload,"
+GALLIUM_CLASS="simple,fps"
+full_WOW=""
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            4)
+HUD_CHEK_4_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_3_WOW HUD_CHEK_1_WOW HUD_CHEK_5_WOW HUD_CHEK_6_WOW HUD_CHEK_7_WOW HUD_CHEK_8_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=3
+            X_WOW=25
+            sd_WOW=1
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+vers_WOW=""
+api_WOW=""
+fps_WOW="fps"
+info_WOW=""
+fram_WOW="frametimes"
+gpu_WOW="gpuload"
+HUD="fps,frametimes,gpuload,"
+GALLIUM_CLASS="simple,fps"
+full_WOW=""
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            5)
+HUD_CHEK_5_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_3_WOW HUD_CHEK_4_WOW HUD_CHEK_1_WOW HUD_CHEK_6_WOW HUD_CHEK_7_WOW HUD_CHEK_8_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=4
+            X_WOW=26
+            sd_WOW=1
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+vers_WOW="version"
+api_WOW="api"
+fps_WOW="fps"
+info_WOW=""
+fram_WOW=""
+gpu_WOW="gpuload"
+HUD="version,api,fps,gpuload,"
+GALLIUM_CLASS="simple,fps"
+full_WOW=""
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            6)
+HUD_CHEK_6_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_3_WOW HUD_CHEK_4_WOW HUD_CHEK_5_WOW HUD_CHEK_1_WOW HUD_CHEK_7_WOW HUD_CHEK_8_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=5
+            X_WOW=26
+            sd_WOW=1
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+vers_WOW="version"
+api_WOW=""
+fps_WOW="fps"
+info_WOW=""
+fram_WOW="frametimes"
+gpu_WOW="gpuload"
+HUD="version,fps,frametimes,gpuload,"
+GALLIUM_CLASS="simple,fps"
+full_WOW=""
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            7)
+HUD_CHEK_7_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_3_WOW HUD_CHEK_4_WOW HUD_CHEK_5_WOW HUD_CHEK_6_WOW HUD_CHEK_1_WOW HUD_CHEK_8_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=6
+            X_WOW=30
+            sd_WOW=1
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+vers_WOW="version"
+api_WOW="api"
+fps_WOW="fps"
+info_WOW="devinfo"
+fram_WOW="frametimes"
+gpu_WOW="gpuload"
+HUD="version,api,fps,devinfo,frametimes,gpuload,"
+    full_WOW=""
+GALLIUM_CLASS="simple,fps"
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            8)
+HUD_CHEK_8_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_3_WOW HUD_CHEK_4_WOW HUD_CHEK_5_WOW HUD_CHEK_6_WOW HUD_CHEK_7_WOW HUD_CHEK_1_WOW HUD_CHEK_9_WOW)"
+            HD_WOW=7
+            sd_WOW=1
+full_WOW=""
+castom_hud
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            9)
+HUD_CHEK_9_WOW="✅"; eval "$(printf '%s="🔲" ' HUD_CHEK_2_WOW HUD_CHEK_3_WOW HUD_CHEK_4_WOW HUD_CHEK_5_WOW HUD_CHEK_6_WOW HUD_CHEK_7_WOW HUD_CHEK_8_WOW HUD_CHEK_1_WOW)"
+            HD_WOW=8
+            X_WOW=24
+            sd_WOW=1
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+vers_WOW=""
+api_WOW=""
+fps_WOW=""
+info_WOW=""
+fram_WOW=""
+gpu_WOW=""
+HUD="full,"
+full_WOW="full"
+GALLIUM_CLASS="simple,fps"
+SC="scale=$SCALE_WOW"
+sed -i "42s/.*/HUD_CLASS=\"${HUD}\"/" "$CONFIG"
+            ;;
+            10) 
+SCALE_OPACITY_WOW=$(dialog --no-shadow \
+--title "Масштаб HUD" --menu "\n
+Стандартным изначально считается значение 70% \n \n
+Выберите масштаб HUD подходящий для разрешения экрана приложения $result " 24 38 11 \
+    "1" "$a_WOW 40%" \
+    "2" "$b_WOW 50%" \
+    "3" "$c_WOW 60%" \
+    "4" "$d_WOW 70%" \
+    "5" "$f_WOW 80%" \
+    "6" "$g_WOW 90%" \
+    "7" "$h_WOW 100%" \
+    "8" "$i_WOW 120%" \
+    "9" "$k_WOW 140%" \
+        "10" "$l_WOW 160%" \
+    "11" "$m_WOW 180%" 2>&1 >/dev/tty)
+case $? in
+    1) break ;;
+    255) 
+;;
+esac
+case $SCALE_OPACITY_WOW in
+1) SCALE_WOW=0.4; SC_WOW=40; a_WOW="✅"; eval "$(printf '%s="🔲" ' b_WOW c_WOW d_WOW f_WOW g_WOW h_WOW i_WOW k_WOW l_WOW m_WOW)"
+     ;;
+2) SCALE_WOW=0.5; SC_WOW=50; b_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW c_WOW d_WOW f_WOW g_WOW h_WOW i_WOW k_WOW l_WOW m_WOW)"
+
+    ;;
+3) SCALE_WOW=0.6; SC_WOW=60; c_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW d_WOW f_WOW g_WOW h_WOW i_WOW k_WOW l_WOW m_WOW)"
+
+    ;;
+4) SCALE_WOW=0.7; SC_WOW=70; d_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW f_WOW g_WOW h_WOW i_WOW k_WOW l_WOW m_WOW)"
+
+    ;;
+5) SCALE_WOW=0.8; SC_WOW=80; f_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW d_WOW g_WOW h_WOW i_WOW k_WOW l_WOW m_WOW)"
+
+    ;;
+6) SCALE_WOW=0.9; SC_WOW=90; g_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW d_WOW f_WOW h_WOW i_WOW k_WOW l_WOW m_WOW)"
+
+    ;;
+7) SCALE_WOW=1.0; SC_WOW=100; h_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW d_WOW f_WOW g_WOW i_WOW k_WOW l_WOW m_WOW)"
+
+    ;;
+8) SCALE_WOW=1.2; SC_WOW=120; i_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW d_WOW f_WOW g_WOW h_WOW k_WOW l_WOW m_WOW)"
+
+    ;;
+9) SCALE_WOW=1.4; SC_WOW=140; k_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW d_WOW f_WOW g_WOW h_WOW i_WOW l_WOW m_WOW)"
+
+    ;;
+10) SCALE_WOW=1.6; SC_WOW=160; l_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW d_WOW f_WOW g_WOW h_WOW i_WOW k_WOW m_WOW)"
+
+    ;;
+11) SCALE_WOW=1.8; SC_WOW=180; m_WOW="✅"; eval "$(printf '%s="🔲" ' a_WOW b_WOW c_WOW d_WOW f_WOW g_WOW h_WOW i_WOW k_WOW l_WOW)"
+
+    ;;
+esac
+SC="scale=$SCALE_WOW"
+sed -i "83s/.*/a_WOW=$a_WOW b_WOW=$b_WOW c_WOW=$c_WOW d_WOW=$d_WOW f_WOW=$f_WOW g_WOW=$g_WOW h_WOW=$h_WOW i_WOW=$i_WOW k_WOW=$k_WOW l_WOW=$l_WOW m_WOW=$m_WOW/" "$CONFIG"
+sed -i "18s/.*/SC_WOW=${SC_WOW}/" "$CONFIG"
+esac
+sed -i '17s|.*|vers_WOW="'"$vers_WOW"'" api_WOW="'"$api_WOW"'" fps_WOW="'"$fps_WOW"'" info_WOW="'"$info_WOW"'" fram_WOW="'"$fram_WOW"'" gpu_WOW="'"$gpu_WOW"'" SCALE_WOW="'"$SCALE_WOW"'" full_WOW="'"$full_WOW"'"|' "$CONFIG"
+DXVK_HUD_WOW="export DXVK_HUD=$vers_WOW,$api_WOW,$fps_WOW,$info_WOW,$fram_WOW,$gpu_WOW,$full_WOW,scale=$SCALE_WOW"
+
+GALLIUM_HUD_PERIOD_WOW="export GALLIUM_HUD_PERIOD=1"
+echo "$GALLIUM_HUD_WOW
+$GALLIUM_HUD_PERIOD_WOW
+$DXVK_HUD_WOW">$PREFIX/glibc/opt/conf/hud.conf
+sed -i "14s/.*/HD_WOW=${HD_WOW}/" "$CONFIG"
+sed -i "15s/.*/sd_WOW=${sd_WOW}/" "$CONFIG"
+sed -i "16s/.*/X_WOW=${X_WOW}/" "$CONFIG"
+sed -i "76s/.*/chek_ver_WOW=\"${chek_ver_WOW}\"/" "$CONFIG"
+sed -i "77s/.*/chek_fps_WOW=\"${chek_fps_WOW}\"/" "$CONFIG"
+sed -i "78s/.*/chek_api_WOW=\"${chek_api_WOW}\"/" "$CONFIG"
+sed -i "79s/.*/chek_info_WOW=\"${chek_info_WOW}\"/" "$CONFIG"
+sed -i "80s/.*/chek_fram_WOW=\"${chek_fram_WOW}\"/" "$CONFIG"
+sed -i "81s/.*/chek_gpu_WOW=\"${chek_gpu_WOW}\"/" "$CONFIG"
+sed -i "82s/.*/HUD_WOW=\"$(echo -e "$HUD_WOW" | sed ':a;N;$!ba;s/\n/\\\\n/g' | sed 's/"/\\"/g')\"/" "$CONFIG"
+sed -i "88s/.*/HUD_CHEK_1_WOW=$HUD_CHEK_1_WOW HUD_CHEK_2_WOW=$HUD_CHEK_2_WOW HUD_CHEK_3_WOW=$HUD_CHEK_3_WOW HUD_CHEK_4_WOW=$HUD_CHEK_4_WOW HUD_CHEK_5_WOW=$HUD_CHEK_5_WOW HUD_CHEK_6_WOW=$HUD_CHEK_6_WOW HUD_CHEK_7_WOW=$HUD_CHEK_7_WOW HUD_CHEK_8_WOW=$HUD_CHEK_8_WOW HUD_CHEK_9_WOW=$HUD_CHEK_9_WOW/" "$CONFIG"
+sed -i "14s/.*/HD_WOW=${HD_WOW}/" "$CONFIG"
+sed -i "43s|.*|$SC|" "$CONFIG"
+sed -i "90s/.*/GALLIUM_HUD_WOW=\"$GALLIUM_CLASS\"/" "$CONFIG"
+sed -i "91s/.*/GALLIUM_HUD_PERIOD_WOW=\"$GALLIUM_HUD_PERIOD_WOW\"/" "$CONFIG"
+sed -i "92s/.*/DXVK_HUD_WOW=\"$DXVK_HUD_WOW\"/" "$CONFIG"
+done

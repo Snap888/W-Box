@@ -1,0 +1,230 @@
+#!/bin/bash
+DESK=OFF
+BOX_VERS=""
+GAME=""
+ADRES_C=" "
+dy_conf="$PREFIX/mobox/dynarec.conf"
+if ps aux | grep -v grep | grep -q "wine"
+then
+am start --user 0 -n com.termux.x11/.MainActivity &>/dev/null 
+sleep 0.1
+am start --user 0 -n com.termux.x11/.MainActivity &>/dev/null &
+else
+if [ "$BOX_VERS" = "WOW64" ]; then
+HD_WOW=6
+sd_WOW=1
+X_WOW=29
+vers_WOW="version"; api_WOW="api"; fps_WOW="fps"; info="devinfo"; gpu_WOW="gpuload"; fram_WOW="frametimes"; SCALE_WOW="0.7"
+SC_WOW=70
+MOBOX_WOW="WoW64"
+BOX_LNG="WoW64"
+
+DRI3_WOW="Включен"
+STARTUP_WOW="Выключен"
+SERVICES_WOW="Включен"
+DRI_WOW="unset MESA_VK_WSI_DEBUG"
+START_WOW="export STARTUP_COMPATIBILITY_MODE=0"
+SERV_WOW="export STARTUP_WINEDEVICE_MODE=0"
+TURNIP_WOW="turnip-v6.5.WEG"
+DXVK_WOW="dxvk-async-1.10.3.WEG"
+DX_VER_WOW=11_0
+RESOLUTION_WOW=960x540
+PRIM_COR_WOW="2,3,4,5,6,7"
+SEC_COR_WOW="0,1"
+cor_0="🔲"; cor_1="🔲"; cor_2="✅"; cor_3="✅"; cor_4="✅"; cor_5="✅"; cor_6="✅"; cor_7="✅";
+FPS_LIM_WOW=0
+displayStretch=false
+STRETCH_WOW="Не растянуто"
+BOX_WOW="box64mar3.WEG"
+LANG_BOX=ru_RU.utf8
+
+
+HUD_CLASS="version,fps,api,gpuload,devinfo,frametimes"
+scale=0.7
+TERM_LNG_WOW="ru_RU"
+
+
+DYNAREC_64=424
+d=424
+ATOMICS_WOW=-
+BIGBLOCK_WOW=2
+FASTNAN_WOW=-
+SAFEFLAGS_WOW=2
+STRONGMEM_WOW=-
+WAIT_WOW=-
+X87DOUBLE_WOW=1
+CALLRET_WOW=0
+FASTROUND_WOW=-
+IGNOREINT3_WOW=-
+WINE_64="OFF"
+OpenGL_WOW_eng="Enable"
+OpenGL_WOW="Включен"
+dy_conf_wow64() {
+{
+echo 'unset BOX64_DYNAREC_ALIGNED_ATOMICS'
+echo 'export BOX64_DYNAREC_BIGBLOCK=2'
+echo 'unset BOX64_DYNAREC_FASTNAN'
+echo 'export BOX64_DYNAREC_SAFEFLAGS=2'
+echo 'unset BOX64_DYNAREC_STRONGMEM'
+echo 'unset BOX64_DYNAREC_WAIT'
+echo 'export BOX64_DYNAREC_X87DOUBLE=1'
+echo 'export BOX64_DYNAREC_CALLRET=0'
+echo 'unset BOX64_DYNAREC_FASTROUND'
+echo 'unset BOX64_IGNOREINT3'
+} > "$dy_conf"
+}
+chek_ver_WOW="✅"
+chek_fps_WOW="✅"
+chek_api_WOW="✅"
+chek_info_WOW="✅"
+chek_fram_WOW="✅"
+chek_gpu_WOW="✅"
+HUD_WOW=""
+d_WOW="✅"; a_WOW="🔲"; f_WOW="🔲"; b_WOW="🔲"; c_WOW="🔲"; g_WOW="🔲"; h_WOW="🔲"; i_WOW="🔲"; k_WOW="🔲"; l_WOW="🔲"; m_WOW="🔲"
+DRI3_WOW_eng="Enable"
+STARTUP_WOW_eng="Disable"
+SERVICES_WOW_eng="Enable"
+STRETCH_WOW_eng="Not stretched"
+HUD_CHEK_7_WOW="✅"; HUD_CHEK_1_WOW="🔲"; HUD_CHEK_3_WOW="🔲"; HUD_CHEK_5_WOW="🔲"; HUD_CHEK_2_WOW="🔲"; HUD_CHEK_6_WOW="🔲"; HUD_CHEK_4_WOW="🔲"; HUD_CHEK_8_WOW="🔲"; HUD_CHEK_9_WOW="🔲"
+Res_12_WOW="✅"; Res_1_WOW="🔲"; Res_3_WOW="🔲"; Res_2_WOW="🔲"; Res_5_WOW="🔲"; Res_6_WOW="🔲"; Res_7_WOW="🔲"; Res_8_WOW="🔲"; Res_9_WOW="🔲"; Res_10_WOW="🔲"; Res_11_WOW="🔲"; Res_13_WOW="🔲"; Res_2_WOW="🔲"; Res_14_WOW="🔲"; Res_15_WOW="🔲"; Res_16_WOW="🔲"; Res_17_WOW="🔲"; Res_18_WOW="🔲"; Res_19_WOW="🔲"; Res_20_WOW="🔲"; Res_21_WOW="🔲"; Res_22_WOW="🔲"; Res_23_WOW="🔲"; Res_24_WOW="🔲"; Res_25_WOW="🔲"; Res_26_WOW="🔲"; Res_27_WOW="🔲"; Res_4_WOW="🔲";
+GALLIUM_HUD_WOW="export GALLIUM_HUD=simple,fps"
+GALLIUM_HUD_PERIOD_WOW="export GALLIUM_HUD_PERIOD=1"
+DXVK_HUD_WOW="export DXVK_HUD=version,fps,api,gpuload,devinfo,frametimes,scale=0.7"
+elif [ "$BOX_VERS" = "X86" ]; then
+HD_86=4
+sd_86=1
+X_86=26
+vers_86="version"; api_86="api"; fps_86="fps"; info=""; gpu_86="gpuload"; fram_86=""; SCALE_86="0.7"
+SC_86=70
+MOBOX_86="box86"
+BOX_LNG="box86"
+
+DRI3_86="Включен"
+STARTUP_86="Выключен"
+SERVICES_86="Выключен"
+DRI_86="unset MESA_VK_WSI_DEBUG"
+START_86="export STARTUP_COMPATIBILITY_MODE=0"
+SERV_86="export STARTUP_WINEDEVICE_MODE=0"
+TURNIP_86="turnip-v4.WEG"
+DXVK_86="dxvk-async-1.10.3.WEG"
+DX_VER_86=11_0
+RESOLUTION_86=960x540
+PRIM_COR_86="2,3,4,5,6,7"
+SEC_COR_86="0,1"
+cor_0="🔲"; cor_1="🔲"; cor_2="✅"; cor_3="✅"; cor_4="✅"; cor_5="✅"; cor_6="✅"; cor_7="✅";
+FPS_LIM_86=0
+displayStretch=false
+STRETCH_86="Не растянуто"
+BOX_86="box86.nov10.WEG"
+LANG_BOX=ru_RU.utf8
+
+
+HUD_CLASS="version,fps,api,gpuload"
+scale=0.7
+TERM_LNG_86="ru_RU"
+DXVK_x86="dxvk-async-1.10.3.WEG"
+TURNIP_x86="turnip-v4.WEG"
+DYNAREC_86=424
+d=424
+
+ALIGNED_ATOMICS=-
+BIGBLOCK_64=2
+BIGBLOCK_86=0
+FASTNAN=-
+SAFEFLAGS=2
+STRONGMEM=-
+WAIT=-
+X87DOUBLE=1
+CALLRET=0
+WINE_86="OFF"
+OpenGL_86="Включен"
+OpenGL_86_eng="Enable"
+dy_conf_x86() {
+{
+echo 'unset BOX64_DYNAREC_ALIGNED_ATOMICS'
+echo 'unset BOX86_DYNAREC_ALIGNED_ATOMICS'
+echo 'export BOX64_DYNAREC_BIGBLOCK=2'
+echo 'export BOX86_DYNAREC_BIGBLOCK=0'
+echo 'unset BOX64_DYNAREC_FASTNAN'
+echo 'unset BOX86_DYNAREC_FASTNAN'
+echo 'export BOX64_DYNAREC_SAFEFLAGS=2'
+echo 'export BOX86_DYNAREC_SAFEFLAGS=2'
+echo 'unset BOX64_DYNAREC_STRONGMEM'
+echo 'unset BOX86_DYNAREC_STRONGMEM'
+echo 'unset BOX64_DYNAREC_WAIT'
+echo 'unset BOX86_DYNAREC_WAIT'
+echo 'export BOX64_DYNAREC_X87DOUBLE=1'
+echo 'export BOX86_DYNAREC_X87DOUBLE=1'
+echo 'export BOX64_DYNAREC_CALLRET=0'
+echo 'export BOX86_DYNAREC_CALLRET=0'
+} > "$dy_conf"
+}
+chek_ver_86="✅"
+chek_fps_86="✅"
+chek_api_86="✅"
+chek_info_86="🔲"
+chek_fram_86="🔲"
+chek_gpu_86="✅"
+HUD_86=""
+d_86="✅"; a_86="🔲"; f_86="🔲"; b_86="🔲"; c_86="🔲"; g_86="🔲"; h_86="🔲"; i_86="🔲"; k_86="🔲"; l_86="🔲"; m_86="🔲"
+DRI3_86_eng="Enable"
+STARTUP_86_eng="Disable"
+SERVICES_86_eng="Disable"
+STRETCH_86_eng="Not stretched"
+HUD_CHEK_4_86="✅"; HUD_CHEK_1_86="🔲"; HUD_CHEK_3_86="🔲"; HUD_CHEK_5_86="🔲"; HUD_CHEK_2_86="🔲"; HUD_CHEK_6_86="🔲"; HUD_CHEK_7_86="🔲"; HUD_CHEK_8_86="🔲"; HUD_CHEK_9_86="🔲"
+Res_12_86="✅"; Res_1_86="🔲"; Res_3_86="🔲"; Res_2_86="🔲"; Res_5_86="🔲"; Res_6_86="🔲"; Res_7_86="🔲"; Res_8_86="🔲"; Res_9_86="🔲"; Res_10_86="🔲"; Res_11_86="🔲"; Res_13_86="🔲"; Res_2_86="🔲"; Res_14_86="🔲"; Res_15_86="🔲"; Res_16_86="🔲"; Res_17_86="🔲"; Res_18_86="🔲"; Res_19_86="🔲"; Res_20_86="🔲"; Res_21_86="🔲"; Res_22_86="🔲"; Res_23_86="🔲"; Res_24_86="🔲"; Res_25_86="🔲"; Res_26_86="🔲"; Res_27_86="🔲"; Res_4_86="🔲";
+GALLIUM_HUD_86="export GALLIUM_HUD=simple,fps"
+GALLIUM_HUD_PERIOD_86="export GALLIUM_HUD_PERIOD=1"
+DXVK_HUD_86="export DXVK_HUD=version,fps,api,gpuload,scale=0.7"
+
+
+fi
+InBr="включен"
+
+InBr_eng="Enable"
+
+if [ "$BOX_VERS" = "WOW64" ]; then
+SCREEN_DESC_WOW="Не выбрано"
+
+
+cor_pr_0="," ; cor_pr_1="," ; cor_pr_2="2," ; cor_pr_3="3," ; cor_pr_4="4," ; cor_pr_5="5," ; cor_pr_6="6," ; cor_pr_7="7"
+cor_sec_0="0," ; cor_sec_1="1," ; cor_sec_2="," ; cor_sec_3="," ; cor_sec_4="" ; cor_sec_5="," ; cor_sec_6="," ; cor_sec_7=""
+
+
+
+
+
+
+
+
+
+
+elif [ "$BOX_VERS" = "X86" ]; then
+SCREEN_DESC_86="Не выбрано"
+
+
+cor_pr_0="," ; cor_pr_1="," ; cor_pr_2="2," ; cor_pr_3="3," ; cor_pr_4="4," ; cor_pr_5="5," ; cor_pr_6="6," ; cor_pr_7="7"
+cor_sec_0="0," ; cor_sec_1="1," ; cor_sec_2="," ; cor_sec_3="," ; cor_sec_4="" ; cor_sec_5="," ; cor_sec_6="," ; cor_sec_7=""
+
+
+
+
+
+
+
+
+fi
+B_VERS=""
+fi
+	if [ "$settings" != "install" ]; then
+		if [ "$BOX_VERS" = "WOW64" ]; then
+			EXTRA_CORE="$SEC_COR_WOW"
+			dy_conf_wow64
+		elif [ "$BOX_VERS" = "X86" ]; then
+			EXTRA_CORE="$SEC_COR_86"
+			dy_conf_x86
+		fi
+		rm -rf $PREFIX/glibc/opt/shutdown
+		source $PREFIX/mobox/load_game
+		load_game
+	fi

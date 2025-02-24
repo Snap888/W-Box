@@ -1,0 +1,81 @@
+#!/bin/bash
+
+function load_package-manager {
+	mv $PREFIX/glibc/opt/package-manager/package-manager $PREFIX/glibc/opt/package-manager/package-manager-bak 
+	wget-git-q "package-manager" "$PREFIX/glibc/opt/package-manager/package-manager"
+	if [ "$?" = "0" ]; then
+		rm $PREFIX/glibc/opt/package-manager/package-manager-bak
+		. $PREFIX/glibc/opt/package-manager/package-manager
+		return 0
+	else
+		mv $PREFIX/glibc/opt/package-manager/package-manager-bak $PREFIX/glibc/opt/package-manager/package-manager
+		sleep 2
+		return 1
+	fi
+}
+function load_configs {
+	if [ ! -e $PREFIX/glibc/opt/package-manager/reset-wsi-present-triggered ] && [ -d $PREFIX/glibc/opt/conf ]; then
+		cp $PREFIX/glibc/opt/default-conf/conf/wsi_present.conf $PREFIX/glibc/opt/conf/wsi_present.conf
+		touch $PREFIX/glibc/opt/package-manager/reset-wsi-present-triggered
+	fi
+	if [ ! -e $PREFIX/glibc/opt/package-manager/reset-locale2-triggered ] && [ -d $PREFIX/glibc/opt/conf ]; then
+		cp $PREFIX/glibc/opt/default-conf/locale.conf $PREFIX/glibc/opt/locale.conf
+		touch $PREFIX/glibc/opt/package-manager/reset-locale2-triggered
+	fi
+	if [ ! -e $PREFIX/glibc/opt/package-manager/reset-dxvk-triggered ] && [ -d $PREFIX/glibc/opt/conf ]; then
+		cp $PREFIX/glibc/opt/default-conf/dxvk.conf $PREFIX/glibc/opt/dxvk.conf
+		touch $PREFIX/glibc/opt/package-manager/reset-dxvk-triggered
+	fi
+	cp -rn $PREFIX/glibc/opt/default-conf/* $PREFIX/glibc/opt &>/dev/null
+	cp $PREFIX/glibc/opt/default-conf/conf/path.conf $PREFIX/glibc/opt/conf
+	if [ "$(cat $PREFIX/glibc/opt/dxvk.conf 2>/dev/null)" = "" ]; then
+		cp $PREFIX/glibc/opt/default-conf/dxvk.conf $PREFIX/glibc/opt
+	fi
+	for i in $PREFIX/glibc/opt/conf/*.conf; do
+		. "$i" &>/dev/null
+	done
+	for i in $PREFIX/mobox/dynarec.conf; do
+		. "$i" &>/dev/null
+	done
+	case "$DEBUG_MODE" in
+	0)
+		export MESA_NO_ERROR=1
+		export WINEDEBUG=-all
+		export BOX64_LOG=0
+		export BOX64_NOBANNER=1
+		export BOX64_SHOWSEGV=0
+		export BOX64_DLSYM_ERROR=0
+		export BOX64_DYNAREC_MISSING=0
+		unset BOX64_TRACE_FILE
+	;;
+	1)
+		export MESA_NO_ERROR=0
+		unset WINEDEBUG
+		export BOX64_LOG=1
+		export BOX64_NOBANNER=0
+		export BOX64_SHOWSEGV=1
+		export BOX64_DLSYM_ERROR=0
+		export BOX64_DYNAREC_MISSING=1
+		export BOX64_TRACE_FILE=/sdcard/moboxtrace/trace-%pid.txt
+	;;
+	2)
+		export MESA_NO_ERROR=0
+		export WINEDEBUG=warn+all
+		export BOX64_LOG=1
+		export BOX64_NOBANNER=0
+		export BOX64_SHOWSEGV=1
+		export BOX64_DLSYM_ERROR=1
+		export BOX64_DYNAREC_MISSING=1
+		export BOX64_TRACE_FILE=/sdcard/moboxtrace/trace-%pid.txt
+	;;
+	3)
+		export MESA_NO_ERROR=0
+		export WINEDEBUG=+all
+		export BOX64_LOG=1
+		export BOX64_NOBANNER=0
+		export BOX64_SHOWSEGV=1
+		export BOX64_DLSYM_ERROR=1
+		export BOX64_DYNAREC_MISSING=1
+	;;
+	esac
+}

@@ -1,0 +1,362 @@
+#!/bin/bash
+
+file_path="$PREFIX/glibc/opt/conf/wine_path.conf"
+first_line=$(head -n 1 "$file_path" | cut -c 25-)
+resorution_86(){
+LAST_HUD_86=${LAST_HUD_86:-1}
+    while true; do
+    RES_GAME_CHOICE_86=$(dialog --no-shadow \
+    --title "Выберите разрешение экрана" --default-item "$LAST_HUD_86" \
+    --menu "\nТекущее разрешение экрана - $RESOLUTION_86" 28 40 3 \
+"1"  "$Res_1_86 Ручной ввод (WxH)" \
+"2"  "$Res_2_86 320x200     (16:10)" \
+"3"  "$Res_3_86 320x240     (4:3)" \
+"4"  "$Res_4_86 320×256     (5:4)" \
+"5"  "$Res_5_86 400x240     (5:3)" \
+"6"  "$Res_6_86 640x360     (16:9)" \
+"7"  "$Res_7_86 640x400     (16:10)" \
+"8"  "$Res_8_86 640x480     (4:3)" \
+"9"  "$Res_9_86 800x480     (5:3)" \
+"10" "$Res_10_86 800x600     (4:3)" \
+"11" "$Res_11_86 854x480     (16:9)" \
+"12" "$Res_12_86 960x540     (16:9)" \
+"13" "$Res_13_86 1024x576    (16:9)" \
+"14" "$Res_14_86 1024x768    (4:3)" \
+"15" "$Res_15_86 1152x648    (16:9)" \
+"16" "$Res_16_86 1152x720    (16:10)" \
+"17" "$Res_17_86 1200x648    (16:9)" \
+"18" "$Res_18_86 1280x720    (16:9)" \
+"19" "$Res_19_86 1280x800    (16:10)" \
+"20" "$Res_20_86 1280x960    (4:3)" \
+"21" "$Res_21_86 1280x1024   (5:4)" \
+"22" "$Res_22_86 1400x1080   (4:3)" \
+"23" "$Res_23_86 1600x900    (16:9)" \
+"24" "$Res_24_86 1640x1025   (16:10)" \
+"25" "$Res_25_86 1680x1050   (16:10)" \
+"26" "$Res_26_86 1920x1080   (16:9)" \
+"27" "$Res_27_86 1920x1200   (16:10)"  2>&1 >/dev/tty)
+                case $? in
+                1) break ;;
+                255) continue ;;
+                esac
+LAST_HUD_86=$RES_GAME_CHOICE_86
+            case $RES_GAME_CHOICE_86 in                     1)
+Res_1_86="✅"; eval "$(printf '%s="🔲" ' Res_2_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                set_resolution_86 ;;
+                2) 
+Res_2_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="320x200";;
+                3) 
+Res_3_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_2_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="320x240";;
+                4) 
+Res_4_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_2_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="320x256";;
+                5) 
+Res_5_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_2_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="400x240";;
+                6) 
+Res_6_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_2_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="640x360";;
+                7) 
+Res_7_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_2_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="640x400";;
+                8) 
+Res_8_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_2_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="640x480";;
+                9) 
+Res_9_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_2_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="800x480";;
+                10) 
+Res_10_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_2_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="800x600";;
+                11) 
+Res_11_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_2_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="854x480";;
+                12) 
+Res_12_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_2_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="960x540";;
+                13) 
+Res_13_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_2_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1024x576";;
+                14) 
+Res_14_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_2_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1024x768";;
+                15) 
+Res_15_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_2_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1152x648";;
+                16) 
+Res_16_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_2_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1152x720";;
+                17) 
+Res_17_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_2_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1200x648";;
+                18) 
+Res_18_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_2_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1280x720";;
+                19) 
+Res_19_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_2_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1280x800";;
+                20) 
+Res_20_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_2_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1280x960";;
+                21) 
+Res_21_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_2_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1280x1024";;
+                22) 
+Res_22_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_2_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1400x1080";;
+                23) 
+Res_23_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_2_86 Res_24_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1600x900";;
+                24) 
+Res_24_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_2_86 Res_25_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1640x1025";;
+                25) 
+Res_25_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_2_86 Res_26_86 Res_27_86)"
+                RESOLUTION_86="1680x1050";;
+                26) 
+Res_26_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_2_86 Res_27_86)"
+                RESOLUTION_86="1920x1080";;
+                27) 
+Res_27_86="✅"; eval "$(printf '%s="🔲" ' Res_1_86 Res_3_86 Res_4_86 Res_5_86 Res_6_86 Res_7_86 Res_8_86 Res_9_86 Res_10_86 Res_11_86 Res_12_86 Res_13_86 Res_14_86 Res_15_86 Res_16_86 Res_17_86 Res_18_86 Res_19_86 Res_20_86 Res_21_86 Res_22_86 Res_23_86 Res_24_86 Res_25_86 Res_26_86 Res_2_86)"
+                RESOLUTION_86="1920x1080";;
+            esac
+if [ -d "$PREFIX/lib/ImageMagick-7.1.1" ]; then
+    if [ "$SCREEN_DESC_86" != "Не выбрано" ] && [ -f "$PREFIX/glibc/screen.bmp" ]; then
+        if [ "$STR_PAPER_86" = "1" ] && [ "$DEL_PAPER_86" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_86" -resize "${RESOLUTION_86}\!" "$PREFIX/glibc/screen.bmp"
+        elif [ "$STR_PAPER_86" = "0" ] && [ "$DEL_PAPER_86" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_86" -resize "$RESOLUTION_86" "$PREFIX/glibc/screen.bmp"
+        fi
+    fi
+fi
+echo "$RESOLUTION_86">$PREFIX/glibc/opt/last-resolution.conf
+sed -i "111s/.*/RESOLUTION_86=${RESOLUTION_86}/" "$CONFIG"
+sed -i "175s/.*/Res_1_86=$Res_1_86 Res_2_86=$Res_2_86 Res_3_86=$Res_3_86 Res_4_86=$Res_4_86 Res_5_86=$Res_5_86 Res_6_86=$Res_6_86 Res_7_86=$Res_7_86 Res_8_86=$Res_8_86 Res_9_86=$Res_9_86 Res_10_86=$Res_10_86 Res_11_86=$Res_11_86 Res_12_86=$Res_12_86 Res_13_86=$Res_13_86 Res_14_86=$Res_14_86 Res_15_86=$Res_15_86 Res_16_86=$Res_16_86 Res_17_86=$Res_17_86 Res_18_86=$Res_18_86 Res_19_86=$Res_19_86 Res_20_86=$Res_20_86 Res_21_86=$Res_21_86 Res_22_86=$Res_22_86 Res_23_86=$Res_23_86 Res_25_86=$Res_25_86 Res_26_86=$Res_26_86 Res_27_86=$Res_27_86 Res_24_86=$Res_24_86 /" "$CONFIG"
+done
+}
+resorution_WOW(){
+LAST_HUD_WOW=${LAST_HUD_WOW:-1}
+    while true; do
+    RES_GAME_CHOICE_64=$(dialog --no-shadow \
+    --title "Выберите разрешение экрана" --default-item "$LAST_HUD_WOW" \
+    --menu "\nТекущее разрешение экрана - $RESOLUTION_WOW" 28 40 3 \
+"1"  "$Res_1_WOW Ручной ввод (WxH)" \
+"2"  "$Res_2_WOW 320x200     (16:10)" \
+"3"  "$Res_3_WOW 320x240     (4:3)" \
+"4"  "$Res_4_WOW 320×256     (5:4)" \
+"5"  "$Res_5_WOW 400x240     (5:3)" \
+"6"  "$Res_6_WOW 640x360     (16:9)" \
+"7"  "$Res_7_WOW 640x400     (16:10)" \
+"8"  "$Res_8_WOW 640x480     (4:3)" \
+"9"  "$Res_9_WOW 800x480     (5:3)" \
+"10" "$Res_10_WOW 800x600     (4:3)" \
+"11" "$Res_11_WOW 854x480     (16:9)" \
+"12" "$Res_12_WOW 960x540     (16:9)" \
+"13" "$Res_13_WOW 1024x576    (16:9)" \
+"14" "$Res_14_WOW 1024x768    (4:3)" \
+"15" "$Res_15_WOW 1152x648    (16:9)" \
+"16" "$Res_16_WOW 1152x720    (16:10)" \
+"17" "$Res_17_WOW 1200x648    (16:9)" \
+"18" "$Res_18_WOW 1280x720    (16:9)" \
+"19" "$Res_19_WOW 1280x800    (16:10)" \
+"20" "$Res_20_WOW 1280x960    (4:3)" \
+"21" "$Res_21_WOW 1280x1024   (5:4)" \
+"22" "$Res_22_WOW 1400x1080   (4:3)" \
+"23" "$Res_23_WOW 1600x900    (16:9)" \
+"24" "$Res_24_WOW 1640x1025   (16:10)" \
+"25" "$Res_25_WOW 1680x1050   (16:10)" \
+"26" "$Res_26_WOW 1920x1080   (16:9)" \
+"27" "$Res_27_WOW 1920x1200   (16:10)"  2>&1 >/dev/tty) 
+                case $? in
+                1) break ;;
+                255) continue ;;
+                esac
+LAST_HUD_WOW=$RES_GAME_CHOICE_64
+            case $RES_GAME_CHOICE_64 in                1)
+Res_1_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                set_resolution_WOW ;;
+                2) 
+Res_2_WOW="✅"; eval "$(printf '%s="🔲" ' Res_1_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="320x200";;
+                3) 
+Res_3_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_1_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="320x240";;
+                4) 
+Res_4_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_1_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="320x256";;
+                5) 
+Res_5_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_1_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="400x240";;
+                6) 
+Res_6_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_1_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="640x360";;
+                7) 
+Res_7_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_1_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="640x400";;
+                8) 
+Res_8_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_1_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="640x480";;
+                9) 
+Res_9_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_1_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="800x480";;
+                10) 
+Res_10_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_1_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="800x600";;
+                11) 
+Res_11_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_1_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="854x480";;
+                12) 
+Res_12_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_1_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="960x540";;
+                13) 
+Res_13_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_1_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1024x576";;
+                14) 
+Res_14_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_1_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1024x768";;
+                15) 
+Res_15_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_1_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1152x648";;
+                16) 
+Res_16_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_1_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1152x720";;
+                17) 
+Res_17_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_1_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1200x648";;
+                18) 
+Res_18_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_1_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1280x720";;
+                19) 
+Res_19_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_1_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1280x800";;
+                20) 
+Res_20_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_1_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1280x960";;
+                21) 
+Res_21_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_1_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1280x1024";;
+                22) 
+Res_22_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_1_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1400x1080";;
+                23) 
+Res_23_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_1_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1600x900";;
+                24) 
+Res_24_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_1_WOW Res_25_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1640x1025";;
+                25) 
+Res_25_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_1_WOW Res_26_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1680x1050";;
+                26) 
+Res_26_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_1_WOW Res_27_WOW)"
+                RESOLUTION_WOW="1920x1080";;
+                27) 
+Res_27_WOW="✅"; eval "$(printf '%s="🔲" ' Res_2_WOW Res_3_WOW Res_4_WOW Res_5_WOW Res_6_WOW Res_7_WOW Res_8_WOW Res_9_WOW Res_10_WOW Res_11_WOW Res_12_WOW Res_13_WOW Res_14_WOW Res_15_WOW Res_16_WOW Res_17_WOW Res_18_WOW Res_19_WOW Res_20_WOW Res_21_WOW Res_22_WOW Res_23_WOW Res_24_WOW Res_25_WOW Res_26_WOW Res_1_WOW)"
+                RESOLUTION_WOW="1920x1080";;
+            esac
+if [ -d "$PREFIX/lib/ImageMagick-7.1.1" ]; then
+    if [ "$SCREEN_DESC_WOW" != "Не выбрано" ] && [ -f "$PREFIX/glibc/screen.bmp" ]; then
+        if [ "$STR_PAPER_WOW" = "1" ] && [ "$DEL_PAPER_WOW" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_WOW" -resize "${RESOLUTION_WOW}\!" "$PREFIX/glibc/screen.bmp"
+        elif [ "$STR_PAPER_WOW" = "0" ] && [ "$DEL_PAPER_WOW" = "1" ]; then
+            magick "$PREFIX/$first_line/$SCREEN_DESC_WOW" -resize "$RESOLUTION_WOW" "$PREFIX/glibc/screen.bmp"
+        fi
+    fi
+fi
+echo "$RESOLUTION_WOW">$PREFIX/glibc/opt/last-resolution.conf
+sed -i "31s/.*/RESOLUTION_WOW=${RESOLUTION_WOW}/" "$CONFIG"
+sed -i "89s/.*/Res_1_WOW=$Res_1_WOW Res_2_WOW=$Res_2_WOW Res_3_WOW=$Res_3_WOW Res_4_WOW=$Res_4_WOW Res_5_WOW=$Res_5_WOW Res_6_WOW=$Res_6_WOW Res_7_WOW=$Res_7_WOW Res_8_WOW=$Res_8_WOW Res_9_WOW=$Res_9_WOW Res_10_WOW=$Res_10_WOW Res_11_WOW=$Res_11_WOW Res_12_WOW=$Res_12_WOW Res_13_WOW=$Res_13_WOW Res_14_WOW=$Res_14_WOW Res_15_WOW=$Res_15_WOW Res_16_WOW=$Res_16_WOW Res_17_WOW=$Res_17_WOW Res_18_WOW=$Res_18_WOW Res_19_WOW=$Res_19_WOW Res_20_WOW=$Res_20_WOW Res_21_WOW=$Res_21_WOW Res_22_WOW=$Res_22_WOW Res_23_WOW=$Res_23_WOW Res_25_WOW=$Res_25_WOW Res_26_WOW=$Res_26_WOW Res_27_WOW=$Res_27_WOW Res_24_WOW=$Res_24_WOW /" "$CONFIG"
+done
+}
+screen_back_86(){
+BASE_DIR_86="/storage/emulated/0/download"
+while true; do
+    items_list=()
+    items_list+=(".." "...")
+        if [ "$BASE_DIR_86" = "/storage/emulated/0/download" ]; then
+            items_list=()
+        fi
+for item in "$BASE_DIR_86"/*; do
+    if [ -d "$item" ]; then
+        item_name=$(basename "$item")
+        dir_date=$(stat --format='%y' "$item" | cut -d' ' -f1)
+        items_list+=("$item_name" "📂|  DIR  | $dir_date")
+    elif [[ "$item" =~ \.bmp$ ]]; then
+        file_name=$(basename "$item")
+        file_date=$(stat --format='%y' "$item" | cut -d' ' -f1)
+        items_list+=("$file_name" "🌄️| BMP  | $file_date")
+    elif [[ "$item" =~ \.(jpg|jpeg)$ ]]; then
+        file_name=$(basename "$item")
+        file_date=$(stat --format='%y' "$item" | cut -d' ' -f1)
+        items_list+=("$file_name" "🌃| JPG  | $file_date")
+    fi
+done
+    selected_item=$(dialog --no-shadow \
+    --stdout --menu "Выберите изображение для фона рабочего стола контейнера. Нажмите < Ok >" 25 41 20 "${items_list[@]}")
+    if [ $? -ne 1 ]; then
+        if [[ "$selected_item" =~ \.(bmp|jpg|jpeg)$ ]]; then
+            SCREEN_DESC_86=$selected_item
+            sed -i "203s/.*/SCREEN_DESC_86=\"${SCREEN_DESC_86}\"/" "$CONFIG"
+            cp -f "$BASE_DIR_86/$SCREEN_DESC_86" "$PREFIX/$first_line/"
+            screen_86
+            break
+        fi
+    else
+sed -i '203s/.*/SCREEN_DESC_86="Не выбрано"/' "$CONFIG"
+    screen_86
+    break
+    fi
+    if [ "$selected_item" == ".." ]; then
+        BASE_DIR_86=$(dirname "$BASE_DIR_86")
+    else
+        BASE_DIR_86="$BASE_DIR_86/$selected_item"
+    fi
+done
+}
+screen_back_WOW(){
+BASE_DIR_WOW="/storage/emulated/0/download"
+while true; do
+    items_list=()
+    items_list+=(".." "...")
+        if [ "$BASE_DIR_WOW" = "/storage/emulated/0/download" ]; then
+            items_list=()
+        fi
+for item in "$BASE_DIR_WOW"/*; do
+    if [ -d "$item" ]; then
+        item_name=$(basename "$item")
+        dir_date=$(stat --format='%y' "$item" | cut -d' ' -f1)
+        items_list+=("$item_name" "📂|  DIR  | $dir_date")
+    elif [[ "$item" =~ \.bmp$ ]]; then
+        file_name=$(basename "$item")
+        file_date=$(stat --format='%y' "$item" | cut -d' ' -f1)
+        items_list+=("$file_name" "🌄️| BMP  | $file_date")
+    elif [[ "$item" =~ \.(jpg|jpeg)$ ]]; then
+        file_name=$(basename "$item")
+        file_date=$(stat --format='%y' "$item" | cut -d' ' -f1)
+        items_list+=("$file_name" "🌃| JPG  | $file_date")
+    fi
+done
+    selected_item=$(dialog --no-shadow \
+    --stdout --menu "Выберите изображение для фона рабочего стола контейнера. Нажмите < Ok >" 25 41 20 "${items_list[@]}")
+    if [ $? -ne 1 ]; then
+        if [[ "$selected_item" =~ \.(bmp|jpg|jpeg)$ ]]; then
+            SCREEN_DESC_WOW=$selected_item
+            sed -i "187s/.*/SCREEN_DESC_WOW=\"${SCREEN_DESC_WOW}\"/" "$CONFIG"
+            cp -f "$BASE_DIR_WOW/$SCREEN_DESC_WOW" "$PREFIX/$first_line/"
+            screen_WOW
+            break
+        fi
+    else
+sed -i '203s/.*/SCREEN_DESC_WOW="Не выбрано"/' "$CONFIG"
+    screen_WOW
+    break
+    fi
+    if [ "$selected_item" == ".." ]; then
+        BASE_DIR_WOW=$(dirname "$BASE_DIR_WOW")
+    else
+        BASE_DIR_WOW="$BASE_DIR_WOW/$selected_item"
+    fi
+done
+}

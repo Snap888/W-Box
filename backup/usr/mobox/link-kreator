@@ -1,0 +1,56 @@
+#!/bin/bash
+
+file_path="$PREFIX/glibc/opt/scripts/mobox_menu"
+value=$(grep 'Mobox' "$file_path" | sed -E 's/.*Mobox([^"]*).*/\1/')
+WATCHED_DIR="$HOME/Desktop"
+SOURCE_CODE="$PREFIX/mobox/source-code"
+SHORTCUTS_DIR="$HOME/.shortcuts"
+SHORTCUTS_BACK="$HOME/.shortcuts/backup"
+ICON_DIR="$HOME/.shortcuts/icons"
+source "$PREFIX/glibc/opt/conf/wine_path.conf" &>/dev/null
+VAR=$(head -n 1 "$PREFIX/glibc/opt/conf/wine_path.conf" | sed 's/^.\{31\}//')
+mkdir -p "$ICON_DIR"
+update_version() {
+    local file="$1"
+    if [[ -n "$value" ]]; then
+        sed -i "3s/.*/BOX_VERS=WOW64/" "$file"
+    else
+        sed -i "3s/.*/BOX_VERS=X86/" "$file"
+    fi
+}
+extract_wine_path() {
+    local lnk_file="$1"
+    local wine_path
+    wine_path=$(strings "$lnk_file" | grep -i ".exe" | sed 's|^\([A-Z]:\)|.wine/dosdevices/\L\1|' | sed 's|\\|/|g' | sed -n '2p')
+    echo "$wine_path"
+}
+inotifywait -m "$WATCHED_DIR" -e create |
+while read -r path action file; do
+    if [[ -n "$file" ]]; then
+        FILENAME=$(basename -- "$file")
+        SHORTCUT_FILE="$SHORTCUTS_DIR/${FILENAME%.lnk}"
+        SHORTCUT_FILE_BACK="$SHORTCUTS_BACK/${FILENAME%.lnk}"
+        SHORTCUTS_BACK
+        cp -r "$SOURCE_CODE" "$SHORTCUT_FILE" || { echo "Ошибка копирования $SOURCE_CODE"; continue; }
+        cp -r "$SOURCE_CODE" "$SHORTCUT_FILE_BACK" || { echo "Ошибка копирования $SOURCE_CODE"; continue; }
+        sed -i "4s/.*/GAME='$FILENAME'/; 3s/.*/BOX_VERS=$( [[ -n "$value" ]] && echo 'WOW64' || echo 'X86' )/" "$SHORTCUT_FILE"
+        sed -i "5s/.*/ADRES_C=\"${VAR//\//\\/}\/.wine\/drive_c\"/" "$SHORTCUT_FILE"
+        sed -i "4s/.*/GAME='$FILENAME'/; 3s/.*/BOX_VERS=$( [[ -n "$value" ]] && echo 'WOW64' || echo 'X86' )/" "$SHORTCUT_FILE_BACK"
+        sed -i "5s/.*/ADRES_C=\"${VAR//\//\\/}\/.wine\/drive_c\"/" "$SHORTCUT_FILE_BACK"
+        sed -i "217s/.*/B_VERS=$( [[ -n "$value" ]] && echo 'WOW64' || echo 'X86' )/" "$SHORTCUT_FILE"
+        sed -i "217s/.*/B_VERS=$( [[ -n "$value" ]] && echo 'WOW64' || echo 'X86' )/" "$SHORTCUT_FILE_BACK"
+    fi
+done &
+inotifywait -m -e create --format '%f' "$WATCHED_DIR" | while read NEW_FILE; do
+    if [[ "$NEW_FILE" == *.lnk ]]; then
+        ORIGINAL_FILE="$WATCHED_DIR/$NEW_FILE"
+        wine_path=$(extract_wine_path "$ORIGINAL_FILE")
+        if [ -z "$wine_path" ]; then
+            continue
+        fi
+        if [ ! -f "$WINE_PATH/$wine_path" ]; then
+            continue
+        fi
+        wrestool -x -t 14 "$WINE_PATH/$wine_path" > "$ICON_DIR/${NEW_FILE%.lnk}.png"
+    fi
+done
