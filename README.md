@@ -6,8 +6,7 @@
 
 <div align="center">
 
-![GitHub stars](https://img.shields.io/github/stars/sabamdarif/gnome-in-termux)
-![GitHub issues](https://img.shields.io/github/issues/sabamdarif/gnome-in-termux)
+![Telegram](https://t.me/weg_mod_mobox)
 
 </div>
 
