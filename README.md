@@ -27,6 +27,7 @@
 2. [Архив интерфейса](https://t.me/weg_mod_mobox/12/1227)
 
 - Код для установки 👇
+  ...
    curl -Lf https://raw.githubusercontent.com/Sanders-WEG/Mobox-Menu/refs/heads/WEG-MOD-fork-from-Mobox/setup.sh -o setup.sh ; bash setup.sh
 
 ### КРАТКАЯ ИНФОРМАЦИЯ:
