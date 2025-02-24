@@ -1,0 +1,75 @@
+#!/bin/bash
+
+defitem_settings=1
+
+while true; do
+dialog_menu_item $defitem_settings "Настройки" "" \
+"1" "Настройки Dynarec" \
+"2" "Настройки префикса (+ESYNC)" \
+"3" "Настройки DXVK" \
+"4" "Настройки системы" \
+"5" "Настройки отлачика, фиксы" \
+"6" "Настройки Root" \
+"7" "Настройки VirGL" \
+"8" "Резервное копирование и восстановление" \
+"9" "Настройки совместимости устройств"
+defitem_settings=$?
+case $defitem_settings in
+1)
+	. $PREFIX/glibc/opt/conf/dynarec_preset.conf
+	if [ "$DYNAREC_SETTINGS_SCRIPT" = "1" ]; then
+		. $PREFIX/glibc/opt/scripts/dynarec-settings
+	else
+		. $PREFIX/glibc/opt/scripts/dynarec2-settings
+	fi
+;;
+2)
+	. $PREFIX/glibc/opt/scripts/prefix-settings
+;;
+3)
+	. $PREFIX/glibc/opt/scripts/dxvk-settings
+;;
+4)
+	. $PREFIX/glibc/opt/scripts/system-settings
+;;
+5)
+	defitem=1
+	while true; do
+	load_configs
+	dialog_menu_item $defitem "Настройки отладчика" "\ZbCurrent settings:\Zn
+	\Z3MESA_NO_ERROR\Z2=\Zn$MESA_NO_ERROR
+	\Z3WINEDEBUG\Z2=\Zn$WINEDEBUG
+	\Z3BOX64_LOG\Z2=\Zn$BOX64_LOG
+	\Z3BOX64_SHOWSEGV\Z2=\Zn$BOX64_SHOWSEGV
+	\Z3BOX64_DLSYM_ERROR\Z2=\Zn$BOX64_DLSYM_ERROR
+	\Z3BOX64_DYNAREC_MISSING\Z2=\Zn$BOX64_DYNAREC_MISSING
+	\Z3BOX64_TRACE_FILE\Z2=\Zn$BOX64_TRACE_FILE\Zn" \
+"1" "Без отладчика" \
+"2" "Включить отладчик ($LOG_PATH)" \
+"3" "Влючить детальный отладчик ($LOG_PATH)"
+	defitem=$?
+	case $defitem in
+	1) echo "export DEBUG_MODE=0">$PREFIX/glibc/opt/conf/debug.conf ;;
+	2) echo "export DEBUG_MODE=1">$PREFIX/glibc/opt/conf/debug.conf ;;
+	3) echo "export DEBUG_MODE=2">$PREFIX/glibc/opt/conf/debug.conf ;;
+    255) break ;;
+	esac
+	done
+;;
+6)
+	. $PREFIX/glibc/opt/scripts/root-settings
+;;
+7)
+	. $PREFIX/glibc/opt/scripts/virgl-settings
+;;
+8)
+	. $PREFIX/glibc/opt/scripts/restore-menu
+;;
+9)
+	. $PREFIX/glibc/opt/scripts/compatibility-settings
+;;
+255)
+	break
+;;
+esac
+done

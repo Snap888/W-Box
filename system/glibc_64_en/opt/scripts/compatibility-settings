@@ -1,0 +1,68 @@
+#!/bin/bash
+
+defitem=1
+ADRESS="$HOME/.shortcuts/Mobox WoW64"
+
+while true; do
+load_configs
+dri3_state="dri3 is enabled"
+if [ "$MESA_VK_WSI_DEBUG" = "sw" ]; then
+	dri3_state="dri3 is disabled"
+fi
+dialog_menu_item $defitem "Compatibility settings" "\ZbCurrent settings:\Zn
+	\Z3$dri3_state
+	\Z3Startup compatibility mode\Z2=\Zn$STARTUP_COMPATIBILITY_MODE
+	Startup compatibility mode = force use fallback resolution selected in System settings and disable PhysX installation on prefix creation
+	\Z3services.exe startup\Z2=\Zn$STARTUP_WINEDEVICE_MODE" \
+	"1" "Switch dri3 (disable if SD845)" \
+	"2" "Switch startup compatibility mode" \
+	"3" "Switch services.exe startup"
+defitem=$?
+case $defitem in
+1)
+	case "$MESA_VK_WSI_DEBUG" in
+	"sw")
+		echo "unset MESA_VK_WSI_DEBUG">$PREFIX/glibc/opt/conf/wsi_debug.conf
+		sed -i "25s/.*/DRI_WOW=\"unset MESA_VK_WSI_DEBUG\"/" "$ADRESS"
+		sed -i "22s/.*/DRI3_WOW=\"Включен\"/" "$ADRESS"
+	;;
+	"")
+		echo "export MESA_VK_WSI_DEBUG=sw">$PREFIX/glibc/opt/conf/wsi_debug.conf
+		sed -i "25s/.*/DRI_WOW=\"unset MESA_VK_WSI_DEBUG=sw\"/" "$ADRESS"
+		sed -i "22s/.*/DRI3_WOW=\"Выключен\"/" "$ADRESS"
+	;;
+	esac
+;;
+2)
+	case "$STARTUP_COMPATIBILITY_MODE" in
+	0)
+		echo "export STARTUP_COMPATIBILITY_MODE=1">$PREFIX/glibc/opt/conf/force_compatibility.conf
+		sed -i "26s/.*/START_WOW=\"export STARTUP_COMPATIBILITY_MODE=1\"/" "$ADRESS"
+		sed -i "23s/.*/STARTUP_WOW=\"Включен\"/" "$ADRESS"
+	;;
+	1)
+		echo "export STARTUP_COMPATIBILITY_MODE=0">$PREFIX/glibc/opt/conf/force_compatibility.conf
+		sed -i "26s/.*/START_WOW=\"export STARTUP_COMPATIBILITY_MODE=0\"/" "$ADRESS"
+		sed -i "23s/.*/STARTUP_WOW=\"Выключен\"/" "$ADRESS"
+	;;
+	esac
+;;
+3)
+	case "$STARTUP_WINEDEVICE_MODE" in
+	0)
+		echo "export STARTUP_WINEDEVICE_MODE=1">$PREFIX/glibc/opt/conf/winedevice_startup.conf
+		sed -i "27s/.*/SERV_WOW=\"export STARTUP_WINEDEVICE_MODE=1\"/" "$ADRESS"
+		sed -i "24s/.*/SERVICES_WOW=\"Включен\"/" "$ADRESS"
+	;;
+	1)
+		echo "export STARTUP_WINEDEVICE_MODE=0">$PREFIX/glibc/opt/conf/winedevice_startup.conf
+		sed -i "27s/.*/SERV_WOW=\"export STARTUP_WINEDEVICE_MODE=0\"/" "$ADRESS"
+		sed -i "24s/.*/SERVICES_WOW=\"Выключен\"/" "$ADRESS"
+	;;
+	esac
+;;
+255)
+	break
+;;
+esac
+done

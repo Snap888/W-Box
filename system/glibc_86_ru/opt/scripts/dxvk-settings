@@ -1,0 +1,154 @@
+#!/bin/bash
+
+defitem=1
+ADRESS="$HOME/.shortcuts/,/Mobox box86"
+
+while true; do
+load_configs
+dialog_menu_item $defitem "Настройки DXVK" "\ZbТекущие настройки:
+	\Z3$(sed '3q;d' $DXVK_CONFIG_FILE)
+	$(sed '4q;d' $DXVK_CONFIG_FILE)
+	$(sed '6q;d' $DXVK_CONFIG_FILE)\Zn" \
+	"1" "Эмулируемая версия DirectX" \
+	"2" "Максимальная частота кадров (FPS)" \
+	"3" "Вертикальная синхронизация (vsync)" \
+	"4" "Отредактировать конфигурацию вручную" \
+	"5" "Сброс к значению по умолчанию"
+defitem=$?
+case $defitem in
+1)
+	dialog_menu "" "" \
+"1" "DirectX 9_1" \
+"2" "DirectX 9_2" \
+"3" "DirectX 9_3" \
+"4" "DirectX 10_0" \
+"5" "DirectX 10_1" \
+"6" "DirectX 11_0" \
+"7" "DirectX 11_1" \
+"8" "DirectX 12_0" \
+"9" "DirectX 12_1"
+	case $? in
+	1) sed -i '3s/.*/d3d11.maxFeatureLevel = 9_1/' $DXVK_CONFIG_FILE 
+	sed -i "110s/.*/DX_VER_86=9_1/" "$ADRESS";;
+	2) sed -i '3s/.*/d3d11.maxFeatureLevel = 9_2/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=9_2/" "$ADRESS";;
+	3) sed -i '3s/.*/d3d11.maxFeatureLevel = 9_3/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=9_3/" "$ADRESS";;
+	4) sed -i '3s/.*/d3d11.maxFeatureLevel = 10_0/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=10_0/" "$ADRESS";;
+	5) sed -i '3s/.*/d3d11.maxFeatureLevel = 10_1/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=10_1/" "$ADRESS";;
+	6) sed -i '3s/.*/d3d11.maxFeatureLevel = 11_0/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=11_0/" "$ADRESS";;
+	7) sed -i '3s/.*/d3d11.maxFeatureLevel = 11_1/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=11_1/" "$ADRESS";;
+	8) sed -i '3s/.*/d3d11.maxFeatureLevel = 12_0/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=12_0/" "$ADRESS";;
+	9) sed -i '3s/.*/d3d11.maxFeatureLevel = 12_1/' $DXVK_CONFIG_FILE
+	sed -i "110s/.*/DX_VER_86=12_1/" "$ADRESS";;
+	esac
+;;
+2)
+	dialog_menu "" "" \
+"1" "Максимальная частота (FPS) = 0 (неограничено)" \
+"2" "Максимальная частота (FPS) = 15" \
+"3" "Максимальная частота (FPS) = 24" \
+"4" "Максимальная частота (FPS) = 30" \
+"5" "Максимальная частота (FPS) = 40" \
+"6" "Максимальная частота (FPS) = 50" \
+"7" "Максимальная частота (FPS) = 60" \
+"8" "Максимальная частота (FPS) = 90" \
+"9" "Максимальная частота (FPS) = 120" \
+"10" "Максимальная частота (FPS) = 144"
+	case $? in
+	1)
+		sed -i '4s/.*/dxgi.maxFrameRate = 0/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 0/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=0/" "$ADRESS"
+	;;
+	2)
+		sed -i '4s/.*/dxgi.maxFrameRate = 15/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 15/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=15/" "$ADRESS"
+	;;
+	3)
+		sed -i '4s/.*/dxgi.maxFrameRate = 24/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 24/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=24/" "$ADRESS"
+	;;
+	4)
+		sed -i '4s/.*/dxgi.maxFrameRate = 30/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 30/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=30/" "$ADRESS"
+	;;
+	5)
+		sed -i '4s/.*/dxgi.maxFrameRate = 40/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 40/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=40/" "$ADRESS"
+	;;
+	6)
+		sed -i '4s/.*/dxgi.maxFrameRate = 50/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 50/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=50/" "$ADRESS"
+	;;
+	7)
+		sed -i '4s/.*/dxgi.maxFrameRate = 60/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 60/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=60/" "$ADRESS"
+	;;
+	8)
+		sed -i '4s/.*/dxgi.maxFrameRate = 90/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 90/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=90/" "$ADRESS"
+	;;
+	9)
+		sed -i '4s/.*/dxgi.maxFrameRate = 120/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 120/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=120/" "$ADRESS"
+	;;
+	10)
+		sed -i '4s/.*/dxgi.maxFrameRate = 144/' $DXVK_CONFIG_FILE
+		sed -i '5s/.*/d3d9.maxFrameRate = 144/' $DXVK_CONFIG_FILE
+		sed -i "115s/.*/FPS_LIM_86=144/" "$ADRESS"
+	;;
+	esac
+;;
+3)
+	dialog_menu "" "" \
+"1" "Вертикальная синхр-ция = -1 (без эффектов)" \
+"2" "Вертикальная синхр-ция = 0 (без синхр-ции)" \
+"3" "Вертикальная синхр-ция = 1 (с синхр-цией)" \
+"4" "Вертикальная синхр-ция = 2 (50% синхр-ции)"
+	case $? in
+	1)
+		sed -i '6s/.*/dxgi.syncInterval = -1/' $DXVK_CONFIG_FILE
+		sed -i '7s/.*/d3d9.presentInterval = -1/' $DXVK_CONFIG_FILE
+	;;
+	2)
+		sed -i '6s/.*/dxgi.syncInterval = 0/' $DXVK_CONFIG_FILE
+		sed -i '7s/.*/d3d9.presentInterval = 0/' $DXVK_CONFIG_FILE
+	;;
+	3)
+		sed -i '6s/.*/dxgi.syncInterval = 1/' $DXVK_CONFIG_FILE
+		sed -i '7s/.*/d3d9.presentInterval = 1/' $DXVK_CONFIG_FILE
+	;;
+	4)
+		sed -i '6s/.*/dxgi.syncInterval = 2/' $DXVK_CONFIG_FILE
+		sed -i '7s/.*/d3d9.presentInterval = 2/' $DXVK_CONFIG_FILE
+	;;
+	esac
+;;
+4)
+	i=$(dialog_editbox $PREFIX/glibc/opt/dxvk.conf)
+	ret=$?
+	if [ $ret = 1 ] || [ $ret = 255 ]; then continue; fi
+	echo "$i">$PREFIX/glibc/opt/dxvk.conf
+;;
+5)
+	cp $PREFIX/glibc/opt/default-conf/dxvk.conf $PREFIX/glibc/opt
+;;
+255)
+	break
+;;
+esac
+done

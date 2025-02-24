@@ -1,0 +1,406 @@
+#!/bin/bash
+
+defitem=1
+ADRESS="$HOME/.shortcuts/,/Mobox box86"
+PRIM_COR_86=$(grep 'PRIM_COR_86' "$ADRESS" | cut -c 14- | sed 's/.$//')
+SEC_COR_86=$(grep 'SEC_COR_86' "$ADRESS" | cut -c 13- | sed 's/.$//')
+LANG_BOX_86=$(awk 'NR == 119 {sub(/^.{9}/, ""); sub(/.{5}$/, ""); print $0}' "$ADRESS")
+BOX_LNG=$(awk 'NR == 120 {sub(/^.{10}/, ""); sub(/.{1}$/, ""); print $0}' "$ADRESS")
+HUD=$(sed -n '122s/.*HUD_CLASS[^=]*=//p' "$ADRESS" | tr -d '"')
+if [ "$HUD" == "NO HUD" ]; then
+    SCALE_86=""
+else
+    SCALE_86=$(sed -n '123p' "$ADRESS")
+fi
+GALLIUM_HUD_86=$(sed -n '176s/.*GALLIUM_HUD_86[^=]*=//p' "$ADRESS" | tr -d '"')
+RESOLUTION_86=$(grep 'RESOLUTION_86' "$ADRESS" | cut -c 15-)
+while true; do
+load_configs
+dialog_menu_item $defitem "Настройки системы" "\ZbТекущие настройки:\Zn
+	\Z3PRIMARY_CORES\Z2=\Zn$PRIM_COR_86
+	\Z3SECONDARY_CORES\Z2=\Zn$SEC_COR_86
+    \Z3LOCALE\Z2=\Zn$LANG_BOX_86
+	\Z3DXVK_HUD\Z2=\Zn${HUD}$SCALE_86
+	\Z3GALLIUM_HUD\Z2=\Zn$GALLIUM_HUD_86
+	\Z3TU_DEBUG\Z2=\Zn$TU_DEBUG
+	\Z3MESA_VK_WSI_PRESENT_MODE\Z2=\Zn$MESA_VK_WSI_PRESENT_MODE
+	\Z3FALLBACK RESOLUTION\Z2=\Zn$RESOLUTION_86\Zn" \
+	"1" "Настройки разрешения экрана" \
+	"2" "Настройка главных ядер" \
+	"3" "Настройка языка системы" \
+	"4" "Настройка счетчиков системы HUD" \
+	"5" "Выбор a7xx исправление мерцания (TU_DEBUG)" \
+	"6" "Изменить WSI_PRESENT_MODE" \
+	"7" "Сбросить все настройки"
+defitem=$?
+case $defitem in
+1)
+	RESOLUTION_86=$(dialog_inputbox "Ввести новое разрешение экрана (например 1280x720)")
+	if [ $? = 1 ] || [ "$RESOLUTION_86" = "" ]; then 
+	continue; 
+	fi
+	echo "$RESOLUTION_86">$PREFIX/glibc/opt/last-resolution.conf
+	sed -i "111s/.*/RESOLUTION_86=${RESOLUTION_86}/" "$ADRESS"
+	sed -i "175s/.*/Res_1_86="✅" Res_2_86="🔲" Res_3_86="🔲" Res_4_86="🔲" Res_5_86="🔲" Res_6_86="🔲" Res_7_86="🔲" Res_8_86="🔲" Res_9_86="🔲" Res_10_86="🔲" Res_11_86="🔲" Res_12_86="🔲" Res_13_86="🔲" Res_14_86="🔲" Res_15_86="🔲" Res_16_86="🔲" Res_17_86="🔲" Res_18_86="🔲" Res_19_86="🔲" Res_20_86="🔲" Res_21_86="🔲" Res_22_86="🔲" Res_23_86="🔲" Res_25_86="🔲" Res_26_86="🔲" Res_27_86="🔲" Res_24_86="🔲" /" "$ADRESS"
+;;
+2)
+	dialog_menu "" "Ввести колличество главных ядер. (по умолчанию - 7 или выбрать от 2 до 7)" \
+	"2" "главных ядра" \
+	"3" "главных ядра" \
+	"4" "главных ядра" \
+	"5" "главных ядер" \
+	"6" "главных ядер" \
+	"7" "главных ядер"
+	case $? in
+	2) 
+PRIM_COR_86="6,7"
+SEC_COR_86="0,1,2,3,4,5"
+cor_pr_0=","
+cor_pr_1=","
+cor_pr_2=","
+cor_pr_3=","
+cor_pr_4=","
+cor_pr_5=","
+cor_pr_6="6,"
+cor_pr_7='7'
+cor_sec_0="0,"
+cor_sec_1="1,"
+cor_sec_2="2,"
+cor_sec_3="3,"
+cor_sec_4="4,"
+cor_sec_5="5,"
+cor_sec_6=","
+cor_sec_7=""
+cor_0="🔲"
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="🔲"
+cor_6="✅"
+cor_7="✅"
+;;
+	3) 
+PRIM_COR_86="5,6,7"
+SEC_COR_86="0,1,2,3,4"
+cor_pr_0=","
+cor_pr_1=","
+cor_pr_2=","
+cor_pr_3=","
+cor_pr_4=","
+cor_pr_5="5,"
+cor_pr_6="6,"
+cor_pr_7="7"
+cor_sec_0="0,"
+cor_sec_1="1,"
+cor_sec_2="2,"
+cor_sec_3="3,"
+cor_sec_4="4,"
+cor_sec_5=","
+cor_sec_6=","
+cor_sec_7=""
+cor_0="🔲"
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="🔲"
+cor_5="✅"
+cor_6="✅"
+cor_7="✅"
+;;
+	4) 
+PRIM_COR_86="4,5,6,7"
+SEC_COR_86="0,1,2,3"
+cor_pr_0=","
+cor_pr_1=","
+cor_pr_2=","
+cor_pr_3=","
+cor_pr_4="4,"
+cor_pr_5="5,"
+cor_pr_6="6,"
+cor_pr_7="7"
+cor_sec_0="0,"
+cor_sec_1="1,"
+cor_sec_2="2,"
+cor_sec_3="3,"
+cor_sec_4=","
+cor_sec_5=","
+cor_sec_6=","
+cor_sec_7=""
+cor_0="🔲"
+cor_1="🔲"
+cor_2="🔲"
+cor_3="🔲"
+cor_4="✅"
+cor_5="✅"
+cor_6="✅"
+cor_7="✅"
+;;
+	5) 
+PRIM_COR_86="3,4,5,6,7"
+SEC_COR_86="0,1,2"
+cor_pr_0=","
+cor_pr_1=","
+cor_pr_2=","
+cor_pr_3="3,"
+cor_pr_4="4,"
+cor_pr_5="5,"
+cor_pr_6="6,"
+cor_pr_7="7"
+cor_sec_0="0,"
+cor_sec_1="1,"
+cor_sec_2="2,"
+cor_sec_3=","
+cor_sec_4=","
+cor_sec_5=","
+cor_sec_6=","
+cor_sec_7=""
+cor_0="🔲"
+cor_1="🔲"
+cor_2="🔲"
+cor_3="✅"
+cor_4="✅"
+cor_5="✅"
+cor_6="✅"
+cor_7="✅"
+;;
+	6) 
+PRIM_COR_86="2,3,4,5,6,7"
+SEC_COR_86="0,1"
+cor_pr_0=","
+cor_pr_1=","
+cor_pr_2="2,"
+cor_pr_3="3,"
+cor_pr_4="4,"
+cor_pr_5="5,"
+cor_pr_6="6,"
+cor_pr_7="7"
+cor_sec_0="0,"
+cor_sec_1="1,"
+cor_sec_2=","
+cor_sec_3=","
+cor_sec_4=","
+cor_sec_5=","
+cor_sec_6=","
+cor_sec_7=""
+cor_0="🔲"
+cor_1="🔲"
+cor_2="✅"
+cor_3="✅"
+cor_4="✅"
+cor_5="✅"
+cor_6="✅"
+cor_7="✅"
+;;
+	7) 
+PRIM_COR_86="1,2,3,4,5,6,7"
+SEC_COR_86="0,1"
+cor_pr_0=","
+cor_pr_1="1,"
+cor_pr_2="2,"
+cor_pr_3="3,"
+cor_pr_4="4,"
+cor_pr_5="5,"
+cor_pr_6="6,"
+cor_pr_7="7"
+cor_sec_0="0,"
+cor_sec_1=","
+cor_sec_2=","
+cor_sec_3=","
+cor_sec_4=","
+cor_sec_5=","
+cor_sec_6=","
+cor_sec_7=""
+cor_0="🔲"
+cor_1="✅"
+cor_2="✅"
+cor_3="✅"
+cor_4="✅"
+cor_5="✅"
+cor_6="✅"
+cor_7="✅"
+;;
+	8) 
+PRIM_COR_86="0,1,2,3,4,5,6,7"
+SEC_COR_86="0"
+cor_pr_0="0,"
+cor_pr_1="1,"
+cor_pr_2="2,"
+cor_pr_3="3,"
+cor_pr_4="4,"
+cor_pr_5="5,"
+cor_pr_6="6,"
+cor_pr_7="7"
+cor_sec_0="0,"
+cor_sec_1=","
+cor_sec_2=","
+cor_sec_3=","
+cor_sec_4=","
+cor_sec_5=","
+cor_sec_6=","
+cor_sec_7=""
+cor_0="✅"
+cor_1="✅"
+cor_2="✅"
+cor_3="✅"
+cor_4="✅"
+cor_5="✅"
+cor_6="✅"
+cor_7="✅"
+;;
+	esac
+sed -i "112s/.*/PRIM_COR_86=\"$PRIM_COR_86\"/" "$ADRESS"
+sed -i "113s/.*/SEC_COR_86=\"$SEC_COR_86\"/" "$ADRESS"
+sed -i "206s/.*/cor_pr_0=$cor_pr_0 cor_pr_1=$cor_pr_1 cor_pr_2=$cor_pr_2 cor_pr_3=$cor_pr_3 cor_pr_4=$cor_pr_4 cor_pr_5=$cor_pr_5 cor_pr_6=$cor_pr_6 cor_pr_7=$cor_pr_7/" "$ADRESS"
+sed -i "207s/.*/cor_sec_0=$cor_sec_0 cor_sec_1=$cor_sec_1 cor_sec_2=$cor_sec_3 cor_sec_3=$cor_sec_4 cor_sec_4=$cor_sec_5 cor_sec_5=$cor_sec_5 cor_sec_6=$cor_sec_6 cor_sec_=$cor_sec_7/" "$ADRESS"
+sed -i "114s/.*/cor_0=$cor_0 cor_1=$cor_1 cor_2=$cor_2 cor_3=$cor_3 cor_4=$cor_4 cor_5=$cor_5 cor_6=$cor_6 cor_7=$cor_7/" "$ADRESS"
+echo "export PRIMARY_CORES=$PRIM_COR_86
+export SECONDARY_CORES=$SEC_COR_86">$PREFIX/glibc/opt/conf/cores.conf
+;;
+3)
+	LANG_BOX_86=$(dialog_inputbox "Ввести язык системы. (например en_US, ru_RU или uk_UA)")
+	if [ $? = 1 ] || [ "$LANG_BOX_86" = "" ]; then continue; fi
+	echo "$LANG_BOX_86.utf8">$PREFIX/glibc/opt/locale.conf
+	sed -i "119s/.*/LANG_BOX=$LANG_BOX_86.utf8/" "$ADRESS"
+	sed -i "120s/.*/BOX_LNG=\"Язык системы: $LANG_BOX_86\"/" "$ADRESS"
+	sed -i "124s/.*/TERM_LNG_86=\"$LANG_BOX_86\"/" "$ADRESS"
+;;
+4)
+	dialog_menu "" "" \
+"1" "Отключить все счетчики" \
+"2" "Краткий счетчики FPS и dxvk" \
+"3" "Краткий счетчики FPS, dxvk, d3d и GPU" \
+"4" "Подробный счетчик FPS, dxvk, d3d, GPU"
+	case $? in
+	1)
+GAL_HUD="unset GALLIUM_HUD"
+DX_HUD="unset DXVK_HUD"
+GALLIUM_HUD_86="NO HUD"
+HUD="NO HUD"
+HUD_86="
+          HUD не отображается"
+sed -i "174s/.*/HUD_CHEK_1_86="✅"; HUD_CHEK_2_86="🔲"; HUD_CHEK_3_86="🔲"; HUD_CHEK_4_86="🔲"; HUD_CHEK_5_86="🔲"; HUD_CHEK_6_86="🔲"; HUD_CHEK_7_86="🔲"; HUD_CHEK_8_86="🔲"; HUD_CHEK_9_86="🔲"/" "$ADRESS"
+sed -i "162s/.*/chek_ver_86="🔲"/" "$ADRESS"
+sed -i "163s/.*/chek_fps_86="🔲"/" "$ADRESS"
+sed -i "164s/.*/chek_api_86="🔲"/" "$ADRESS"
+sed -i "165s/.*/chek_info_86="🔲"/" "$ADRESS"
+sed -i "166s/.*/chek_fram_86="🔲"/" "$ADRESS"
+sed -i "167s/.*/chek_gpu_86="🔲"/" "$ADRESS"
+sed -i "94s/.*/HD_86=0/" "$ADRESS"
+sed -i "96s/.*/X_86=21/" "$ADRESS"
+sed -i "95s/.*/sd_86=0/" "$ADRESS"
+	;;
+	2)
+GAL_HUD="export GALLIUM_HUD=simple,fps"
+DX_HUD="export DXVK_HUD=version,fps,$SCALE_86"
+GALLIUM_HUD_86="simple,fps"
+HUD="version,fps,"
+HUD_86="DXVK v1.10.03-async \n
+FPS: 999.9"
+sed -i "162s/.*/chek_ver_86="✅"/" "$ADRESS"
+sed -i "163s/.*/chek_fps_86="✅"/" "$ADRESS"
+sed -i "164s/.*/chek_api_86="🔲"/" "$ADRESS"
+sed -i "165s/.*/chek_info_86="🔲"/" "$ADRESS"
+sed -i "166s/.*/chek_fram_86="🔲"/" "$ADRESS"
+sed -i "167s/.*/chek_gpu_86="🔲"/" "$ADRESS"
+sed -i "174s/.*/HUD_CHEK_1_86="🔲"; HUD_CHEK_2_86="✅"; HUD_CHEK_3_86="🔲"; HUD_CHEK_4_86="🔲"; HUD_CHEK_5_86="🔲"; HUD_CHEK_6_86="🔲"; HUD_CHEK_7_86="🔲"; HUD_CHEK_8_86="🔲"; HUD_CHEK_9_86="🔲"/" "$ADRESS"
+sed -i "94s/.*/HD_86=1/" "$ADRESS"
+sed -i "96s/.*/X_86=24/" "$ADRESS"
+sed -i "95s/.*/sd_86=1/" "$ADRESS"
+	;;
+	3)
+GAL_HUD="export GALLIUM_HUD=simple,fps"
+DX_HUD="export DXVK_HUD=version,fps,gpuload,api,$SCALE_86"
+GALLIUM_HUD_86="simple,fps"
+HUD="version,fps,gpuload,api,"
+HUD_86="DXVK v1.10.03-async \n
+D3D11 FL11_0 \n
+FPS: 999.9 \n
+GPU: 50%"
+sed -i "162s/.*/chek_ver_86="✅"/" "$ADRESS"
+sed -i "163s/.*/chek_fps_86="✅"/" "$ADRESS"
+sed -i "164s/.*/chek_api_86="✅"/" "$ADRESS"
+sed -i "165s/.*/chek_info_86="🔲"/" "$ADRESS"
+sed -i "166s/.*/chek_fram_86="🔲"/" "$ADRESS"
+sed -i "167s/.*/chek_gpu_86="✅"/" "$ADRESS"
+sed -i "174s/.*/HUD_CHEK_1_86="🔲"; HUD_CHEK_2_86="🔲"; HUD_CHEK_3_86="🔲"; HUD_CHEK_4_86="🔲"; HUD_CHEK_5_86="✅"; HUD_CHEK_6_86="🔲"; HUD_CHEK_7_86="🔲"; HUD_CHEK_8_86="🔲"; HUD_CHEK_9_86="🔲"/" "$ADRESS"
+sed -i "94s/.*/HD_86=4/" "$ADRESS"
+sed -i "96s/.*/X_86=26/" "$ADRESS"
+sed -i "95s/.*/sd_86=1/" "$ADRESS"
+	;;
+	4)
+GAL_HUD="export GALLIUM_HUD=simple,fps"
+DX_HUD="export DXVK_HUD=version,fps,api,$SCALE_86,devinfo,gpuload,frametimes"
+GALLIUM_HUD_86="simple,fps"
+HUD="version,fps,api,devinfo,gpuload,frametimes,"
+HUD_86="DXVK v1.10.03-async \n
+D3D11 FL11_0 \n
+FPS: 999.9 \n
+Turnip Adreno (TM) 640 \n
+Driver: 24.0.99 \n
+Vulcan: 1.3.278 \n
+||||||||||||||||||| \n
+GPU: 50%"
+sed -i "162s/.*/chek_ver_86="✅"/" "$ADRESS"
+sed -i "163s/.*/chek_fps_86="✅"/" "$ADRESS"
+sed -i "164s/.*/chek_api_86="✅"/" "$ADRESS"
+sed -i "165s/.*/chek_info_86="✅"/" "$ADRESS"
+sed -i "166s/.*/chek_fram_86="✅"/" "$ADRESS"
+sed -i "167s/.*/chek_gpu_86="✅"/" "$ADRESS"
+sed -i "174s/.*/HUD_CHEK_1_86="🔲"; HUD_CHEK_2_86="🔲"; HUD_CHEK_3_86="🔲"; HUD_CHEK_4_86="🔲"; HUD_CHEK_5_86="🔲"; HUD_CHEK_6_86="🔲"; HUD_CHEK_7_86="✅"; HUD_CHEK_8_86="🔲"; HUD_CHEK_9_86="🔲"/" "$ADRESS"
+sed -i "94s/.*/HD_86=6/" "$ADRESS"
+sed -i "96s/.*/X_86=30/" "$ADRESS"
+sed -i "95s/.*/sd_86=1/" "$ADRESS"
+	;;
+	esac
+if [ "$HUD" == "NO HUD" ]; then
+    SCALE_86=""
+else
+    SCALE_86=$(sed -n '123p' "$ADRESS")
+fi
+sed -i "122s/.*/HUD_CLASS=\"${HUD}\"/" "$ADRESS"
+GALLIUM_HUD_PERIOD_86="export GALLIUM_HUD_PERIOD=1"
+echo "$GAL_HUD
+$GALLIUM_HUD_PERIOD_86
+$DX_HUD">$PREFIX/glibc/opt/conf/hud.conf
+sed -i "168s/.*/HUD_86=\"$(echo -e "$HUD_86" | sed ':a;N;$!ba;s/\n/\\\\n/g' | sed 's/"/\\"/g')\"/" "$ADRESS"
+;;
+5)
+	dialog_menu "" "" \
+"1" "TU_DEBUG=noconform" \
+"2" "TU_DEBUG=noconform,syncdraw (a7xx)" \
+"3" "TU_DEBUG=noconform,syncdraw,flushall (a7xx)"
+	case $? in
+	1)
+		echo "export TU_DEBUG=noconform">$PREFIX/glibc/opt/conf/tu_debug.conf
+	;;
+	2)
+		echo "export TU_DEBUG=noconform,syncdraw">$PREFIX/glibc/opt/conf/tu_debug.conf
+	;;
+	3)
+		echo "export TU_DEBUG=noconform,syncdraw,flushall">$PREFIX/glibc/opt/conf/tu_debug.conf
+	;;
+	esac
+;;
+6)
+	dialog_menu "" "" \
+"1" "WSI_PRESENT_MODE=mailbox" \
+"2" "WSI_PRESENT_MODE=relaxed (a7xx)"
+	case $? in
+	1)
+		echo "export MESA_VK_WSI_PRESENT_MODE=mailbox">$PREFIX/glibc/opt/conf/wsi_present.conf
+	;;
+	2)
+		echo "export MESA_VK_WSI_PRESENT_MODE=relaxed">$PREFIX/glibc/opt/conf/wsi_present.conf
+	;;
+	esac
+;;
+7)
+	cp $PREFIX/glibc/opt/default-conf/conf/{cores.conf,hud.conf,tu_debug.conf,wsi_present.conf} $PREFIX/glibc/opt/conf
+	cp $PREFIX/glibc/opt/default-conf/{last-resolution.conf,locale.conf} $PREFIX/glibc/opt
+;;
+255)
+	break
+;;
+esac
+done

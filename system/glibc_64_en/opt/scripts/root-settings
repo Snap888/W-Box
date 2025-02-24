@@ -1,0 +1,35 @@
+#!/bin/bash
+
+defitem=1
+
+while true; do
+load_configs
+dialog_menu_item $defitem "Root settings" "" \
+	"1" "Close background apps" \
+	"2" "OOM Adjuster (Prevent termux kill)" \
+	"3" "Increase VM max map count (may help source 2)" \
+	"4" "Disable phantom process killer"
+defitem=$?
+case $defitem in
+1)
+	chmod 777 $PREFIX/glibc/opt/scripts/close-apps
+	sudo bash $PREFIX/glibc/opt/scripts/close-apps
+	sleep 3
+;;
+2)
+	chmod 777 $PREFIX/glibc/opt/scripts/termux-adj
+	sudo bash $PREFIX/glibc/opt/scripts/termux-adj &
+	echo "OOM adjuster is now running. Please, don't use this option more than once! To stop it - force stop Termux"
+	sleep 4
+;;
+3)
+	su -c "echo 2147483642 > /proc/sys/vm/max_map_count"
+;;
+4)
+	su -c "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
+;;
+255)
+	break
+;;
+esac
+done

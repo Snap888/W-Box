@@ -1,0 +1,8 @@
+
+function restore-termux-style {
+	if [ -e $PREFIX/glibc/opt/termux-style/default/colors.properties ]; then
+		cp $PREFIX/glibc/opt/termux-style/default/{font.ttf,colors.properties} ~/.termux
+		rm -rf $PREFIX/glibc/opt/termux-style/default/{font.ttf,colors.properties}
+		termux-reload-settings
+	fi
+}

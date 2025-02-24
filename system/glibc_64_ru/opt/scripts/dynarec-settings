@@ -1,0 +1,364 @@
+#!/bin/bash
+
+defitem=1
+CONFIG="/$HOME/.shortcuts/,/Mobox WoW64"
+
+ATOMICS_WOW=$(sed -n "49p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+BIGBLOCK_WOW=$(sed -n "50p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+FASTNAN_WOW=$(sed -n "51p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+SAFEFLAGS_WOW=$(sed -n "52p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+STRONGMEM_WOW=$(sed -n "53p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+WAIT_WOW=$(sed -n "54p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+X87DOUBLE_WOW=$(sed -n "55p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+CALLRET_WOW=$(sed -n "56p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+FASTROUND_WOW=$(sed -n "57p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+IGNOREINT3_WOW=$(sed -n "58p" "$CONFIG" | awk '{print substr($0, length($0), 1)}')
+
+ATOMICS_WOW_0=$(sed -n "49p" "$CONFIG")
+BIGBLOCK_WOW_0=$(sed -n "50p" "$CONFIG")
+FASTNAN_WOW_0=$(sed -n "51p" "$CONFIG")
+SAFEFLAGS_WOW_0=$(sed -n "52p" "$CONFIG")
+STRONGMEM_WOW_0=$(sed -n "53p" "$CONFIG")
+WAIT_WOW_0=$(sed -n "54p" "$CONFIG")
+X87DOUBLE_WOW_0=$(sed -n "55p" "$CONFIG")
+CALLRET_WOW_0=$(sed -n "56p" "$CONFIG")
+FASTROUND_WOW_0=$(sed -n "57p" "$CONFIG")
+IGNOREINT3_WOW_0=$(sed -n "58p" "$CONFIG")
+
+ATOMICS_WOW_64=$(sed -n "64p" "$CONFIG")
+BIGBLOCK_WOW_64=$(sed -n "65p" "$CONFIG")
+FASTNAN_WOW_64=$(sed -n "66p" "$CONFIG")
+SAFEFLAGS_WOW_64=$(sed -n "67p" "$CONFIG")
+STRONGMEM_WOW_64=$(sed -n "68p" "$CONFIG")
+WAIT_WOW_64=$(sed -n "69p" "$CONFIG")
+X87DOUBLE_WOW_64=$(sed -n "70p" "$CONFIG")
+CALLRET_WOW_64=$(sed -n "71p" "$CONFIG")
+FASTROUND_WOW_64=$(sed -n "72p" "$CONFIG")
+IGNOREINT3_WOW_64=$(sed -n "73p" "$CONFIG")
+while true; do
+load_configs
+dialog_menu_item $defitem "Настройки DYNAREC" "" \
+	"1" "DYNAREC_ALIGNED_ATOMICS\Z2=\Z3$BOX64_DYNAREC_ALIGNED_ATOMICS" \
+	"2" "DYNAREC_BIGBLOCK\Z2=\Z3$BOX64_DYNAREC_BIGBLOCK" \
+	"3" "DYNAREC_FASTNAN\Z2=\Z3$BOX64_DYNAREC_FASTNAN" \
+	"4" "DYNAREC_SAFEFLAGS\Z2=\Z3$BOX64_DYNAREC_SAFEFLAGS" \
+	"5" "DYNAREC_STRONGMEM\Z2=\Z3$BOX64_DYNAREC_STRONGMEM" \
+	"6" "DYNAREC_WAIT\Z2=\Z3$BOX64_DYNAREC_WAIT" \
+	"7" "DYNAREC_X87DOUBLE\Z2=\Z3$BOX64_DYNAREC_X87DOUBLE" \
+	"8" "DYNAREC_CALLRET\Z2=\Z3$BOX64_DYNAREC_CALLRET" \
+	"9" "DYNAREC_FASTROUND\Z2=\Z3$BOX64_DYNAREC_FASTROUND" \
+	"10" "IGNOREINT3\Z2=\Z3$BOX64_IGNOREINT3" \
+	"11" "Сброс к значению по умолчанию" \
+	"12" "Перейти на DYNAREC на основе предустановок"
+defitem=$?
+case $defitem in
+1)
+	case "$BOX64_DYNAREC_ALIGNED_ATOMICS" in
+	"") echo "export BOX64_DYNAREC_ALIGNED_ATOMICS=0">$PREFIX/glibc/opt/conf/dynarec/aligned_atomics.conf
+ATOMICS_WOW_0="ATOMICS_WOW=0"
+ATOMICS_WOW="0"
+ATOMICS_WOW_64="echo 'export BOX64_DYNAREC_ALIGNED_ATOMICS=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_ALIGNED_ATOMICS=1">$PREFIX/glibc/opt/conf/dynarec/aligned_atomics.conf
+ATOMICS_WOW_0="ATOMICS_WOW=1"
+ATOMICS_WOW="1"
+ATOMICS_WOW_64="echo 'export BOX64_DYNAREC_ALIGNED_ATOMICS=1'"
+	;;
+	1) echo "unset BOX64_DYNAREC_ALIGNED_ATOMICS">$PREFIX/glibc/opt/conf/dynarec/aligned_atomics.conf
+ATOMICS_WOW_0="ATOMICS_WOW=-"
+ATOMICS_WOW="-"
+ATOMICS_WOW_64="echo 'unset BOX64_DYNAREC_ALIGNED_ATOMICS'"
+	;;
+	esac
+;;
+
+2)
+	case "$BOX64_DYNAREC_BIGBLOCK" in
+	"") echo "export BOX64_DYNAREC_BIGBLOCK=0">$PREFIX/glibc/opt/conf/dynarec/bigblock.conf
+BIGBLOCK_WOW="0"
+BIGBLOCK_WOW_0="BIGBLOCK_WOW=0"
+BIGBLOCK_WOW_64="echo 'export BOX64_DYNAREC_BIGBLOCK=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_BIGBLOCK=1">$PREFIX/glibc/opt/conf/dynarec/bigblock.conf
+BIGBLOCK_WOW="1"
+BIGBLOCK_WOW_0="BIGBLOCK_WOW=1"
+BIGBLOCK_WOW_64="echo 'export BOX64_DYNAREC_BIGBLOCK=1'"
+	;;
+	1) echo "export BOX64_DYNAREC_BIGBLOCK=2">$PREFIX/glibc/opt/conf/dynarec/bigblock.conf
+BIGBLOCK_WOW="2"
+BIGBLOCK_WOW_0="BIGBLOCK_WOW=2"
+BIGBLOCK_WOW_64="echo 'export BOX64_DYNAREC_BIGBLOCK=2'"
+	;;
+	2) echo "export BOX64_DYNAREC_BIGBLOCK=">$PREFIX/glibc/opt/conf/dynarec/bigblock.conf
+BIGBLOCK_WOW="-"
+BIGBLOCK_WOW_0="BIGBLOCK_WOW=-"
+BIGBLOCK_WOW_64="echo 'export BOX64_DYNAREC_BIGBLOCK='"
+	;;
+	esac
+;;
+3)
+	case "$BOX64_DYNAREC_FASTNAN" in
+	"") echo "export BOX64_DYNAREC_FASTNAN=0">$PREFIX/glibc/opt/conf/dynarec/fastnan.conf
+FASTNAN_WOW_0="FASTNAN_WOW=0"
+FASTNAN_WOW="0"
+FASTNAN_WOW_64="echo 'export BOX64_DYNAREC_FASTNAN=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_FASTNAN=1">$PREFIX/glibc/opt/conf/dynarec/fastnan.conf
+FASTNAN_WOW_0="FASTNAN_WOW=1"
+FASTNAN_WOW="1"
+FASTNAN_WOW_64="echo 'export BOX64_DYNAREC_FASTNAN=1'"
+	;;
+	1) echo "unset BOX64_DYNAREC_FASTNAN">$PREFIX/glibc/opt/conf/dynarec/fastnan.conf
+FASTNAN_WOW_0="FASTNAN_WOW=-"
+FASTNAN_WOW="-"
+FASTNAN_WOW_64="echo 'unset BOX64_DYNAREC_FASTNAN'"
+	;;
+	esac
+;;
+4)
+	case "$BOX64_DYNAREC_SAFEFLAGS" in
+	"") echo "export BOX64_DYNAREC_SAFEFLAGS=0">$PREFIX/glibc/opt/conf/dynarec/safeflags.conf
+SAFEFLAGS_WOW_0="SAFEFLAGS_WOW=0"
+SAFEFLAGS_WOW="0"
+SAFEFLAGS_WOW_64="echo 'export BOX64_DYNAREC_SAFEFLAGS=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_SAFEFLAGS=1">$PREFIX/glibc/opt/conf/dynarec/safeflags.conf
+SAFEFLAGS_WOW_0="SAFEFLAGS_WOW=1"
+SAFEFLAGS_WOW="1"
+SAFEFLAGS_WOW_64="echo 'export BOX64_DYNAREC_SAFEFLAGS=1'"
+	;;
+	1) echo "export BOX64_DYNAREC_SAFEFLAGS=2">$PREFIX/glibc/opt/conf/dynarec/safeflags.conf
+SAFEFLAGS_WOW_0="SAFEFLAGS_WOW=2"
+SAFEFLAGS_WOW="3"
+SAFEFLAGS_WOW_64="echo 'export BOX64_DYNAREC_SAFEFLAGS=2'"
+	;;
+	2) echo "unset BOX64_DYNAREC_SAFEFLAGS">$PREFIX/glibc/opt/conf/dynarec/safeflags.conf
+SAFEFLAGS_WOW_0="SAFEFLAGS_WOW=-"
+SAFEFLAGS_WOW="-"
+SAFEFLAGS_WOW_64="echo 'unset BOX64_DYNAREC_SAFEFLAGS'"
+	;;
+	esac
+;;
+5)
+	case "$BOX64_DYNAREC_STRONGMEM" in
+	"") echo "export BOX64_DYNAREC_STRONGMEM=0">$PREFIX/glibc/opt/conf/dynarec/strongmem.conf
+STRONGMEM_WOW_0="STRONGMEM_WOW=0"
+STRONGMEM_WOW="0"
+STRONGMEM_WOW_64="echo 'export BOX64_DYNAREC_STRONGMEM=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_STRONGMEM=1">$PREFIX/glibc/opt/conf/dynarec/strongmem.conf
+STRONGMEM_WOW_0="STRONGMEM_WOW=1"
+STRONGMEM_WOW="1"
+STRONGMEM_WOW_64="echo 'export BOX64_DYNAREC_STRONGMEM=1'"
+	;;
+	1) echo "export BOX64_DYNAREC_STRONGMEM=2">$PREFIX/glibc/opt/conf/dynarec/strongmem.conf
+STRONGMEM_WOW_0="STRONGMEM_WOW=2"
+STRONGMEM_WOW="2"
+STRONGMEM_WOW_64="echo 'export BOX64_DYNAREC_STRONGMEM=2'"
+	;;
+	2) echo "export BOX64_DYNAREC_STRONGMEM=3">$PREFIX/glibc/opt/conf/dynarec/strongmem.conf
+STRONGMEM_WOW_0="STRONGMEM_WOW=3"
+STRONGMEM_WOW="3"
+STRONGMEM_WOW_64="echo 'export BOX64_DYNAREC_STRONGMEM=3'"
+	;;
+	3) echo "unset BOX64_DYNAREC_STRONGMEM">$PREFIX/glibc/opt/conf/dynarec/strongmem.conf
+STRONGMEM_WOW_0="STRONGMEM_WOW=-"
+STRONGMEM_WOW="-"
+STRONGMEM_WOW_64="echo 'unset BOX64_DYNAREC_STRONGMEM'"
+	;;
+	esac
+;;
+6)
+	case "$BOX64_DYNAREC_WAIT" in
+	"") echo "export BOX64_DYNAREC_WAIT=0">$PREFIX/glibc/opt/conf/dynarec/wait.conf
+WAIT_WOW_0="WAIT_WOW=0"
+WAIT_WOW="0"
+WAIT_WOW_64="echo 'export BOX64_DYNAREC_WAIT=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_WAIT=1">$PREFIX/glibc/opt/conf/dynarec/wait.conf
+WAIT_WOW_0="WAIT_WOW=1"
+WAIT_WOW="1"
+WAIT_WOW_64="echo 'export BOX64_DYNAREC_WAIT=1'"
+	;;
+	1) echo "unset BOX64_DYNAREC_WAIT">$PREFIX/glibc/opt/conf/dynarec/wait.conf
+WAIT_WOW_0="WAIT_WOW=-"
+WAIT_WOW="-"
+WAIT_WOW_64="unset 'export BOX64_DYNAREC_WAIT'"
+	;;
+	esac
+;;
+7)
+	case "$BOX64_DYNAREC_X87DOUBLE" in
+	"") echo "export BOX64_DYNAREC_X87DOUBLE=0">$PREFIX/glibc/opt/conf/dynarec/x87double.conf
+X87DOUBLE_WOW_0="X87DOUBLE_WOW=0"
+X87DOUBLE_WOW="0"
+X87DOUBLE_WOW_64="echo 'export BOX64_DYNAREC_X87DOUBLE=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_X87DOUBLE=1">$PREFIX/glibc/opt/conf/dynarec/x87double.conf
+X87DOUBLE_WOW_0="X87DOUBLE_WOW=1"
+X87DOUBLE_WOW="1"
+X87DOUBLE_WOW_64="echo 'export BOX64_DYNAREC_X87DOUBLE=1'"
+	;;
+	1) echo "unset BOX64_DYNAREC_X87DOUBLE">$PREFIX/glibc/opt/conf/dynarec/x87double.conf
+X87DOUBLE_WOW_0="X87DOUBLE_WOW=-"
+X87DOUBLE_WOW="-"
+X87DOUBLE_WOW_64="echo 'unset BOX64_DYNAREC_X87DOUBLE'"
+	;;
+	esac
+;;
+8)
+	case "$BOX64_DYNAREC_CALLRET" in
+	"") echo "export BOX64_DYNAREC_CALLRET=0">$PREFIX/glibc/opt/conf/dynarec/callret.conf
+CALLRET_WOW_0="CALLRET_WOW=0"
+CALLRET_WOW="0"
+CALLRET_WOW_64="echo 'export BOX64_DYNAREC_CALLRET=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_CALLRET=1">$PREFIX/glibc/opt/conf/dynarec/callret.conf
+CALLRET_WOW_0="CALLRET_WOW=1"
+CALLRET_WOW="1"
+CALLRET_WOW_64="echo 'export BOX64_DYNAREC_CALLRET=1'"
+	;;
+	1) echo "unset BOX64_DYNAREC_CALLRET">$PREFIX/glibc/opt/conf/dynarec/callret.conf
+CALLRET_WOW_0="CALLRET_WOW=0"
+CALLRET_WOW="0"
+CALLRET_WOW_64="echo 'unset BOX64_DYNAREC_CALLRET'"
+	;;
+	esac
+;;
+9) 
+	case "$BOX64_DYNAREC_FASTROUND" in
+	"") echo "export BOX64_DYNAREC_FASTROUND=0">$PREFIX/glibc/opt/conf/dynarec/fastround.conf
+FASTROUND_WOW_0="FASTROUND_WOW=0"
+FASTROUND_WOW="0"
+FASTROUND_WOW_64="echo 'export BOX64_DYNAREC_FASTROUND=0'"
+	;;
+	0) echo "export BOX64_DYNAREC_FASTROUND=1">$PREFIX/glibc/opt/conf/dynarec/fastround.conf
+FASTROUND_WOW_0="FASTROUND_WOW=1"
+FASTROUND_WOW="1"
+FASTROUND_WOW_64="echo 'export BOX64_DYNAREC_FASTROUND=1'"
+	;;
+	1) echo "unset BOX64_DYNAREC_FASTROUND">$PREFIX/glibc/opt/conf/dynarec/fastround.conf
+FASTROUND_WOW_0="FASTROUND_WOW=-"
+FASTROUND_WOW="-"
+FASTROUND_WOW_64="echo 'unset BOX64_DYNAREC_FASTROUND'"
+	;;
+	esac
+;;
+10)
+	case "$BOX64_IGNOREINT3" in
+	"") echo "export BOX64_IGNOREINT3=0">$PREFIX/glibc/opt/conf/dynarec/ignoreint3.conf
+IGNOREINT3_WOW_0="IGNOREINT3_WOW=0"
+IGNOREINT3_WOW="0"
+IGNOREINT3_WOW_64="echo 'export BOX64_IGNOREINT3=0'"
+	;;
+	0) echo "export BOX64_IGNOREINT3=1">$PREFIX/glibc/opt/conf/dynarec/ignoreint3.conf
+IGNOREINT3_WOW_0="IGNOREINT3_WOW=1"
+IGNOREINT3_WOW="1"
+IGNOREINT3_WOW_64="echo 'export BOX64_IGNOREINT3=1'"
+	;;
+	1) echo "unset BOX64_IGNOREINT3">$PREFIX/glibc/opt/conf/dynarec/ignoreint3.conf
+IGNOREINT3_WOW_0="IGNOREINT3_WOW=-"
+IGNOREINT3_WOW="-"
+IGNOREINT3_WOW_64="echo 'unset BOX64_IGNOREINT3'"
+	;;
+	esac
+;;
+11)
+	echo "unset BOX64_DYNAREC_ALIGNED_ATOMICS">$PREFIX/glibc/opt/conf/dynarec/aligned_atomics.conf
+	echo "export BOX64_DYNAREC_BIGBLOCK=2">$PREFIX/glibc/opt/conf/dynarec/bigblock.conf
+	echo "unset BOX64_DYNAREC_FASTNAN">$PREFIX/glibc/opt/conf/dynarec/fastnan.conf
+	echo "export BOX64_DYNAREC_SAFEFLAGS=2">$PREFIX/glibc/opt/conf/dynarec/safeflags.conf
+	echo "unset BOX64_DYNAREC_STRONGMEM">$PREFIX/glibc/opt/conf/dynarec/strongmem.conf
+	echo "unset BOX64_DYNAREC_WAIT">$PREFIX/glibc/opt/conf/dynarec/wait.conf
+	echo "export BOX64_DYNAREC_X87DOUBLE=1">$PREFIX/glibc/opt/conf/dynarec/x87double.conf
+	echo "export BOX64_DYNAREC_CALLRET=0">$PREFIX/glibc/opt/conf/dynarec/callret.conf
+	echo "unset BOX64_IGNOREINT3">$PREFIX/glibc/opt/conf/dynarec/ignoreint3.conf
+	echo "unset BOX64_DYNAREC_FASTROUND">$PREFIX/glibc/opt/conf/dynarec/fastround.conf
+ATOMICS_WOW=-
+BIGBLOCK_WOW=2
+FASTNAN_WOW=-
+SAFEFLAGS_WOW=2
+STRONGMEM_WOW=-
+WAIT_WOW=-
+X87DOUBLE_WOW=1
+CALLRET_WOW=0
+FASTROUND_WOW=-
+IGNOREINT3_WOW=-
+ATOMICS_WOW_0="ALIGNED_ATOMICS_WOW=-"
+ATOMICS_WOW_64="echo 'unset BOX64_DYNAREC_ALIGNED_ATOMICS'"
+BIGBLOCK_WOW_0="BIGBLOCK_64=2"
+BIGBLOCK_WOW_64="echo 'export BOX64_DYNAREC_BIGBLOCK=2'"
+lFASTNAN_WOW_0="FASTNAN_WOW=-"
+FASTNAN_WOW_64="echo 'unset BOX64_DYNAREC_FASTNAN'"
+SAFEFLAGS_WOW_0="SAFEFLAGS_WOW=2"
+SAFEFLAGS_WOW_64="echo 'export BOX64_DYNAREC_SAFEFLAGS=2'"
+STRONGMEM_WOW_0="STRONGMEM_WOW=-"
+STRONGMEM_WOW_64="echo 'unset BOX64_DYNAREC_STRONGMEM'"
+WAIT_WOW_0="WAI_WOWT=-"
+WAIT_WOW_64="echo 'unset BOX64_DYNAREC_WAIT'"
+X87DOUBLE_WOW_0="X87DOUBLE_WOW=1"
+X87DOUBLE_WOW_64="echo 'export BOX64_DYNAREC_X87DOUBLE=1'"
+CALLRET_WOW_0="CALLRET_WOW=0"
+CALLRET_WOW_64="echo 'export BOX64_DYNAREC_CALLRET=0'"
+FASTROUND_WOW_0="FASTROUND_WOW=-"
+FASTROUND_WOW_64="echo 'unset BOX64_DYNAREC_FASTROUND'"
+IGNOREINT3_WOW_0="IGNOREINT3_WOW=-"
+lIGNOREINT3_WOW_64="echo 'unset BOX64_DYNAREC_IGNOREINT3'"
+
+sed -i "47s/.*/DYNAREC_64=-,2,-,2,-,-,1,0,-,-/" "$CONFIG"
+sed -i "48s/.*/d=0/" "$CONFIG"
+sed -i "49s/.*/ATOMICS_WOW=-/" "$CONFIG"
+sed -i "50s/.*/BIGBLOCK_WOW=2/" "$CONFIG"
+sed -i "51s/.*/FASTNAN_WOW=-/" "$CONFIG"
+sed -i "52s/.*/SAFEFLAGS_WOW=2/" "$CONFIG"
+sed -i "53s/.*/STRONGMEM_WOW=-/" "$CONFIG"
+sed -i "54s/.*/WAIT_WOW=-/" "$CONFIG"
+sed -i "55s/.*/X87DOUBLE_WOW=1/" "$CONFIG"
+sed -i "56s/.*/CALLRET_WOW=0/" "$CONFIG"
+sed -i "57s/.*/FASTROUND_WOW=-/" "$CONFIG"
+sed -i "58s/.*/IGNOREINT3_WOW=-/" "$CONFIG"
+
+sed -i "64s/.*/echo 'unset BOX64_DYNAREC_ALIGNED_ATOMICS'/" "$CONFIG"
+sed -i "65s/.*/echo 'export BOX64_DYNAREC_BIGBLOCK=2'/" "$CONFIG"
+sed -i "66s/.*/echo 'unset BOX64_DYNAREC_FASTNAN'/" "$CONFIG"
+sed -i "67s/.*/echo 'export BOX64_DYNAREC_SAFEFLAGS=2'/" "$CONFIG"
+sed -i "68s/.*/echo 'unset BOX64_DYNAREC_STRONGMEM'/" "$CONFIG"
+sed -i "69s/.*/echo 'unset BOX64_DYNAREC_WAIT'/" "$CONFIG"
+sed -i "70s/.*/echo 'export BOX64_DYNAREC_X87DOUBLE=1'/" "$CONFIG"
+sed -i "71s/.*/echo 'export BOX64_DYNAREC_CALLRET=0'/" "$CONFIG"
+sed -i "72s/.*/echo 'unset BOX64_DYNAREC_FASTROUND'/" "$CONFIG"
+sed -i "73s/.*/echo 'unset BOX64_IGNOREINT3'/" "$CONFIG"
+;;
+12)
+	echo "export DYNAREC_SETTINGS_SCRIPT=2
+export DYNAREC_CURRENT_PRESET=none">$PREFIX/glibc/opt/conf/dynarec_preset.conf
+	break
+;;
+255)
+DYNAREC_64="$ATOMICS_WOW,$BIGBLOCK_WOW,$FASTNAN_WOW,$SAFEFLAGS_WOW,$STRONGMEM_WOW,$WAIT_WOW,$X87DOUBLE_WOW,$CALLRET_WOW,$FASTROUND_WOW,$IGNOREINT3_WOW"
+sed -i "47s/.*/DYNAREC_64=$DYNAREC_64/" "$CONFIG"
+sed -i "48s/.*/d=0/" "$CONFIG"
+sed -i "49s/.*/$ATOMICS_WOW_0/" "$CONFIG"
+sed -i "50s/.*/$BIGBLOCK_WOW_0/" "$CONFIG"
+sed -i "51s/.*/$FASTNAN_WOW_0/" "$CONFIG"
+sed -i "52s/.*/$SAFEFLAGS_WOW_0/" "$CONFIG"
+sed -i "53s/.*/$STRONGMEM_WOW_0/" "$CONFIG"
+sed -i "54s/.*/$WAIT_WOW_0/" "$CONFIG"
+sed -i "55s/.*/$X87DOUBLE_WOW_0/" "$CONFIG"
+sed -i "56s/.*/$CALLRET_WOW_0/" "$CONFIG"
+sed -i "57s/.*/$FASTROUND_WOW_0/" "$CONFIG"
+sed -i "58s/.*/$IGNOREINT3_WOW_0/" "$CONFIG"
+sed -i "64s/.*/$ATOMICS_WOW_64/" "$CONFIG"
+sed -i "65s/.*/$BIGBLOCK_WOW_64/" "$CONFIG"
+sed -i "66s/.*/$FASTNAN_WOW_64/" "$CONFIG"
+sed -i "67s/.*/$SAFEFLAGS_WOW_64/" "$CONFIG"
+sed -i "68s/.*/$STRONGMEM_WOW_64/" "$CONFIG"
+sed -i "69s/.*/$WAIT_WOW_64/" "$CONFIG"
+sed -i "70s/.*/$X87DOUBLE_WOW_64/" "$CONFIG"
+sed -i "71s/.*/$CALLRET_WOW_64/" "$CONFIG"
+sed -i "72s/.*/$FASTROUND_WOW_64/" "$CONFIG"
+sed -i "73s/.*/$IGNOREINT3_WOW_64/" "$CONFIG"
+	break
+;;
+esac
+done

@@ -1,0 +1,68 @@
+#!/bin/bash
+
+defitem=1
+ADRESS="$HOME/.shortcuts/,/Mobox box86"
+
+while true; do
+load_configs
+dri3_state="dri3 включен"
+if [ "$MESA_VK_WSI_DEBUG" = "sw" ]; then
+	dri3_state="dri3 выключен"
+fi
+dialog_menu_item $defitem "Настройки совместимости" "\ZbТекущие настройки:\Zn
+	\Z3$dri3_state
+	\Z3Совместимость при запуске\Z2=\Zn$STARTUP_COMPATIBILITY_MODE
+	Режим совместимости при запуске = принудительно использовать резервное разрешение, выбранное в системных настройках, и отключить установку PhysX при создании префикса
+	\Z3Запуск Services.exe\Z2=\Zn$STARTUP_WINEDEVICE_MODE" \
+	"1" "Переключить dri3 (отключить, если SD845)" \
+	"2" "Переключить режим совместимости при запуске" \
+	"3" "Переключить запуск Services.exe"
+defitem=$?
+case $defitem in
+1)
+	case "$MESA_VK_WSI_DEBUG" in
+	"sw")
+		echo "unset MESA_VK_WSI_DEBUG">$PREFIX/glibc/opt/conf/wsi_debug.conf
+		sed -i "105s/.*/DRI_86=\"unset MESA_VK_WSI_DEBUG\"/" "$ADRESS"
+		sed -i "102s/.*/DRI3_86=\"Включен\"/" "$ADRESS"
+	;;
+	"")
+		echo "export MESA_VK_WSI_DEBUG=sw">$PREFIX/glibc/opt/conf/wsi_debug.conf
+		sed -i "105s/.*/DRI_86=\"unset MESA_VK_WSI_DEBUG=sw\"/" "$ADRESS"
+		sed -i "102s/.*/DRI3_86=\"Выключен\"/" "$ADRESS"
+	;;
+	esac
+;;
+2)
+	case "$STARTUP_COMPATIBILITY_MODE" in
+	0)
+		echo "export STARTUP_COMPATIBILITY_MODE=1">$PREFIX/glibc/opt/conf/force_compatibility.conf
+		sed -i "106s/.*/START_86=\"export STARTUP_COMPATIBILITY_MODE=1\"/" "$ADRESS"
+		sed -i "103s/.*/STARTUP_86=\"Включен\"/" "$ADRESS"
+	;;
+	1)
+		echo "export STARTUP_COMPATIBILITY_MODE=0">$PREFIX/glibc/opt/conf/force_compatibility.conf
+		sed -i "106s/.*/START_86=\"export STARTUP_COMPATIBILITY_MODE=0\"/" "$ADRESS"
+		sed -i "103s/.*/STARTUP_86=\"Выключен\"/" "$ADRESS"
+	;;
+	esac
+;;
+3)
+	case "$STARTUP_WINEDEVICE_MODE" in
+	0)
+		echo "export STARTUP_WINEDEVICE_MODE=1">$PREFIX/glibc/opt/conf/winedevice_startup.conf
+		sed -i "107s/.*/SERV_86=\"export STARTUP_WINEDEVICE_MODE=1\"/" "$ADRESS"
+		sed -i "104s/.*/SERVICES_86=\"Включен\"/" "$ADRESS"
+	;;
+	1)
+		echo "export STARTUP_WINEDEVICE_MODE=0">$PREFIX/glibc/opt/conf/winedevice_startup.conf
+		sed -i "107s/.*/SERV_86=\"export STARTUP_WINEDEVICE_MODE=0\"/" "$ADRESS"
+		sed -i "104s/.*/SERVICES_86=\"Выключен\"/" "$ADRESS"
+	;;
+	esac
+;;
+255)
+	break
+;;
+esac
+done
