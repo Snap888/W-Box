@@ -6,9 +6,8 @@
 
 <div align="center">
 
-![Telegram](https://t.me/weg_mod_mobox)
-
-</div>
+![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]
+(https://t.me/weg_mod_mobox)
 
 ### ОСОБЕННОСТИ:
 
