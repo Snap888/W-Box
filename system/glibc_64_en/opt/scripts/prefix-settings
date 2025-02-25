@@ -1,0 +1,57 @@
+#!/bin/bash
+
+defitem=1
+
+while true; do
+load_configs
+dialog_menu_item $defitem "Wine prefix settings" "" \
+	"1" "Remove prefix" \
+	"2" "Change wine esync mode"
+defitem=$?
+case $defitem in
+1)
+	dialog_yesno "Are you sure?"
+	if [ "$?" = "0" ]; then
+		rm -rf $WINEPREFIX
+	fi
+;;
+2)
+# 	if [[ ! "$WINE_PATH" = *"wine-9.0-staging-wow64"* ]] || [ ! -e "$WINE_PATH" ]; then
+# 		echo "WINEESYNC is disabled due to outdated wine selected now."
+# 		echo "Do you want to install (if not installed) and enable wine-9.0-staging-wow64 automatically? (Y/n)"
+# 		read i
+# 		if [ "$i" = "Y" ] || [ "$i" = "y" ]; then
+# 			load_package-manager
+# 			if [ "$?" = "1" ]; then
+# 				continue
+# 			fi
+# 			sync-package wine-9.0-staging-wow64
+# 			echo "export WINE_PATH=\$PREFIX/glibc/wine-9.0-staging-wow64
+# export WINEPREFIX=\$PREFIX/glibc/wine-9.0-staging-wow64/.wine">$PREFIX/glibc/opt/conf/wine_path.conf
+# 		fi
+# 		continue
+# 	fi
+	while true; do
+	load_configs
+	dialog_menu "WINEESYNC settings" "\ZbCurrent settings:\Zn
+	\Z3WINEESYNC\Z2=\Zn$WINEESYNC
+	\Z3WINEESYNC no root mode\Z2=\Zn$WINEESYNC_TERMUX" \
+	"1" "Disable esync" \
+	"2" "Enable esync without root (fast)" \
+	"3" "Enable esync with root (may be faster)"
+	case $? in
+	1) echo "export WINEESYNC=0
+export WINEESYNC_TERMUX=0">$PREFIX/glibc/opt/conf/wineesync.conf ;;
+	2) echo "export WINEESYNC=1
+export WINEESYNC_TERMUX=1">$PREFIX/glibc/opt/conf/wineesync.conf ;;
+	3) echo "export WINEESYNC=1
+export WINEESYNC_TERMUX=0">$PREFIX/glibc/opt/conf/wineesync.conf ;;
+	255) break ;;
+	esac
+	done
+;;
+255)
+	break
+;;
+esac
+done

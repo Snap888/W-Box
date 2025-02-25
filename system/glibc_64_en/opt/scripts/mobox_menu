@@ -1,0 +1,184 @@
+#!/bin/bash
+
+. $PREFIX/glibc/opt/termux-style/termux-style
+. $PREFIX/glibc/opt/scripts/dialogs
+. $PREFIX/glibc/opt/scripts/configs
+
+## TODO: Remove this
+mkdir -p "$PREFIX/glibc/opt/notice"
+if [ ! -e "$PREFIX/glibc/opt/notice/notice1_shown" ]; then
+	touch "$PREFIX/glibc/opt/notice/notice1_shown"
+	dialog_msgbox "Notice from Olegos2" \
+		"May 2\nAll Mobox Edge related posts (until now) were not signed off by me. All the information in these posts is not official and is not verified. Mobox Edge has not been announced yet. It doesn't exist yet."
+fi
+
+
+
+while true; do
+load_configs
+if [ "$WINEESYNC" = "1" ] && [ "$WINEESYNC_TERMUX" = "0" ]; then
+	su -c setenforce 0 &>/dev/null
+	sudo mkdir /dev/shm &>/dev/null
+	sudo chmod 1777 /dev/shm &>/dev/null
+fi
+dialog_menu "Mobox WoW64" "" \
+"1" "Start Wine" \
+"2" "Settings" \
+"3" "Manage packages" \
+"4" "Select current Wine container" \
+"5" "Change box64 build" \
+"6" "Patch notes (readme)"
+case $? in
+1)
+	if [ ! "$WINE_PATH" = "" ] && [ -e "$WINE_PATH" ]; then
+		chmod 777 $PREFIX/glibc/opt/scripts/start-tfm
+		$PREFIX/glibc/opt/scripts/start-tfm
+	else
+		echo "Selected wine ($(basename $WINE_PATH)) is not installed"
+		sleep 3
+	fi
+;;
+2)
+	. $PREFIX/glibc/opt/scripts/settings
+;;
+3)
+	load_package-manager
+	if [ "$?" = "1" ]; then
+		continue
+	fi
+	defitem_settings=1
+
+	while true; do
+	load_configs
+	dialog_menu_item $defitem_settings "Install" "" \
+	"1" "Verify integrity of local files" \
+	"2" "Install wine" \
+	"3" "Uninstall wine"
+	defitem_settings=$?
+	case $defitem_settings in
+	1)
+		validate-all
+		sleep 2
+	;;
+	2)
+		echo ""
+		echo -e "\033[1;97mCurrent wine selected:\033[0m $(basename $WINE_PATH)"
+		echo ""
+		echo -e "\033[1;97mCan be installed:\033[0m"
+		
+		j=1
+		a=()
+		for i in "${wine_packages[@]}"; do
+		if [ ! -e "$PREFIX/glibc/$i" ]; then
+			echo -e "\033[1;32m$j\033[0m) $i"
+			j=$((j+1))
+			a+=("$i")
+		fi
+		done
+		echo ""
+		echo -en "\033[1;97mSelected number:\033[0m \033[1;33m"
+		read i
+		echo -e "\033[0m"
+		re='^[0-9]+$'
+		if [[ $i =~ $re ]] && (( 1 <= $i )) && (( $i <= ${#a[@]} )); then
+			i=${a[$i-1]}
+			sync-package $i
+		fi
+	;;
+	3)
+		echo ""
+		echo -e "\033[1;97mCurrent wine selected:\033[0m $(basename $WINE_PATH)"
+		echo ""
+		echo -e "\033[1;97mCan be uninstalled:\033[0m"
+		
+		j=1
+		a=()
+		for i in "${wine_packages[@]}"; do
+		if [ -e "$PREFIX/glibc/$i" ]; then
+			echo -e "\033[1;32m$j\033[0m) $i"
+			j=$((j+1))
+			a+=("$i")
+		fi
+		done
+		echo ""
+		echo -en "\033[1;97mSelected number:\033[0m \033[1;33m"
+		read i
+		echo -e "\033[0m"
+		re='^[0-9]+$'
+		if [[ $i =~ $re ]] && (( 1 <= $i )) && (( $i <= ${#a[@]} )); then
+			i=${a[$i-1]}
+			remove-package $i
+		fi
+	;;
+	255)
+		break
+	;;
+	esac
+	done
+;;
+4)
+	echo ""
+	echo -e "\033[1;97mCurrent wine selected:\033[0m $(basename $WINE_PATH)"
+	echo ""
+	echo -e "\033[1;97mInstalled:\033[0m"
+	
+	j=1
+	a=()
+	for i in "${wine_packages[@]}"; do
+		if [ -e "$PREFIX/glibc/$i" ]; then
+			echo -e "\033[1;32m$j\033[0m) $i"
+			j=$((j+1))
+			a+=("$i")
+		fi
+	done
+	echo ""
+	echo -en "\033[1;97mSelected number:\033[0m \033[1;33m"
+	read i
+	echo -e "\033[0m"
+	re='^[0-9]+$'
+	if [[ $i =~ $re ]] && (( 1 <= $i )) && (( $i <= ${#a[@]} )); then
+		i=${a[$i-1]}
+		echo "export WINE_PATH=\$PREFIX/glibc/$i
+export WINEPREFIX=\$PREFIX/glibc/$i/.wine">$PREFIX/glibc/opt/conf/wine_path.conf
+	fi
+	sleep 1
+;;
+5)
+	dialog_menu "Change box64 build" "" \
+	"1" "Mar 3 builds" \
+	"2" "Feb 14 builds"
+	case $? in
+	1)
+		tar -xf $PREFIX/glibc/opt/box/mar3.tar.xz -C $PREFIX/glibc/bin
+	;;
+	2)
+		tar -xf $PREFIX/glibc/opt/box/feb14.tar.xz -C $PREFIX/glibc/bin
+	;;
+	esac
+;;
+6)
+	dialog_msgbox "Notes" "\Z4From\Zn \Z2Snap 888\Zn \Z4and\Zn \Z2SanderS\Zn 
+1. MOBOX settings menu translated into Russian
+2. Expanded list of HUD counters
+3. Added sound fix in Mobox menu
+\Z415.01.2024\Zn
+1. Added new Wine-ge-custom-8-25.
+2. Fixed 00M tuner.
+3. Added WINE ESYNC for all users.
+4. Replaced Winedevice.exe, Services.exe
+5. Fixed VKD3D for Elden Ring.
+\Z418.01.2024\Zn
+1. Added experimental Media Foundation codecs for 64-bit RE games, available in the Start menu.
+2. Updated list of updates, latest one installed by default
+\Z419.01.2024\Zn
+1.  System Restore Updated
+
+\Z1WARNING!\Zn
+Mobox development and updating has been discontinued and will no longer be updated"
+;;
+255)
+	break
+;;
+esac
+done
+restore-termux-style

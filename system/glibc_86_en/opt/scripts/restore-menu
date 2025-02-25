@@ -1,0 +1,33 @@
+#!/bin/bash
+
+defitem=1
+
+while true; do
+dialog_menu_item $defitem "Backup and restore" "" \
+"1" "Restore default configs" \
+"2" "Uninstall"
+defitem=$?
+case $defitem in
+1)
+	dialog_yesno "Are you sure?"
+	if [ "$?" = "0" ]; then
+		rm -rf $PREFIX/glibc/opt/conf
+		cp -r $PREFIX/glibc/opt/default-conf/* $PREFIX/glibc/opt
+	fi
+;;
+2)
+	dialog_yesno "Are you sure?"
+	if [ "$?" = "0" ]; then
+		restore-termux-style
+		tput cnorm
+		rm -rf $PREFIX/glibc
+		rm -rf $PREFIX/bin/mobox
+		exit
+	fi
+;;
+255)
+	break
+;;
+esac
+
+done

@@ -1,0 +1,181 @@
+#!/bin/bash
+
+. $PREFIX/glibc/opt/termux-style/termux-style
+. $PREFIX/glibc/opt/scripts/dialogs
+. $PREFIX/glibc/opt/scripts/configs
+
+while true; do
+load_configs
+if [ "$WINEESYNC" = "1" ] && [ "$WINEESYNC_TERMUX" = "0" ]; then
+	su -c setenforce 0 &>/dev/null
+	sudo mkdir /dev/shm &>/dev/null
+	sudo chmod 1777 /dev/shm &>/dev/null
+fi
+dialog_menu "Mobox" "" \
+"1" "Запуск Wine" \
+"2" "Настройки" \
+"3" "Управление контейнерами" \
+"4" "Выберать текущий контейнер для Wine" \
+"5" "Изменение сборок box86 и WoW64" \
+"6" "Примечания"
+case $? in
+1)
+	if [ ! -e "$PREFIX/glibc/bin/box86" ] || [ ! -e "$PREFIX/glibc/bin/box64" ]; then
+		tar -xf $PREFIX/glibc/opt/box/dec13.tar.xz -C $PREFIX/glibc/bin
+	fi
+	if [ ! "$WINE_PATH" = "" ] && [ -e "$WINE_PATH" ]; then
+		chmod 777 $PREFIX/glibc/opt/scripts/start-tfm
+		$PREFIX/glibc/opt/scripts/start-tfm
+	else
+		echo "Выбранный Wine ($(basename $WINE_PATH)) не установлен"
+		sleep 3
+	fi
+;;
+2)
+	. $PREFIX/glibc/opt/scripts/settings
+;;
+3)
+	load_package-manager
+	if [ "$?" = "1" ]; then
+		continue
+	fi
+	defitem_settings=1
+
+	while true; do
+	load_configs
+	dialog_menu_item $defitem_settings "Установка" "" \
+	"1" "Проверить целостность локальных файлов" \
+	"2" "Установить Wine" \
+	"3" "Удалить Wine"
+	defitem_settings=$?
+	case $defitem_settings in
+	1)
+		validate-all
+		sleep 2
+	;;
+	2)
+		echo ""
+		echo -e "\033[1;97mТекущий выбраный wine:\033[0m $(basename $WINE_PATH)"
+		echo ""
+		echo -e "\033[1;97mМожет быть установлен:\033[0m"
+		
+		j=1
+		a=()
+		for i in "${wine_packages[@]}"; do
+		if [ ! -e "$PREFIX/glibc/$i" ]; then
+			echo -e "\033[1;32m$j\033[0m) $i"
+			j=$((j+1))
+			a+=("$i")
+		fi
+		done
+		echo ""
+		echo -en "\033[1;97mМожет быть выбран:\033[0m \033[1;33m"
+		read i
+		echo -e "\033[0m"
+		re='^[0-9]+$'
+		if [[ $i =~ $re ]] && (( 1 <= $i )) && (( $i <= ${#a[@]} )); then
+			i=${a[$i-1]}
+			sync-package $i
+		fi
+	;;
+	3)
+		echo ""
+		echo -e "\033[1;97mТекущий Wine:\033[0m $(basename $WINE_PATH)"
+		echo ""
+		echo -e "\033[1;97mМожет быть удален:\033[0m"
+		
+		j=1
+		a=()
+		for i in "${wine_packages[@]}"; do
+		if [ -e "$PREFIX/glibc/$i" ]; then
+			echo -e "\033[1;32m$j\033[0m) $i"
+			j=$((j+1))
+			a+=("$i")
+		fi
+		done
+		echo ""
+		echo -en "\033[1;97mВыбрать пункт:\033[0m \033[1;33m"
+		read i
+		echo -e "\033[0m"
+		re='^[0-9]+$'
+		if [[ $i =~ $re ]] && (( 1 <= $i )) && (( $i <= ${#a[@]} )); then
+			i=${a[$i-1]}
+			remove-package $i
+		fi
+	;;
+	255)
+		break
+	;;
+	esac
+	done
+;;
+4)
+	echo ""
+	echo -e "\033[1;97mТекущий Wine:\033[0m $(basename $WINE_PATH)"
+	echo ""
+	echo -e "\033[1;97mУстановленый:\033[0m"
+	
+	j=1
+	a=()
+	for i in "${wine_packages[@]}"; do
+		if [ -e "$PREFIX/glibc/$i" ]; then
+			echo -e "\033[1;32m$j\033[0m) $i"
+			j=$((j+1))
+			a+=("$i")
+		fi
+	done
+	echo ""
+	echo -en "\033[1;97mВыбрать пункт:\033[0m \033[1;33m"
+	read i
+	echo -e "\033[0m"
+	re='^[0-9]+$'
+	if [[ $i =~ $re ]] && (( 1 <= $i )) && (( $i <= ${#a[@]} )); then
+		i=${a[$i-1]}
+		echo "export WINE_PATH=\$PREFIX/glibc/$i
+export WINEPREFIX=\$PREFIX/glibc/$i/.wine">$PREFIX/glibc/opt/conf/wine_path.conf
+	fi
+	sleep 1
+;;
+5)
+	dialog_menu "Изменение сборок box86 и WoW64" "" \
+	"1" "Сборка за 10 Ноября (медленее, стабильнее)" \
+	"2" "Сборка за 23 Декабря"\
+	"3" "Сборка за 18 Января (быстрее, нестабильно)"
+	case $? in
+	1)
+		tar -xf $PREFIX/glibc/opt/box/nov10.tar.xz -C $PREFIX/glibc/bin
+	;;
+	2)
+		tar -xf $PREFIX/glibc/opt/box/dec23.tar.xz -C $PREFIX/glibc/bin
+	;;
+	3)
+		tar -xf $PREFIX/glibc/opt/box/jan18.tar.xz -C $PREFIX/glibc/bin
+	;;
+	esac
+;;
+6)
+	dialog_msgbox "Примечания" "\Z4От\Zn \Z2Snap 888\Zn \Z4и\Zn \Z2SanderS\Zn 
+1. Меню настроек MOBOX переведено на русский язык
+2. Расширен список счетчиков HUD.
+3. Добавлен фикс звука в меню Mobox
+\Z415.01.2024\Zn
+1. Добавлен новый Wine-ge-custom-8-25.
+2. Исправлен настройщик 00М.
+3. Добавлен WINE ESYNC для всех пользователей.
+4. Заменен Winedevice.exe, Services.exe.
+5. Исправлен VKD3D для Elden Ring.
+\Z418.01.2024\Zn
+1. Добавлены экспериментальные кодеки Media Foundation для 64-битных игр RE, доступные в меню «Пуск».
+2. Изменен список обновлений, установлено по умолчанию последнее
+\Z419.01.2024\Zn
+Обновлено восстановление системы
+
+\Z3Пока не реализовано, планируется\Zn
+Настройки dxvk в меню «Пуск», xInput"
+;;
+255)
+	break
+;;
+esac
+done
+restore-termux-style
