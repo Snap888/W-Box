@@ -5,7 +5,7 @@
 
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox)
 # 
-### ОСОБЕННОСТИ:
+# ОСОБЕННОСТИ:
 - :computer: Наличие виджета.
 - :computer: Запуск игр из виджета или с иконки в Android.
 - :computer: Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.
@@ -43,7 +43,7 @@
 - ☑️ Упрощенный запуск игр и Mobox с рабочего стола Android, благодаря возможности создавать ярлыки и иконки.
 - ☑️ Система диалоговых окон минимизирует ошибки в действии пользователя.
 #
- ### О Mobox Mod
+###### О Mobox Mod
  ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/photo_2025-02-25_07-59-10.jpg)
 - ✅ Установка двух версий одновременно без наличия интернета (40 сек распаковка + по 3 мин создание контейнеров двух версий Mobox).
 -  ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/1.jpg)
