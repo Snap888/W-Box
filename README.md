@@ -1,5 +1,5 @@
 # Mobox Menu
-![Image alt](https://github.com/Sanders-WEG/Mobox-Menu/blob/main/WEG.png)
+![Mobox menu](https://github.com/Sanders-WEG/Mobox-Menu/blob/main/WEG.png)
 
 <center><img src="images/demo-gnome.png"></center>
 <p align="left"><b>Mobox-Menu для Termux</b></p>
