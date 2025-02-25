@@ -25,7 +25,7 @@
 #
 - **👇 Код для установки 👇**
 ```
-   curl -Lf https://raw.githubusercontent.com/Sanders-WEG/Mobox-Menu/main/setup.sh -o setup.sh ; bash setup.sh
+   curl -Lf https://raw.githubusercontent.com/Sanders-WEG/Mobox-Menu/main/Weg_Menu.sh -o Weg_Menu.sh ; bash Weg_Menu.sh
 ```
 - ❗️ Перед установкой необходимо скачать предлагаемые архивы и обьединить их в одной директории ❗️
 #
