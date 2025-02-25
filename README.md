@@ -23,7 +23,7 @@
 1.  Основной архив [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/1191)
 2.  Архив интерфейса [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/1227)
 #
-- Код для установки 👇
+- **👇 Код для установки 👇**
 ```
    curl -Lf https://raw.githubusercontent.com/Sanders-WEG/Mobox-Menu/main/setup.sh -o setup.sh ; bash setup.sh
 ```
