@@ -74,14 +74,14 @@
 - ✅ Возможность настраивать ядра на свое усмотрение.
 - ✅ Настройка параметров HUD. Масштаб, компоненты для каждой игры отдельно.
 - ✅ Сброс настроек до начальных, в случае неудачных настроек пользователем.
-- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/120.jpg)
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/12.jpg)
 - ✅ Импорт и экспорт настроек игры. Т.е. возможен обмен настройками каждой игры отдельно между пользователями.
 - ✅ Запуск WINE двумя способами: через классическое меню (стандарт) или через Mobox Menu.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/15.jpg)
 - ✅ Добавлен mc- менеджер (дает возможность менять, копировать, удалять, редактировать файлы в Mobox (диски C, Z) не заходя в WINE.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/11.jpg)
 - ✅ Заставка при запуске WINE или игры. Можно менять.
-- [Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/16.jpg)
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/16.jpg)
 - ✅ Легкий и быстрый способ обновления всех компонентов Mobox Mod.
 - ✅ После установки можно менять расположение и имя основной папки мода (необходимо переназначить путь к ней).
 - ✅ Возможность изменить название ярлыка.
