@@ -55,7 +55,8 @@
 - ✅ Удобное переключение между box86 и WOW64.
 -  ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/4.jpg)
 - ✅ Легкая и быстрая установка драйверов (turnip, dxvk, box, wine).
-- ✅ Совмещение с Mobox напрямую, что гарантирует стабильность настроек в моде.
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/12.jpg)
+- ✅ Настройки в моде и в классическом меню взаимодействуют. Меняете параметр в одном, меняется и в другом.
 - ✅ Изменение подхода к настройкам и их реализации.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/5.jpg)
 - ✅ Возможность установки из любой папки, с любым именем.
@@ -65,23 +66,29 @@
 - ✅ Изменение масштаба экрана в процессе игры (растянуть, не растягивать).
 - ✅ Удаление ярлыков из папки рабочего стола если приложение уже удалено.
 - ✅ Убрал окно IB в wow64.
-- ✅ Настройки в моде и в классическом меню взаимодействуют. Т.е., меняете параметр в одном, меняется и в другом.
 - ✅ Совместимость установки с Android 14. По поводу 15, не проверено, но возможно).
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/14.jpg)
 - ✅ Запуск WINE и его выключение сопровождается диалоговым окном.
 - ✅ Включение и отключение автозапуска InputBridge.
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/13.jpg)
+- ✅ Возможность настраивать ядра на свое усмотрение.
 - ✅ Настройка параметров HUD. Масштаб, компоненты для каждой игры отдельно.
 - ✅ Сброс настроек до начальных, в случае неудачных настроек пользователем.
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/120.jpg)
 - ✅ Импорт и экспорт настроек игры. Т.е. возможен обмен настройками каждой игры отдельно между пользователями.
-- ✅ Запуск WINE двумя способами: через классическое меню (стандарт) или через мод меню.
+- ✅ Запуск WINE двумя способами: через классическое меню (стандарт) или через Mobox Menu.
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/15.jpg)
 - ✅ Добавлен mc- менеджер (дает возможность менять, копировать, удалять, редактировать файлы в Mobox (диски C, Z) не заходя в WINE.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/11.jpg)
 - ✅ Заставка при запуске WINE или игры. Можно менять.
+- [Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/16.jpg)
 - ✅ Легкий и быстрый способ обновления всех компонентов Mobox Mod.
 - ✅ После установки можно менять расположение и имя основной папки мода (необходимо переназначить путь к ней).
 - ✅ Возможность изменить название ярлыка.
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/17.jpg) - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/19.jpg)
 - ✅ Добавлена третья кнопка в некоторых окнах.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/6.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/7.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/8.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/9.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/10.jpg) 
-- ✅ Добавлены три темы рабочего стола.
+- ✅ Добавлены три темы рабочего стола/ Теперь их - пять
 #
 #
 ### Ссылки на репозитории авторов:
