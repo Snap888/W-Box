@@ -421,7 +421,7 @@ fi
 if [ -z "$CHIPSET" ] || [ "$CHIPSET" = " " ]; then
     CHIPSET="Неопределенный чипсет ($PLATFORM)"
 fi
-cores=$(grep -c ^processor /proc/cpuinfo)
+abi=$(getprop ro.product.cpu.abilist | cut -d',' -f1)
 ANDROID_VERSION=$(getprop ro.build.version.release)
 total_memory_gb=$(cat /proc/meminfo | grep MemTotal | awk '{print $2 / 1024 / 1024}')
 formatted_memory=$(printf "%.2f" $total_memory_gb)
@@ -461,7 +461,7 @@ versioo_mob=$(cat "$VERSION")
 ANDROID_VERSION="$ANDROID_VERSION"
 DEVICE="$OUTPUT $MANUFACTURER"
 CPU="$CHIPSET"
-CORES="$cores"
+ABI="$abi"
 GPUGPU_MODEL="$GPU_MODEL"
 FULL_RAM="$formatted_memory"
 ACC_RAM="$ost_memory"
@@ -470,7 +470,7 @@ ACC_SSD="$available_space"
 sed -i "217s/.*/ANDROID_VERSION=\"${ANDROID_VERSION}\"/" "$CONFIG"
 sed -i "218s/.*/DEVICE=\"${DEVICE}\"/" "$CONFIG"
 sed -i "219s/.*/CPU=\"${CPU}\"/" "$CONFIG"
-sed -i "220s/.*/CORES=\"${CORES}\"/" "$CONFIG"
+sed -i "220s/.*/ABI=\"${ABI}\"/" "$CONFIG"
 sed -i "221s/.*/GPUGPU_MODEL=\"${GPUGPU_MODEL}\"/" "$CONFIG"
 sed -i "222s/.*/FULL_RAM=\"${FULL_RAM}\"/" "$CONFIG"
 sed -i "223s/.*/ACC_RAM=\"${ACC_RAM}\"/" "$CONFIG"
@@ -1101,7 +1101,7 @@ wine_86="$HOME/.shortcuts/,/Mobox box86"
 dialog_text_86="Android:      $ANDROID_VERSION\n
 Устройство:   $DEVICE\n
 Процессор:    $CPU\n
-Ядер:         $CORES\n
+AB Interface: $ABI\n
 Видеодрайвер: $GPU_MODEL\n
 RAM общий / доступный (Gb): $FULL_RAM / $ACC_RAM\n
 Использованный объем  (Gb): $USED_SSD\n
@@ -1114,7 +1114,7 @@ RAM общий / доступный (Gb): $FULL_RAM / $ACC_RAM\n
 dialog_text_64="Android:      $ANDROID_VERSION\n
 Устройство:   $DEVICE\n
 Процессор:    $CPU\n
-Ядер:         $CORES\n
+AB Interface: $ABI\n
 Видеодрайвер: $GPU_MODEL\n
 RAM общий / доступный (Gb): $FULL_RAM / $ACC_RAM\n
 Использованный объем  (Gb): $USED_SSD\n
