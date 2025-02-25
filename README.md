@@ -72,11 +72,12 @@
 - ✅ Включение и отключение автозапуска InputBridge.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/13.jpg)
 - ✅ Возможность настраивать ядра на свое усмотрение.
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/21.jpg)
 - ✅ Настройка параметров HUD. Масштаб, компоненты для каждой игры отдельно.
 - ✅ Сброс настроек до начальных, в случае неудачных настроек пользователем.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/20.jpg)
 - ✅ Импорт и экспорт настроек игры. Т.е. возможен обмен настройками каждой игры отдельно между пользователями.
-- ✅ Запуск WINE двумя способами: через классическое меню (стандарт) или через Mobox Menu.
+- ✅ Запуск контейнера двумя способами: через классическое меню (стандарт) или через Mobox Menu.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/15.jpg)
 - ✅ Добавлен mc- менеджер (дает возможность менять, копировать, удалять, редактировать файлы в Mobox (диски C, Z) не заходя в WINE.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/11.jpg)
