@@ -1175,6 +1175,7 @@ desk_on()
                 "${options[@]}" \
                 3>&1 1>&2 2>&3 3>&-)
 }
+
 desk_off()
 {
     choice=$(dialog --no-shadow \
@@ -1204,13 +1205,26 @@ bash -c "source \"$HOME/Settings\""
     fi
         ;;
         3) 
-if [ "$DESK" == "OFF" ]; then
-    cp "$HOME/.shortcuts/backup/$result" "$HOME/.shortcuts/"
+        dialog --no-shadow \
+        --title "⚠️ Предупреждение" --yesno "\n
+  Все настройки будут сброшены до\n
+    первоначальных, Продолжить?\n" 8 39
+if [ $? -eq 0 ]; then
+    if [ "$DESK" == "OFF" ]; then
+        cp "$HOME/.shortcuts/backup/$result" "$HOME/.shortcuts/"
+    else
+        cp "$HOME/.shortcuts/backup/$result" "$HOME/.shortcuts/,/"
+    fi
+    . $return_menu
+    exit
 else
-    cp "$HOME/.shortcuts/backup/$result" "$HOME/.shortcuts/,/"
+    if [ "$DESK" == "OFF" ]; then
+        desk_off
+    else
+        desk_on
+    fi
+    return
 fi
-        . $return_menu
-        exit
         ;;
         0)
         ;;
