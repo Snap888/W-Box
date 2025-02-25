@@ -5,7 +5,7 @@
 
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox)
 # 
-# Особенности Mobox Menu v5.3:
+# Особенности Mobox Menu v.5.3:
 - :computer: **Наличие виджета.**
 - :computer: **Запуск игр из виджета или с иконки в Android.**
 - :computer: **Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.**
