@@ -13,12 +13,12 @@
 1. Подробная видеоинструкция по установке [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([https://t.me/weg_mod_mobox](https://t.me/weg_mod_mobox/11))
 2. Описание [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([https://t.me/weg_mod_mobox](https://t.me/weg_mod_mobox/13))
 - Необходимый софт:
-1. [Termux 0.118][![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([[https://t.me/weg_mod_mobox](https://t.me/weg_mod_mobox/13](https://t.me/weg_mod_mobox/12/136)))
-2. [Termux_x11](https://t.me/weg_mod_mobox/12/137)
-3. [Widget 12](https://t.me/weg_mod_mobox/12/138)
+1.  Termux 0.118 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([(https://t.me/weg_mod_mobox/12/136)))
+2.  Termux_x11 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([(https://t.me/weg_mod_mobox/12/137)))
+3.  Widget 12 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([(https://t.me/weg_mod_mobox/12/138)))
 - Необходимые архивы
-1. [Основной архив](https://t.me/weg_mod_mobox/12/1191)
-2. [Архив интерфейса](https://t.me/weg_mod_mobox/12/1227)
+1.  Основной архив [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([(https://t.me/weg_mod_mobox/1191)))
+2.  Архив интерфейса [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([(https://t.me/weg_mod_mobox/12/1227)))
 #
 - Код для установки 👇
 ```
