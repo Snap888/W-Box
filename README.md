@@ -1,9 +1,6 @@
 # Mobox Menu
 ![Mobox menu](https://github.com/Sanders-WEG/Mobox-Menu/blob/main/WEG.png)
 
-<center><img src="images/demo-gnome.png"></center>
-<p align="left"><b>Mobox-Menu для Termux</b></p>
-
 <div align="left">
 
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox)
