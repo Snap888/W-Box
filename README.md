@@ -1,6 +1,6 @@
 ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/menu_1.png)
 
-<div align="left">
+<div align="center">
 
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox)
 # 
@@ -9,6 +9,7 @@
 - :computer: Запуск игр из виджета или с иконки в Android.
 - :computer: Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.
 #
+<div align="left">
 ### Установка:
 1. Подробная видеоинструкция по установке [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/11)
 2. Описание [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/13)
