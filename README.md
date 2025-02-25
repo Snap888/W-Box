@@ -17,8 +17,8 @@
 2.  Termux_x11 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/137)
 3.  Widget 12 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/138)
 - Необходимые архивы
-1.  Основной архив [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([(https://t.me/weg_mod_mobox/1191)
-2.  Архив интерфейса [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([(https://t.me/weg_mod_mobox/12/1227)
+1.  Основной архив [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/1191)
+2.  Архив интерфейса [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/1227)
 #
 - Код для установки 👇
 ```
