@@ -6,20 +6,20 @@
 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox)
 # 
 # ОСОБЕННОСТИ:
-- :computer: **Наличие виджета.(bold)**
-- :computer: **Запуск игр из виджета или с иконки в Android.(bold)**
-- :computer: **Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.(bold)**
+- :computer: **Наличие виджета.**
+- :computer: **Запуск игр из виджета или с иконки в Android.**
+- :computer: **Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.**
 #
 <div align="left">
    
 ### Установка:
 1. Подробная видеоинструкция по установке [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/11)
 2. Описание [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/13)
-- **Необходимый софт:(bold)**
+- **Необходимый софт:**
 1.  Termux 0.118 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/136)
 2.  Termux_x11 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/137)
 3.  Widget 12 [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/138)
-- **Необходимые архивы:(bold)**
+- **Необходимые архивы:**
 1.  Основной архив [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/1191)
 2.  Архив интерфейса [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/weg_mod_mobox/12/1227)
 #
