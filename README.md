@@ -1,4 +1,4 @@
-![Image alt](https://github.com/{username}/{repository}/raw/{branch}/{path}/image.png)
+![Image alt](https://github.com/Sanders-WEG/Dop-img/blob/main/WEG.png)
 - 
 ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/menu_1.png)
 
