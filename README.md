@@ -84,9 +84,9 @@
 - ✅ Добавлены три темы рабочего стола.
 #
 #
-### Ссылки на оригинальные файлы:
-[Mobox](https://github.com/olegos2/mobox)
-[Terux 0.118](https://github.com/termux/termux-app)
-[Terux X11](https://github.com/termux/termux-x11)
-[Termux-Widget](https://github.com/termux/termux-widget)
+### Ссылки на репозитории авторов:
+- [Mobox](https://github.com/olegos2/mobox)
+- [Terux 0.118](https://github.com/termux/termux-app)
+- [Terux X11](https://github.com/termux/termux-x11)
+- [Termux-Widget](https://github.com/termux/termux-widget)
 
