@@ -85,7 +85,7 @@
 - ✅ Легкий и быстрый способ обновления всех компонентов Mobox Mod.
 - ✅ После установки можно менять расположение и имя основной папки мода (необходимо переназначить путь к ней).
 - ✅ Возможность изменить название ярлыка.
-- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/17.jpg) - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/19.jpg)
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/17.jpg)
 - ✅ Добавлена третья кнопка в некоторых окнах.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/6.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/7.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/8.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/9.jpg) ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/10.jpg) 
 - ✅ Добавлены три темы рабочего стола/ Теперь их - пять
