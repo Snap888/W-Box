@@ -84,7 +84,8 @@
 - ✅ Заставка при запуске WINE или игры. Можно менять.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/16.jpg)
 - ✅ Легкий и быстрый способ обновления всех компонентов Mobox Mod.
-- ✅ После установки можно менять расположение и имя основной папки мода (необходимо переназначить путь к ней).
+- ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/22.jpg)
+- ✅ Настройка фона рабочего стола контейнера
 - ✅ Возможность изменить название ярлыка.
 - ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/17.jpg)
 - ✅ Добавлена третья кнопка в некоторых окнах.
