@@ -10,7 +10,7 @@
 - :computer: Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.
 #
 ### Установка:
-1. Подробная инструкция [Tutorial](https://t.me/weg_mod_mobox)
+1. Подробная мидеоинструкция по установке [![telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)]([https://t.me/weg_mod_mobox](https://t.me/weg_mod_mobox/11))
 2. Установка [Mobox Menu](https://t.me/weg_mod_mobox/11)
 - Необходимый софт:
 1. [Termux 0.118](https://t.me/weg_mod_mobox/12/136)
