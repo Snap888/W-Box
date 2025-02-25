@@ -1,4 +1,3 @@
-
 - 
 ![Mobox menu](https://github.com/Sanders-WEG/Dop-img/blob/main/menu_1.png)
 
@@ -10,9 +9,7 @@
 - :computer: Наличие виджета.
 - :computer: Запуск игр из виджета или с иконки в Android.
 - :computer: Каждую игру и Mobox можно настроить индивидуально. Т.е. у каждого приложения свои настройки всех компонентов.
-- 
-> ***ТЕСТОВЫЙ ВЫПУСК***
-- 
+
 ### Установка:
 1. Подробная инструкция [Tutorial](https://t.me/weg_mod_mobox)
 2. Установка [Mobox Menu](https://t.me/weg_mod_mobox/11)
