@@ -1,0 +1,62 @@
+#!/bin/bash
+
+termux-x11 :0 &>/dev/null &
+clear
+######################################################
+function run_game(){
+######################################################
+                GAME="$1"
+    if ps aux | grep -v grep | grep -q "wine"
+    then
+            exit
+    else
+    
+    function run_wine(){
+        pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1 &>/dev/null
+
+    local current_wrapper="default"
+    if [ -f "$WRAPPER_CONFIG_FILE" ]; then
+        current_wrapper=$(cat "$WRAPPER_CONFIG_FILE")
+    fi
+
+    if [ "$current_wrapper" = "gamefusion" ]; then
+        export VK_ICD_FILENAMES=$PREFIX/share/vulkan/icd.d/gamefusionvk_icd.aarch64.json
+    else
+        export VK_ICD_FILENAMES=$PREFIX/share/vulkan/icd.d/wrapper_icd.aarch64.json
+    fi
+
+    export MESA_VK_WSI_PRESENT_MODE=mailbox
+    export GALLIUM_DRIVER=zink
+    export GALLIUM_HUD=simple,fps
+    export LIBGL_KOPPER_DISABLE=true
+    export MESA_VK_WSI_DEBUG=blit
+    export ZINK_DEBUG=compact
+    export ZINK_DESCRIPTORS=auto
+    export MESA_SHADER_CACHE=512MB
+    export mesa_glthread=true
+    export MESA_SHADER_CACHE_DISABLE=false
+    export MESA_LOADER_DRIVER_OVERRIDE=zink
+    export DISPLAY=:0
+    export PULSE_SERVER=127.0.0.1
+    export XDG_RUNTIME_DIR=/tmp:${TMPDIR}
+    export WINEESYNC=1
+    export WINEESYNC_TERMUX=1
+    
+    hangover-wine $GAME &
+   echo $! > game.pid
+    }
+    
+    function stop_wine(){
+    rm -rf ~/.cache/*
+    pkill -f "app_process / com.termux.x11"
+    rm -rf $PREFIX/tmp/pulse-*
+    pulseaudio -k &>/dev/null
+    unset PULSE_SERVER
+    rm -rf $PREFIX/tmp/.virgl_test &>/dev/null
+    pkill virgl
+    rm -rf $PREFIX/tmp/.virgl_test &>/dev/null
+    kill $(cat game.pid)
+    }
+    
+    fi
+}
